@@ -1,2 +1,4 @@
 # java web applications #
 *.war
+*.class
+
