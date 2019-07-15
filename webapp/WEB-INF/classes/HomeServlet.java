@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeServlet extends HttpServlet 
 {
     /**
-    * This method handles a get method.
+    * Handles a get method.
     *
     * @param request the request object
     * @param response the response object
