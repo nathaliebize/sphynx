@@ -1,4 +1,7 @@
 # java web applications #
 *.war
 *.class
-
+.classpath
+.project
+.settings
+/target/
