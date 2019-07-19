@@ -1,17 +1,9 @@
-body {
-  color: white;
-}
-
 a {
 	color: #ccc;
 }
 
-.light {
-	background-color: #2c2d2d;
-}
-
-.dark {
-	background-color: #1d1d1d;
+body {
+  color: white;
 }
 
 .button-blue {
@@ -24,10 +16,19 @@ a {
 	border: solid #ccc;
 }
 
-.text-accent {
-	color:#79b6f9;
+.dark {
+	background-color: #1d1d1d;
 }
 
 .font-weight-light {
 	opacity: 0.4;
 }
+
+.light {
+	background-color: #2c2d2d;
+}
+
+.text-accent {
+	color:#79b6f9;
+}
+
