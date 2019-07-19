@@ -1,4 +1,33 @@
 body {
-  background-color: grey;
   color: white;
+}
+
+a {
+	color: #ccc;
+}
+
+.light {
+	background-color: #2c2d2d;
+}
+
+.dark {
+	background-color: #1d1d1d;
+}
+
+.button-blue {
+	color: white;
+	background-color: #79b6f9;
+}
+
+.button-dark {
+	color: white;
+	border: solid #ccc;
+}
+
+.text-accent {
+	color:#79b6f9;
+}
+
+.font-weight-light {
+	opacity: 0.4;
 }
