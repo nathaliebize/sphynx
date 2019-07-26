@@ -1,7 +1,34 @@
-# java web applications #
-*.war
-*.class
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+**/src/test/**
+
+### STS ###
+.apt_generated
 .classpath
+.factorypath
 .project
 .settings
-/target/
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+### Java ###
+*.class
+*.war
