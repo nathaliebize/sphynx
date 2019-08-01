@@ -31,19 +31,14 @@
             <input type="email" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
             <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
           </div>
-          
           <div class="form-group">
             <input type="password" class="form-control" id="inputPassword1" th:field="*{password}" placeholder="Password (min. 6 characters)">
             <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
           </div>
-          
           <div class="form-group">
             <input type="password" class="form-control" id="inputPassword2" th:field="*{confirmedPassword}" placeholder="Confirm password">
             <span th:if="${#fields.hasErrors('confirmedPassword')}" class="help-block" th:errors="*{confirmedPassword}"></span>
           </div>
-          
-          
-          
           <div class="form-group">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="termsCheck" th:field="*{acceptedTerms}">
@@ -51,9 +46,6 @@
                 I accept the <a href="#">Terms and Conditions</a>
               </label>
               <div th:if="${#fields.hasErrors('acceptedTerms')}" class="help-block" th:errors="*{acceptedTerms}"></div>
-              
-              
-              
             </div>
           </div>
           <button type="submit" class="my-4 btn btn-block button-blue" id="submitButton">Register</button>
@@ -64,7 +56,5 @@
       </div>
     </div>
   </div>
-<!--   <script src="/js/register.js" type="text/javascript"></script> -->
-
 </body>
 </html>

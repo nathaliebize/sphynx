@@ -12,15 +12,15 @@ body {
 }
 
 .button-blue {
-  color: #ffffff;
-  background-color: #79b6f9;
+	background-color: #79b6f9;
   border: solid #79b6f9;
+  color: #ffffff;
   width: 150px; 
 }
 
 .button-dark {
+	border: solid #ccc;
   color: #ffffff;  
-  border: solid #ccc;
   width: 150px; 
 }
 
@@ -45,12 +45,12 @@ body {
   opacity: 0.4;
 }
 
-.form-check-label {
-	vertical-align: text-top;
+.form-check-input {
+  margin-top: .2rem;
 }
 
-.form-check-input {
-    margin-top: .2rem;
+.form-check-label {
+  vertical-align: text-top;
 }
 
 .form-control {
@@ -82,12 +82,12 @@ body {
 }
 .timeline-node:nth-child(odd) h3,
 .timeline-node:nth-child(odd) p {
-    text-align: right;
+  text-align: right;
 }
-.timeline-node:nth-child(odd) .timeline-date h3{
-    text-align: left;
+.timeline-node:nth-child(odd) .timeline-date h3 {
+  text-align: left;
 }
  
-.timeline-node:nth-child(even) .timeline-date h3{
-    text-align: right;
+.timeline-node:nth-child(even) .timeline-date h3 {
+  text-align: right;
 }
