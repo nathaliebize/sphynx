@@ -1,34 +1,16 @@
 HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-**/src/test/**
 
-### STS ###
-.apt_generated
+### Spring environment ###
 .classpath
-.factorypath
+.mvn
 .project
 .settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-
-### VS Code ###
-.vscode/
+mvnw
+mvnw.cmd
+**/src/test/**
+target/
 
 ### Java ###
 *.class
 *.war
+*.jar
