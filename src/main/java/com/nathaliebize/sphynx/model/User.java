@@ -30,11 +30,11 @@ public class User {
     private String email;
     
     @NotBlank
-    @Size(min=6, max=128, message="Password name must be between 6 and 128 characters")
+    @Size(min=6, max=128, message="Password must be between 6 and 128 characters")
     private String password;
     
     @NotBlank
-    @Size(min=6, max=128, message="Password name must be between 6 and 128 characters")
+    @Size(min=6, max=128, message="Password must be between 6 and 128 characters")
     private String confirmedPassword;
     
     public String getConfirmedPassword() {
