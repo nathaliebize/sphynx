@@ -1,7 +1,16 @@
-# java web applications #
-*.war
-*.class
+HELP.md
+
+### Spring environment ###
 .classpath
+.mvn
 .project
 .settings
-/target/
+mvnw
+mvnw.cmd
+**/src/test/**
+target/
+
+### Java ###
+*.class
+*.war
+*.jar

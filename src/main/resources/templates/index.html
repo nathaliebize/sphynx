@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
 <title>Sphynx</title>
@@ -13,35 +13,36 @@
   href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
   integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
   crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/css" href="/css/sphynx.css">
 </head>
 <body>
   <div class="container-fluid light">
     <div class="container px-5">
       <div class="d-flex px-5">
-        <a href="#" class="m-3 mr-auto">Home</a> 
-        <a href="#" class="m-3">Link 1</a>
-        <a href="#" class="m-3">Link 2</a>
-        <a href="#" class="m-3">Link 3</a>
+        <a href="/" class="m-3 mr-auto">Home</a> 
+        <a href="#" class="m-3">Nothing yet</a>
+        <a href="/user/login" class="m-3">Log In</a>
+        <a href="/user/register" class="m-3">Register</a>
       </div>
     </div>
   </div>
   <div class="container-fluid light">
     <div class="container px-5">
-      <div class="px-5 mx-5 pt-5">
+      <div class="px-5 mx-5 pt-5 mt-5">
         <div class="container text-center">
           <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">
-            Flexible Software System For Developers
+            With Sphynx, keep track on your website's traffic.
           </h1>
         </div>
         <div class="container text-center">
-          <h4 class="font-weight-light mx-5 my-4 px-5">From logo design
-            to website development, hand-picked designers and developers are
-            ready to complete.</h4>
+          <h4 class="font-weight-light mx-5 my-4 px-5">Be aware of the users' behavior
+           when they navigate your websites.</h4>
         </div>
         <div class="d-flex justify-content-center ">
-          <button type="button" class="btn btn-lg button-blue px-3 my-2 mx-3">Button 1</button>
-          <button type="button" class="btn btn-lg button-dark px-3 my-2 mx-3">Button 2</button>
+          <form>
+            <button formaction="/user/register" type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
+            <button formaction="/user/login" type="submit" class="btn btn-lg button-dark px-3 my-2 mx-3">Login</button>
+          </form>
         </div>
       </div>
       <div class="col d-flex justify-content-center pt-3">
@@ -262,7 +263,7 @@
   </div>
   <div class="container-fluid light">
     <div class="container p-5">
-      <h8 class="px-5">Info</h8>
+      <h1 class="px-5">Info</h1>
     </div>
   </div>
 
