@@ -32,23 +32,25 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model, HttpServletRequest request) {
         model.addAttribute("user", new User());
-        String error = (String) request.getSession().getAttribute("error");
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
         return "user/login";
     }
     
+    // TODO: user validation for login.
     /**
      * Handles login post request
      * @param user
      * @return the sites template
      */
     @PostMapping("/login")
-    public String login(@ModelAttribute User user) {
-        User temp = userRepository.findByEmail(user.getEmail());
-        if (temp == null) {
-            return "redirect:register";
+    public String login(Model model, @ModelAttribute User user, HttpServletRequest request) {
+        String error = (String) request.getSession().getAttribute("error");
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
+        User loginUser = userRepository.findByEmail(user.getEmail());
+        if (loginUser == null) {
+            request.getSession().setAttribute("error", "email not registered");
+            return "/user/login";
         }
         return "sites";
     }
@@ -72,7 +74,11 @@ public class UserController {
      * @return sites template if data are valid, user/register template otherwise
      */
     @PostMapping("/register")
-    public String register(Model model, @Valid @ModelAttribute User user, BindingResult bindingResult) {
+    public String register(Model model, @Valid @ModelAttribute User user, BindingResult bindingResult, HttpServletRequest request) {
+        String error = (String) request.getSession().getAttribute("error");
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
         if (bindingResult.hasErrors()) {
             return "user/register";
         }
