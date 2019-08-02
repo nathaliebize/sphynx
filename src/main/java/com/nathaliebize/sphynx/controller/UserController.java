@@ -96,7 +96,8 @@ public class UserController {
      * @return redirection to home page
      */
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
         return "redirect:/";
     }
 }
