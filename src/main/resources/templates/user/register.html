@@ -25,10 +25,10 @@
     <div class="container p-5">
       <div class="detail light p-5">
         <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Register</h1>
-        <form class="mt-5 mx-5 px-5" action="/user/register" method="post" th:object="${user}">
+        <form class="mt-5 mx-5 px-5" action="/user/register" method="post" th:object="${registerUser}">
           <h6 class="centered" th:if="${error} == 'email already used'" >You already have an account with this email address. Please <a href="/user/login" >log in.</a></h6>
           <div class="my-4 form-group">
-            <input type="email" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
+            <input type="text" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
             <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
           </div>
           <div class="form-group">

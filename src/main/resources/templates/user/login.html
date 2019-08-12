@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet"
+  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+  crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
+  <title>Sign into your account</title>
+</head>
+<body>
+  <div class="container-fluid light">
+    <div class="container px-5">
+      <div class="d-flex px-5">
+        <a href="/" class="m-3 mr-auto">Home</a> 
+        <a href="#" class="m-3">Link 1</a>
+        <a href="#" class="m-3">Link 2</a>
+        <a href="/user/register" class="m-3">Register</a>
+      </div>
+    </div>
+  </div>
+  <div class="light">
+    <div class="container p-5">
+      <div class="detail light p-5">
+      
+        <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Login</h1>
+        <form class="mt-5 mx-5 px-5" action="/user/login" method="post" th:object="${loginUser}">
+          <h6 class="centered" th:if="${error} == 'email not registered'" >No account is linked to this email. Please <a href="/user/register" >register.</a></h6>
+          <div class="my-4 form-group">
+            <input type="text" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
+            <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="inputPassword" th:field="*{password}" placeholder="Password">
+            <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>          
+          </div>
+          <div class="pb-4 form-group right-aligned">
+            <a href="#">Forgot password?</a>
+          </div>
+          <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
+          <div class="my-4 centered form-group">
+            Don't have an account? <a href="/user/register">Register here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
