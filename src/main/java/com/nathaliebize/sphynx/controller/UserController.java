@@ -113,13 +113,11 @@ public class UserController {
             return "verify";
         }
         User user = userRepository.findByEmail(email);
-        String userKey = null;
         if (user != null) {
-            userKey = user.getREGISTRATION_KEY();
-            if (userKey.equals(key)) {
+            if (user.getREGISTRATION_KEY().equals(key) && user.getStatus().equals("unverified")) {
                 userRepository.changeStatus("verified", user.getEmail());
                 request.getSession().setAttribute("loggedIn", true);
-                return "error";
+                return "redirect:/sites/";
             }
         }
         return "redirect:/user/error";
