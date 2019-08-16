@@ -32,6 +32,10 @@ body {
 	color: #ffffff;
 }
 
+.custom-file-control:focus, .form-control:focus {
+  color: #ffffff;
+}
+
 .dark {
   background-color: #1d1d1d;
 }
@@ -55,6 +59,22 @@ body {
 
 .form-control {
 	border-bottom: 1px solid white;	
+}
+
+.form-control::-webkit-input-placeholder {
+color: #b9b9b9;
+}
+
+.form-control:-moz-placeholder { /* Firefox 18- */
+color: #b9b9b9;  
+}
+
+.form-control::-moz-placeholder {  /* Firefox 19+ */
+color: #b9b9b9;  
+}
+
+.form-control:-ms-input-placeholder {  
+color: #b9b9b9;  
 }
 
 .hide {
