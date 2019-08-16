@@ -14,8 +14,6 @@ import com.nathaliebize.sphynx.security.constraint.EmailField;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "User.findByEmail",
-query = "select u from User u where u.email = ?1")
 public class User {
     @Id
     @GeneratedValue(generator = "users_generator")
@@ -36,7 +34,7 @@ public class User {
     private String REGISTRATION_KEY = UUID.randomUUID().toString();
     
     @NotNull
-    private String Status = "unverified";
+    private String status = "unverified";
     
     public User() {}
     
@@ -70,11 +68,11 @@ public class User {
     }
     
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
     
     public String getREGISTRATION_KEY() {

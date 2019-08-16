@@ -20,4 +20,14 @@ public class HomeController {
     public String showHomePage() {
         return "index";
     }
+    
+    @GetMapping("/error")
+    public String showErrorPage() {
+        return "error";
+    }
+    
+    @GetMapping("/terms")
+    public String showTermsPage() {
+        return "terms";
+    }
 }

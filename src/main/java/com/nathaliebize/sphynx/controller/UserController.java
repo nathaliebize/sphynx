@@ -48,17 +48,25 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/login";
         }
-        String error = (String) request.getSession().getAttribute("error");
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
         User user = userRepository.findByEmail(loginUser.getEmail());
         if (user == null) {
-            request.getSession().setAttribute("error", "email not registered");
+            model.addAttribute("error", "email not registered");
             return "/user/login";
         }
         // TODO : verify password
-        return "sites";
+        user = null;
+        user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
+        if (user != null) {
+            if (user.getStatus().equals("verified")) {
+                request.getSession().setAttribute("id", user.getId());
+                return "redirect:/sites/";
+            } else {
+                return "/user/verify";
+            }
+        } else {
+            model.addAttribute("error", "wrong email or password");
+            return "/user/login";
+        }
     }
     
     /**
@@ -84,16 +92,12 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/register";
         }
-        String error = (String) request.getSession().getAttribute("error");
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
         if (userRepository.findByEmail(registerUser.getEmail()) == null) {
             User user = new User(registerUser.getEmail(), registerUser.getPassword());
             userRepository.save(user);
             // TODO: send email with link
-            @SuppressWarnings("unused")
             String link = user.sendConfirmationEmail();
+            model.addAttribute("link", link);
             return "user/verify";
         } else {
             model.addAttribute("error", "email already used");
@@ -102,27 +106,23 @@ public class UserController {
     }
     
     @GetMapping("/verify")
-    public String verifyEmail(HttpServletRequest request) {
-        String email = null;
-        String key = null;
-        User user = null;
-        String userKey = null;
-
-        email = request.getParameter("email");
-        key = request.getParameter("key");
-        
+    public String verifyEmail(@ModelAttribute("link") String link, HttpServletRequest request) {
+        String email = request.getParameter("email");
+        String key = request.getParameter("key");
         if (email == null) {
             return "verify";
         }
-        user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+        String userKey = null;
         if (user != null) {
             userKey = user.getREGISTRATION_KEY();
             if (userKey.equals(key)) {
-                // TODO change status to verified
-                return "sites";
+                userRepository.changeStatus("verified", user.getEmail());
+                request.getSession().setAttribute("loggedIn", true);
+                return "error";
             }
         }
-        return "user/error";
+        return "redirect:/user/error";
     }
     
     /**

@@ -1,5 +1,8 @@
 package com.nathaliebize.sphynx.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SitesController {
     
     @GetMapping("/")
-    public String showSitesPage() {
-	return "sites";
+    public String showSitesPage(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return "sites";
+        } else {
+            return "redirect:/error";
+        }
     }
 }
