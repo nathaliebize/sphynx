@@ -38,7 +38,7 @@
             <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>          
           </div>
           <div class="pb-4 form-group right-aligned">
-            <a href="#">Forgot password?</a>
+            <a href="/user/resetPasswordEmail">Forgot password?</a>
           </div>
           <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
           <div class="my-4 centered form-group">

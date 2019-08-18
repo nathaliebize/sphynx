@@ -2,10 +2,10 @@ package com.nathaliebize.sphynx.model;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,7 +31,8 @@ public class User {
     private String password;
     
     @NotNull
-    private String REGISTRATION_KEY = UUID.randomUUID().toString();
+    @Column(name="registration_key")
+    private String registrationKey = UUID.randomUUID().toString();
     
     @NotNull
     private String status = "unverified";
@@ -75,15 +76,36 @@ public class User {
         this.status = status;
     }
     
-    public String getREGISTRATION_KEY() {
-        return REGISTRATION_KEY;
+    public String getRegistrationKey() {
+        return registrationKey;
+    }
+    
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
     }
 
     /**
-     * Sends an email to confirm the user's email address
+     * Sends an email to confirm the user's email address while registering
+     * @return link
      */
     public String sendConfirmationEmail() {
-        return "http://sphynx.dev/user/verify?email=" + this.email + "&key=" + REGISTRATION_KEY;
+        // TODO: Send email
+        return "http://sphynx.dev/user/verify?email=" + this.email + "&key=" + registrationKey;
+    }
+    
+    /**
+     * Update registration key
+     */
+    public void updateRegistrationKey() {
+        this.registrationKey = UUID.randomUUID().toString();
+    }
+    
+    /**
+     * Sends an email to confirm the user's email address before reset password
+     * @return link
+     */
+    public String sendResetPasswordEmail() {
+        return "http://sphynx.dev/user/resetPassword?key=" + registrationKey;
     }
 
 }

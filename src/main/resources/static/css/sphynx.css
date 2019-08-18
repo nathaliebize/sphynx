@@ -77,10 +77,6 @@ body {
   color: #b9b9b9;  
 }
 
-.hide {
-	visibility: hidden;
-}
-
 .light {
   background-color: #2c2d2d;
 }
@@ -100,10 +96,12 @@ body {
 .timeline-node:nth-child(even) {
   flex-direction: row-reverse;
 }
+
 .timeline-node:nth-child(odd) h3,
 .timeline-node:nth-child(odd) p {
   text-align: right;
 }
+
 .timeline-node:nth-child(odd) .timeline-date h3 {
   text-align: left;
 }
