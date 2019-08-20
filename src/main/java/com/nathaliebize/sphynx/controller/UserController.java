@@ -4,7 +4,7 @@ import com.nathaliebize.sphynx.model.LoginUser;
 import com.nathaliebize.sphynx.model.ResetPasswordUser;
 import com.nathaliebize.sphynx.model.RegisterUser;
 import com.nathaliebize.sphynx.model.ResetPasswordEmailUser;
-import com.nathaliebize.sphynx.model.User;
+import com.nathaliebize.sphynx.model.DatabaseUser;
 import com.nathaliebize.sphynx.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,9 +50,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/login";
         }
-        User user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
+        DatabaseUser user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
         if (user != null) {
-            if (user.getRegistrationStatus().equals("VERIFIED")) {
+            if (user.getRegistrationStatus().toString().equals("VERIFIED")) {
                 request.getSession().setAttribute("userId", user.getId());
                 return "redirect:/sites/";
             } else {
@@ -88,7 +88,7 @@ public class UserController {
             return "user/register";
         }
         if (userRepository.findByEmail(registerUser.getEmail()) == null) {
-            User user = new User(registerUser.getEmail(), registerUser.getPassword());
+            DatabaseUser user = new DatabaseUser(registerUser.getEmail(), registerUser.getPassword());
             userRepository.save(user);
             // TODO: send email with link
             String link = user.sendConfirmationEmail();
@@ -113,8 +113,8 @@ public class UserController {
         if (email == null) {
             return "verify";
         }
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().equals("UNVERIFIED")) {
+        DatabaseUser user = userRepository.findByEmail(email);
+        if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().toString().equals("UNVERIFIED")) {
             userRepository.changeRegistrationStatus("VERIFIED", user.getEmail());
             request.getSession().setAttribute("userId", user.getId());
             return "redirect:/sites/";
@@ -146,7 +146,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/forgot-password";
         }
-        User user = userRepository.findByEmail(resetPasswordEmailUser.getEmail());
+        DatabaseUser user = userRepository.findByEmail(resetPasswordEmailUser.getEmail());
         if (user == null) {
             return "/error";
         } else {
