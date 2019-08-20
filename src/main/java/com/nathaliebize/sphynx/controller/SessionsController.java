@@ -5,12 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * Controller that handles sessions pages.
  *
- * @author Nathalie Bize
- *
  */
 public class SessionsController {
     /**
-     * Sessions main page get request handler
+     * Handles sessions main page get request
      * @return the main sessions template
      */
     @GetMapping("/sessions")
