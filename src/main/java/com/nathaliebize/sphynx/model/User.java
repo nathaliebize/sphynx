@@ -1,7 +1,7 @@
 package com.nathaliebize.sphynx.model;
 
+import com.nathaliebize.sphynx.model.RegistrationStatus;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +35,8 @@ public class User {
     private String registrationKey = UUID.randomUUID().toString();
     
     @NotNull
-    private String status = "unverified";
+    @Column(name="registration_status")
+    private String registrationStatus = RegistrationStatus.UNVERIFIED.toString();
     
     public User() {}
     
@@ -68,12 +69,12 @@ public class User {
         this.password = password;
     }
     
-    public String getStatus() {
-        return status;
+    public @NotNull String getRegistrationStatus() {
+        return registrationStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRegistrationStatus(@NotNull String registrationStatus) {
+        this.registrationStatus = registrationStatus;
     }
     
     public String getRegistrationKey() {
@@ -96,7 +97,7 @@ public class User {
     /**
      * Update registration key
      */
-    public void updateRegistrationKey() {
+    public void generateRegistrationKey() {
         this.registrationKey = UUID.randomUUID().toString();
     }
     

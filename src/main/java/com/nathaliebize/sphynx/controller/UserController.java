@@ -50,13 +50,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/login";
         }
-        if (userRepository.findByEmail(loginUser.getEmail()) == null) {
-            model.addAttribute("error", "email not registered");
-            return "/user/login";
-        }
         User user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
         if (user != null) {
-            if (user.getStatus().equals("verified")) {
+            if (user.getRegistrationStatus().equals("VERIFIED")) {
                 request.getSession().setAttribute("userId", user.getId());
                 return "redirect:/sites/";
             } else {
@@ -105,7 +101,7 @@ public class UserController {
     }
     
     /**
-     * Handles verify get request
+     * Handles verify get request. Tells user to check his emails or verifies the email when have parameter.
      * @param link
      * @param request
      * @return template
@@ -118,45 +114,43 @@ public class UserController {
             return "verify";
         }
         User user = userRepository.findByEmail(email);
-        if (user != null) {
-            if (user.getRegistrationKey().equals(key) && user.getStatus().equals("unverified")) {
-                userRepository.changeStatus("verified", user.getEmail());
-                request.getSession().setAttribute("userId", user.getId());
-                return "redirect:/sites/";
-            }
+        if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().equals("UNVERIFIED")) {
+            userRepository.changeRegistrationStatus("VERIFIED", user.getEmail());
+            request.getSession().setAttribute("userId", user.getId());
+            return "redirect:/sites/";
         }
         return "redirect:/user/error";
     }
     
     /**
-     * Handles resetPasswordEmail get request
+     * Handles forgot-password get request. Asks user to enter email address.
      * @param model
      * @return user/resetPasswordEmail template
      */
-    @GetMapping("/resetPasswordEmail")
+    @GetMapping("/forgot-password")
     public String showResetPasswordEmailPage(Model model) {
         model.addAttribute("resetPasswordEmailUser", new ResetPasswordEmailUser());
-        return "user/resetPasswordEmail";
+        return "user/forgot-password";
     }
     
     /**
-     * Handles resetPasswordEmail post request
+     * Handles forgot-password post request. Receives user's email address and send link to user.
      * @param model
      * @param resetPasswordEmailUser
      * @param bindingResult
      * @param request
      * @return template
      */
-    @PostMapping("resetPasswordEmail")
+    @PostMapping("forgot-password")
     public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ResetPasswordEmailUser resetPasswordEmailUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/resetPasswordEmail";
+            return "user/forgot-password";
         }
         User user = userRepository.findByEmail(resetPasswordEmailUser.getEmail());
         if (user == null) {
             return "/error";
         } else {
-            user.updateRegistrationKey();
+            user.generateRegistrationKey();
             userRepository.updateRegistrationKey(user.getRegistrationKey(), user.getEmail());
             // TODO: send email with link
             String link = user.sendResetPasswordEmail();
@@ -165,36 +159,36 @@ public class UserController {
         }
     }
     /**
-     * Handles resetPassword get request
+     * Handles reset-password get request. Asks user to enter new password and confirmation password.
      * @param model
      * @param request
      * @return template
      */
-    @GetMapping("/resetPassword")
+    @GetMapping("/reset-password")
     public String showResetPasswordPage(Model model, HttpServletRequest request) {
         String key = (String) request.getParameter("key");
         ResetPasswordUser resetPasswordUser = null;
         if (key != null && (userRepository.findByRegistrationKey(key)) != null) {
             resetPasswordUser = new ResetPasswordUser(key);
             model.addAttribute("resetPasswordUser", resetPasswordUser);
-            return "user/resetPassword";
+            return "user/reset-password";
         } else {
             return "/error";
         }
     }
     
     /**
-     * Handles resetPassword post request
+     * Handles reset-password post request. Validates the new password and saves it.
      * @param model
      * @param resetPasswordUser
      * @param bindingResult
      * @param request
      * @return template
      */
-    @PostMapping("/resetPassword")
+    @PostMapping("/reset-password")
     public String resetPassword(Model model, @Valid @ModelAttribute ResetPasswordUser resetPasswordUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/resetPassword";
+            return "user/reset-password";
         }
         userRepository.updatePassword(resetPasswordUser.getPassword(), resetPasswordUser.getRegistrationKey());
         request.getSession().setAttribute("userId", userRepository.findByRegistrationKey(resetPasswordUser.getRegistrationKey()).getId());
