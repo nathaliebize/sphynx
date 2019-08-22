@@ -15,9 +15,9 @@ public class SitesController {
     public String showSitesPage(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            return "sites";
+            return SiteMap.SITES.getPath();
         } else {
-            return "redirect:/error";
+            return SiteMap.REDIRECT_ERROR.getPath();
         }
     }
 }

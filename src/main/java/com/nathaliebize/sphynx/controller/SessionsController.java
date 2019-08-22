@@ -13,6 +13,6 @@ public class SessionsController {
      */
     @GetMapping("/sessions")
     public String showSessionsPage() {
-	return "sessions";
+	return SiteMap.SESSIONS.getPath();
     }
 }

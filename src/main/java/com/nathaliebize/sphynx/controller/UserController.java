@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model, HttpServletRequest request) {
         model.addAttribute("loginUser", new LoginUser());
-        return "user/login";
+        return SiteMap.USER_LOGIN.getPath();
     }
     
     /**
@@ -48,19 +48,19 @@ public class UserController {
     @PostMapping("/login")
     public String login(Model model, @Valid @ModelAttribute LoginUser loginUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/login";
+            return SiteMap.USER_LOGIN.getPath();
         }
         User user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
         if (user != null) {
             if (user.getRegistrationStatus().toString().equals("VERIFIED")) {
                 request.getSession().setAttribute("userId", user.getId());
-                return "redirect:/sites/";
+                return SiteMap.REDIRECT_SITES.getPath();
             } else {
-                return "/user/verify";
+                return SiteMap.USER_VERIFY.getPath();
             }
         } else {
             model.addAttribute("error", "wrong email or password");
-            return "/user/login";
+            return SiteMap.USER_LOGIN.getPath();
         }
     }
     
@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("registerUser", new RegisterUser());
-        return "user/register";
+        return SiteMap.USER_REGISTER.getPath();
     }
     
     /**
@@ -85,7 +85,7 @@ public class UserController {
     @PostMapping("/register")
     public String register(Model model, @Valid @ModelAttribute RegisterUser registerUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/register";
+            return SiteMap.USER_REGISTER.getPath();
         }
         if (userRepository.findByEmail(registerUser.getEmail()) == null) {
             User user = new User(registerUser.getEmail(), registerUser.getPassword());
@@ -93,10 +93,10 @@ public class UserController {
             // TODO: send email with link
             String link = user.sendConfirmationEmail();
             model.addAttribute("link", link);
-            return "user/verify";
+            return SiteMap.USER_VERIFY.getPath();
         } else {
             model.addAttribute("error", "email already used");
-            return "user/register";
+            return SiteMap.USER_REGISTER.getPath();
         }
     }
     
@@ -111,15 +111,15 @@ public class UserController {
         String email = request.getParameter("email");
         String key = request.getParameter("key");
         if (email == null) {
-            return "verify";
+            return SiteMap.VERIFY.getPath();
         }
         User user = userRepository.findByEmail(email);
         if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().toString().equals("UNVERIFIED")) {
             userRepository.changeRegistrationStatus("VERIFIED", user.getEmail());
             request.getSession().setAttribute("userId", user.getId());
-            return "redirect:/sites/";
+            return SiteMap.REDIRECT_SITES.getPath();
         }
-        return "redirect:/user/error";
+        return SiteMap.REDIRECT_ERROR.getPath();
     }
     
     /**
@@ -130,7 +130,7 @@ public class UserController {
     @GetMapping("/forgot-password")
     public String showResetPasswordEmailPage(Model model) {
         model.addAttribute("resetPasswordEmailUser", new ResetPasswordEmailUser());
-        return "user/forgot-password";
+        return SiteMap.USER_FORGOT_PASSWORD.getPath();
     }
     
     /**
@@ -144,18 +144,18 @@ public class UserController {
     @PostMapping("forgot-password")
     public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ResetPasswordEmailUser resetPasswordEmailUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/forgot-password";
+            return SiteMap.USER_FORGOT_PASSWORD.getPath();
         }
         User user = userRepository.findByEmail(resetPasswordEmailUser.getEmail());
         if (user == null) {
-            return "/error";
+            return SiteMap.REDIRECT_ERROR.getPath();
         } else {
             user.generateRegistrationKey();
             userRepository.updateRegistrationKey(user.getRegistrationKey(), user.getEmail());
             // TODO: send email with link
             String link = user.sendResetPasswordEmail();
             model.addAttribute("link", link);
-            return "user/verify";
+            return SiteMap.USER_VERIFY.getPath();
         }
     }
     /**
@@ -171,9 +171,9 @@ public class UserController {
         if (key != null && (userRepository.findByRegistrationKey(key)) != null) {
             resetPasswordUser = new ResetPasswordUser(key);
             model.addAttribute("resetPasswordUser", resetPasswordUser);
-            return "user/reset-password";
+            return SiteMap.USER_RESET_PASSWORD.getPath();
         } else {
-            return "/error";
+            return SiteMap.REDIRECT_ERROR.getPath();
         }
     }
     
@@ -188,11 +188,11 @@ public class UserController {
     @PostMapping("/reset-password")
     public String resetPassword(Model model, @Valid @ModelAttribute ResetPasswordUser resetPasswordUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "user/reset-password";
+            return SiteMap.USER_RESET_PASSWORD.getPath();
         }
         userRepository.updatePassword(resetPasswordUser.getPassword(), resetPasswordUser.getRegistrationKey());
         request.getSession().setAttribute("userId", userRepository.findByRegistrationKey(resetPasswordUser.getRegistrationKey()).getId());
-        return "redirect:/sites/";
+        return SiteMap.REDIRECT_SITES.getPath();
     }
     
     /**
@@ -202,6 +202,6 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/";
+        return SiteMap.REDIRECT_HOME.getPath();
     }
 }

@@ -18,16 +18,11 @@ public class HomeController {
      */
     @GetMapping("/")
     public String showHomePage() {
-        return "index";
+        return SiteMap.INDEX.getPath();
     }
     
     @GetMapping("/error")
     public String showErrorPage() {
-        return "error";
-    }
-    
-    @GetMapping("/terms")
-    public String showTermsPage() {
-        return "terms";
+        return SiteMap.ERROR.getPath();
     }
 }

@@ -15,6 +15,6 @@ public class TermsController {
      */
     @GetMapping("/terms")
     public String showTermsPage() {
-	return "terms";
+	return SiteMap.TERMS.getPath();
     }
 }
