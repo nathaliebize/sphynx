@@ -16,16 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
 </head>
 <body>
-  <div class="container-fluid light">
-    <div class="container px-5">
-      <div class="d-flex px-5">
-        <a href="/" class="m-3 mr-auto">Home</a> 
-        <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-        <a href="/user/login" class="m-3">Log In</a>
-        <a href="/user/register" class="m-3">Register</a>
-      </div>
-    </div>
-  </div>
+  <header th:insert="fragments.html :: header"> </header>
   <div class="container-fluid light">
     <div class="container px-5">
       <div class="px-5 mx-5 pt-5 mt-5">
@@ -40,8 +31,8 @@
         </div>
         <div class="d-flex justify-content-center ">
           <form>
-            <button formaction="/user/register" type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
-            <button formaction="/user/login" type="submit" class="btn btn-lg button-dark px-3 my-2 mx-3">Login</button>
+            <button formaction=@{SiteMap.USER_REGISTER.getPath()} type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
+            <button formaction=@{SiteMap.USER_LOGIN.getPath()} type="submit" class="btn btn-lg button-dark px-3 my-2 mx-3">Login</button>
           </form>
         </div>
       </div>
@@ -260,11 +251,7 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid light">
-    <div class="container p-5">
-      <h1 class="px-5">Info</h1>
-    </div>
-  </div>
+  <footer th:insert="fragments.html :: footer"> </footer>
 
 </body>
 </html>

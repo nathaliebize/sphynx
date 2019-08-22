@@ -11,16 +11,7 @@
   <title>Sign into your account</title>
 </head>
 <body>
-  <div class="container-fluid light">
-    <div class="container px-5">
-      <div class="d-flex px-5">
-        <a href="/" class="m-3 mr-auto">Home</a> 
-        <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-        <a href="#" class="m-3">Link 2</a>
-        <a href="/user/logout" class="m-3">Log out</a>
-      </div>
-    </div>
-  </div>
+  <header th:insert="fragments.html :: header"> </header>
   <div class="container-fluid light">
     <div class="container px-5">
       <div class="d-flex px-5">
@@ -28,5 +19,6 @@
       </div>
     </div>
   </div>
+  <footer th:insert="fragments.html :: footer"> </footer>
  </body>
 </html>

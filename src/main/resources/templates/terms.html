@@ -14,16 +14,7 @@
 <title>Terms and conditions</title>
 </head>
 <body>
-  <div class="container-fluid light">
-    <div class="container px-5">
-      <div class="d-flex px-5">
-        <a href="/" class="m-3 mr-auto">Home</a> 
-        <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-        <a href="/user/login" class="m-3">Log In</a>
-        <a href="/user/register" class="m-3">Register</a>
-      </div>
-    </div>
-  </div>
+  <header th:insert="fragments.html :: header"> </header>
   <div class="container-fluid dark">
     <div class="container px-5 text-center">
       <div class="px-5 mx-5 pt-5 mt-5">
@@ -62,11 +53,7 @@ SOFTWARE. <br><br>
         </div>
       </div>
      </div>
-    <div class="container-fluid light">
-      <div class="container p-5">
-        <h1 class="px-5">Info</h1>
-      </div>
-    </div>
+    <footer th:insert="fragments.html :: footer"> </footer>
 
     
   
