@@ -1,6 +1,5 @@
 package com.nathaliebize.sphynx.model;
 
-import com.nathaliebize.sphynx.model.RegistrationStatus;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +14,11 @@ import com.nathaliebize.sphynx.security.constraint.EmailField;
 @Entity
 @Table(name = "users")
 public class User {
+    
+    public enum RegistrationStatus {
+        VERIFIED, UNVERIFIED;
+    }
+    
     @Id
     @GeneratedValue(generator = "users_generator")
     @SequenceGenerator(
@@ -36,7 +40,7 @@ public class User {
     
     @NotNull
     @Column(name="registration_status")
-    private String registrationStatus = RegistrationStatus.UNVERIFIED.getString();
+    private String registrationStatus = RegistrationStatus.UNVERIFIED.toString();
     
     public User() {}
     
@@ -74,7 +78,7 @@ public class User {
     }
 
     public void setRegistrationStatus(RegistrationStatus registrationStatus) {
-        this.registrationStatus = registrationStatus.getString();
+        this.registrationStatus = registrationStatus.toString();
     }
     
     public String getRegistrationKey() {
