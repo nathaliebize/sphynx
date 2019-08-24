@@ -1,12 +1,11 @@
 package com.nathaliebize.sphynx.controller;
 
 import com.nathaliebize.sphynx.model.AuthorizationGroup;
-import com.nathaliebize.sphynx.model.AuthorizationGroupRepository;
-import com.nathaliebize.sphynx.model.LoginUser;
 import com.nathaliebize.sphynx.model.ResetPasswordUser;
 import com.nathaliebize.sphynx.model.RegisterUser;
 import com.nathaliebize.sphynx.model.ResetPasswordEmailUser;
 import com.nathaliebize.sphynx.model.User;
+import com.nathaliebize.sphynx.repository.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    
+        
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -87,7 +86,7 @@ public class UserController {
      * @return template
      */
     @GetMapping("/verify")
-    public String verifyEmail(@ModelAttribute("link") String link, HttpServletRequest request) {
+    public String verifyEmail(Model model, @ModelAttribute("link") String link, HttpServletRequest request) {
         String email = request.getParameter("email");
         String key = request.getParameter("key");
         if (email == null) {
@@ -182,7 +181,7 @@ public class UserController {
      * @return redirection to home page
      */
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(Model model) {
         return SiteMap.REDIRECT_HOME.getPath();
     }
 }

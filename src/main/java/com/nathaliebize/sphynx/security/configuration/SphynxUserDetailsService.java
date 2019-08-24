@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nathaliebize.sphynx.model.AuthorizationGroup;
-import com.nathaliebize.sphynx.model.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.model.User;
+import com.nathaliebize.sphynx.repository.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.repository.UserRepository;
 
 @Service

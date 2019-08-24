@@ -18,15 +18,11 @@
       <div class="container-fluid light">
         <div class="container px-5">
           <div class="d-flex px-5">
-            <a href="/" class="m-3 mr-auto">Home</a> 
+            <a href="/" class="m-3 mr-auto">Home</a>
             <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-            <div sec:authorize="isAnonymous()">
-              <a th:href=@{/user/login} class="m-3">Log In</a>
-              <a th:href=@{/user/register} class="m-3">Register</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-              <a th:href=@{/user/logout} class="m-3">Log out</a>
-            </div>
+            <a sec:authorize="isAnonymous()" th:href=@{/user/login} class="m-3">Log In</a>
+            <a sec:authorize="isAnonymous()" th:href=@{/user/register} class="m-3">Register</a>
+            <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=@{/user/logout} class="m-3">Log out</a>
           </div>
         </div>
       </div>
