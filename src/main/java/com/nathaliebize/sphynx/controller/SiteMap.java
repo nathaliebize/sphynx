@@ -1,12 +1,10 @@
 package com.nathaliebize.sphynx.controller;
 
 public enum SiteMap {
-    ERROR("/error"),
-    HOME("/"),
-    INDEX("/index"),
     REDIRECT_ERROR("redirect:/error"),
     REDIRECT_HOME("redirect:/"),
-    REDIRECT_SITES("redirect:/sites/"),
+    REDIRECT_SITES("redirect:/sites"),
+    REDIRECT_USER_LOGIN("redirect:/user/login"),
     SESSIONS("/sessions"),
     SITES("/sites"),
     TERMS("/terms"),

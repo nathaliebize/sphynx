@@ -1,5 +1,7 @@
 package com.nathaliebize.sphynx.controller;
 
+import com.nathaliebize.sphynx.model.AuthorizationGroup;
+import com.nathaliebize.sphynx.model.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.model.LoginUser;
 import com.nathaliebize.sphynx.model.ResetPasswordUser;
 import com.nathaliebize.sphynx.model.RegisterUser;
@@ -10,6 +12,7 @@ import com.nathaliebize.sphynx.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +30,8 @@ public class UserController {
     
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthorizationGroupRepository authorizationGroupRepository;
     
     /**
      * Handles login get request
@@ -36,32 +41,7 @@ public class UserController {
      */
     @GetMapping("/login")
     public String showLoginPage(Model model, HttpServletRequest request) {
-        model.addAttribute("loginUser", new LoginUser());
         return SiteMap.USER_LOGIN.getPath();
-    }
-    
-    /**
-     * Handles login post request
-     * @param user
-     * @return the sites template
-     */
-    @PostMapping("/login")
-    public String login(Model model, @Valid @ModelAttribute LoginUser loginUser, BindingResult bindingResult, HttpServletRequest request) {
-        if (bindingResult.hasErrors()) {
-            return SiteMap.USER_LOGIN.getPath();
-        }
-        User user = userRepository.findByEmailAndPassword(loginUser.getEmail(), loginUser.getPassword());
-        if (user != null) {
-            if (user.getRegistrationStatus().toString().equals("VERIFIED")) {
-                request.getSession().setAttribute("userId", user.getId());
-                return SiteMap.REDIRECT_SITES.getPath();
-            } else {
-                return SiteMap.USER_VERIFY.getPath();
-            }
-        } else {
-            model.addAttribute("error", "wrong email or password");
-            return SiteMap.USER_LOGIN.getPath();
-        }
     }
     
     /**
@@ -88,7 +68,8 @@ public class UserController {
             return SiteMap.USER_REGISTER.getPath();
         }
         if (userRepository.findByEmail(registerUser.getEmail()) == null) {
-            User user = new User(registerUser.getEmail(), registerUser.getPassword());
+            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+            User user = new User(registerUser.getEmail(), encoder.encode(registerUser.getPassword()));
             userRepository.save(user);
             // TODO: send email with link
             String link = user.sendConfirmationEmail();
@@ -116,8 +97,10 @@ public class UserController {
         User user = userRepository.findByEmail(email);
         if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().toString().equals("UNVERIFIED")) {
             userRepository.changeRegistrationStatus("VERIFIED", user.getEmail());
+            AuthorizationGroup authorizationGroup = new AuthorizationGroup(user.getEmail(), "USER");
+            authorizationGroupRepository.save(authorizationGroup);
             request.getSession().setAttribute("userId", user.getId());
-            return SiteMap.REDIRECT_SITES.getPath();
+            return SiteMap.REDIRECT_USER_LOGIN.getPath();
         }
         return SiteMap.REDIRECT_ERROR.getPath();
     }
@@ -200,8 +183,7 @@ public class UserController {
      * @return redirection to home page
      */
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        request.getSession().invalidate();
+    public String logout() {
         return SiteMap.REDIRECT_HOME.getPath();
     }
 }
