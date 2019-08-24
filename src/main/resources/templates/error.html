@@ -1,26 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8" name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet"
-  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-  crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
   <title>Error</title>
 </head>
 <body>
-  <header th:insert="fragments.html :: header"> </header>
-  <div class="light">
-    <div class="container p-5">
-      <div class="detail light p-5">
-        <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Error</h1>
-        <h6 class="mt-5 mx-5 px-5">An error has occured.</h6>
-        <h6 class="mt-5 mx-5 px-5" th:text="'Status code: ' + ${status}"></h6>
+  <section layout:fragment="content">
+    <div class="light">
+      <div class="container p-5">
+        <div class="detail light p-5">
+          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Error</h1>
+          <h6 class="mt-5 mx-5 px-5">An error has occured.</h6>
+          <h6 class="mt-5 mx-5 px-5" th:text="'Status code: ' + ${status}"></h6>
+        </div>
       </div>
     </div>
-  </div>
-
+  </section>
 </body>
 </html>

@@ -1,53 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8" name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet"
-  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-  crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
   <title>Create an account</title>
 </head>
 <body>
-  <header th:insert="fragments.html :: header"> </header>
-  <div class="light">
-    <div class="container p-5">
-      <div class="detail light p-5">
-        <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Register</h1>
-        <form class="mt-5 mx-5 px-5" action="/user/register" method="post" th:object="${registerUser}">
-          <h6 class="centered" th:if="${error} == 'email already used'" >You already have an account with this email address. Please <a href="/user/login" >log in.</a></h6>
-          <div class="my-4 form-group">
-            <input type="text" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
-            <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword1" th:field="*{password}" placeholder="Password (min. 6 characters)">
-            <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword2" th:field="*{confirmedPassword}" placeholder="Confirm password">
-            <span th:if="${#fields.hasErrors('confirmedPassword')}" class="help-block" th:errors="*{confirmedPassword}"></span>
-          </div>
-          <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="termsCheck" th:field="*{acceptedTerms}">
-              <label class="form-check-label" th:for="termsCheck" >
-                I accept the <a href="/terms">Terms and Conditions</a>
-              </label>
-              <div th:if="${#fields.hasErrors('acceptedTerms')}" class="help-block" th:errors="*{acceptedTerms}"></div>
+  <section layout:fragment="content">
+    <div class="light">
+      <div class="container p-5">
+        <div class="detail light p-5">
+          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Register</h1>
+          <form class="mt-5 mx-5 px-5" action="/user/register" method="post" th:object="${registerUser}">
+            <h6 class="centered" th:if="${error} == 'email already used'" >You already have an account with this email address. Please <a href="/user/login" >log in.</a></h6>
+            <div class="my-4 form-group">
+              <input type="text" class="form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
+              <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
             </div>
-          </div>
-          <button type="submit" class="my-4 btn btn-block button-blue" id="submitButton">Register</button>
-          <div class="my-4 centered form-group">
-            Already have an account? <a href="/user/login">Sign in</a>
-          </div>
-        </form>
+            <div class="form-group">
+              <input type="password" class="form-control" id="inputPassword1" th:field="*{password}" placeholder="Password (min. 6 characters)">
+              <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="inputPassword2" th:field="*{confirmedPassword}" placeholder="Confirm password">
+              <span th:if="${#fields.hasErrors('confirmedPassword')}" class="help-block" th:errors="*{confirmedPassword}"></span>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="termsCheck" th:field="*{acceptedTerms}">
+                <label class="form-check-label" th:for="termsCheck" >
+                  I accept the <a href="/terms">Terms and Conditions</a>
+                </label>
+                <div th:if="${#fields.hasErrors('acceptedTerms')}" class="help-block" th:errors="*{acceptedTerms}"></div>
+              </div>
+            </div>
+            <button type="submit" class="my-4 btn btn-block button-blue" id="submitButton">Register</button>
+            <div class="my-4 centered form-group">
+              Already have an account? <a href="/user/login">Sign in</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <footer th:insert="fragments.html :: footer"> </footer>
-
+  </section>
 </body>
 </html>

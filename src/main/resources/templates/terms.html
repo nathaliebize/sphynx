@@ -1,27 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-<link rel="stylesheet"
-  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-  crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="/css/sphynx.css">
-<title>Terms and conditions</title>
-</head>
-<body>
-  <header th:insert="fragments.html :: header"> </header>
-  <div class="container-fluid dark">
-    <div class="container px-5 text-center">
-      <div class="px-5 mx-5 pt-5 mt-5">
-        <h1 class="display-2 font-weight-bold">
-          With Sphynx, keep track on your website's traffic.
-        </h1>
-        <h4 class="font-weight-light">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Terms and conditions</title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid dark">
+        <div class="container px-5 text-center">
+          <div class="px-5 mx-5 pt-5 mt-5">
+            <h1 class="display-2 font-weight-bold">
+              With Sphynx, keep track on your website's traffic.
+            </h1>
+            <h4 class="font-weight-light">
 
 MIT License <br><br>
 
@@ -44,19 +34,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. <br><br>
-</h4>
-        </div>
-        <div class="d-flex justify-content-center ">
-          <form>
-            <button formaction="/user/register" type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
-          </form>
+            </h4>
+          </div>
+          <div class="d-flex justify-content-center ">
+            <form>
+              <button formaction="/user/register" type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
+            </form>
+          </div>
         </div>
       </div>
-     </div>
-    <footer th:insert="fragments.html :: footer"> </footer>
-
-    
-  
-
-</body>
+    </section>
+  </body>
 </html>

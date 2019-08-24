@@ -1,103 +1,90 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-<link rel="stylesheet"
-  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-  crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="/css/sphynx.css">
-<head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-</head>
-<title>Sessions</title>
-</head>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Sessions</title>
+  <head>
 <body>
-  <header th:insert="fragments.html :: header"> </header>
-  <div class="container-fluid light">
-    <div class="container px-5">
-      <div class="px-5 mx-5 pt-5 mt-5">
-        <div class="container text-center">
-          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">
-            Your session.
-          </h1>
+  <section layout:fragment="content">
+    <div class="container-fluid light">
+      <div class="container px-5">
+        <div class="px-5 mx-5 pt-5 mt-5">
+          <div class="container text-center">
+            <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">
+              Your session.
+            </h1>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container-fluid light pt-5">
-    <div class="timeline container px-5">
-      <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node">
-        <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
-          <h3>First node</h3>
-          <p>First text. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+    <div class="container-fluid light pt-5">
+      <div class="timeline container px-5">
+        <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node">
+          <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
+            <h3>First node</h3>
+            <p>First text. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+          </div>
+          <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
+            <img alt="tools" class="img-fluid"
+                src="https://via.placeholder.com/200x200">
+          </div>
+          <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
+            <h3>2/2/2019</h3>
+          </div>
         </div>
-        <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
-          <img alt="tools" class="img-fluid"
-              src="https://via.placeholder.com/200x200">
+        <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
+          <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
+            <h3>Tittle</h3>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+          </div>
+          <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
+            <img alt="tools" class="img-fluid"
+                src="https://via.placeholder.com/200x200">
+          </div>
+          <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
+            <h3>2/2/2019</h3>
+          </div>
         </div>
-        <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
-          <h3>2/2/2019</h3>
+        <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
+          <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
+            <h3>Tittle</h3>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+          </div>
+          <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
+            <img alt="tools" class="img-fluid"
+                src="https://via.placeholder.com/200x200">
+          </div>
+          <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
+            <h3>2/2/2019</h3>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
+          <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
+            <h3>Tittle</h3>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+          </div>
+          <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
+            <img alt="tools" class="img-fluid"
+                src="https://via.placeholder.com/200x200">
+          </div>
+          <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
+            <h3>2/2/2019</h3>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
+          <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
+            <h3>Tittle</h3>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+          </div>
+          <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
+            <img alt="tools" class="img-fluid"
+                src="https://via.placeholder.com/200x200">
+          </div>
+          <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
+            <h3>2/2/2019</h3>
+          </div>
         </div>
       </div>
-      <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
-        <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
-          <h3>Tittle</h3>
-          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-        </div>
-        <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
-          <img alt="tools" class="img-fluid"
-              src="https://via.placeholder.com/200x200">
-        </div>
-        <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
-          <h3>2/2/2019</h3>
-        </div>
-      </div>
-      <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
-        <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
-          <h3>Tittle</h3>
-          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-        </div>
-        <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
-          <img alt="tools" class="img-fluid"
-              src="https://via.placeholder.com/200x200">
-        </div>
-        <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
-          <h3>2/2/2019</h3>
-        </div>
-      </div>
-      <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
-        <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
-          <h3>Tittle</h3>
-          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-        </div>
-        <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
-          <img alt="tools" class="img-fluid"
-              src="https://via.placeholder.com/200x200">
-        </div>
-        <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
-          <h3>2/2/2019</h3>
-        </div>
-      </div>
-      <div class="row no-gutters justify-content-end justify-content-md-around align-items-start timeline-node hide">
-        <div class="col-10 col-md-5 order-3 order-md-1 timeline-content">
-          <h3>Tittle</h3>
-          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-        </div>
-        <div class="col-2 col-sm-1 px-md-3 order-2 timeline-image text-md-center">
-          <img alt="tools" class="img-fluid"
-              src="https://via.placeholder.com/200x200">
-        </div>
-        <div class="col-10 col-md-5 order-1 order-md-3 py-1 timeline-date">
-          <h3>2/2/2019</h3>
-        </div>
-      </div>
-    </div>
-  </div> 
-  <footer th:insert="fragments.html :: footer"> </footer>
+    </div> 
+  </section>
 </body>
 </html>

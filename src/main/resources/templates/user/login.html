@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8" name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet"
-  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-  crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
   <title>Sign into your account</title>
 </head>
 <body>
-  <header th:insert="fragments.html :: header"> </header>
-  <div class="light">
-    <div class="container p-5">
-      <div class="detail light p-5">
-      
-        <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Login</h1>
-        <form class="mt-5 mx-5 px-5" action="/user/login" method="post">
-          <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
-          <div class="my-4 form-group">
-            <input type="text" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
-          </div>
-          <div class="form-group">
-            <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
-          </div>
-          <div class="pb-4 form-group right-aligned">
-            <a href="/user/resetPasswordEmail">Forgot password?</a>
-          </div>
-          <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
-          <div class="my-4 centered form-group">
-            Don't have an account? <a href="/user/register">Register here</a>
-          </div>
-        </form>
+  <section layout:fragment="content">
+    <div class="light">
+      <div class="container p-5">
+        <div class="detail light p-5">
+          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Login</h1>
+          <form class="mt-5 mx-5 px-5" action="/user/login" method="post">
+            <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
+            <div class="my-4 form-group">
+              <input type="text" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+            <div class="pb-4 form-group right-aligned">
+              <a href="/user/resetPasswordEmail">Forgot password?</a>
+            </div>
+            <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
+            <div class="my-4 centered form-group">
+              Don't have an account? <a href="/user/register">Register here</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <footer th:insert="fragments.html :: footer"> </footer>
-
+  </section>
 </body>
 </html>
