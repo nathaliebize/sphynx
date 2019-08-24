@@ -18,6 +18,7 @@
       
         <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Login</h1>
         <form class="mt-5 mx-5 px-5" action="/user/login" method="post">
+          <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
           <div class="my-4 form-group">
             <input type="text" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
           </div>

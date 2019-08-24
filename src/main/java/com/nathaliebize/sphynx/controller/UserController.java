@@ -36,18 +36,17 @@ public class UserController {
     /**
      * Handles login get request
      * @param model
-     * @param request
-     * @return the user/login template
+     * @return the login template
      */
     @GetMapping("/login")
-    public String showLoginPage(Model model, HttpServletRequest request) {
+    public String showLoginPage(Model model) {
         return SiteMap.USER_LOGIN.getPath();
     }
     
     /**
      * Handles register get request
      * @param model
-     * @return user/register template
+     * @return register template
      */
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
