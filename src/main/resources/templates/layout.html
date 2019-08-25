@@ -16,14 +16,12 @@
   <body>
     <header>
       <div class="container-fluid light">
-        <div class="container px-5">
-          <div class="d-flex px-5">
-            <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
-            <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-            <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
-            <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
-            <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
-          </div>
+        <div class="container-sphynx mx-auto d-flex">
+          <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
+          <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
+          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
+          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
+          <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
         </div>
       </div>
     </header>
@@ -32,8 +30,8 @@
     </section>
     <footer>
       <div class="container-fluid light">
-        <div class="container p-5">
-          <h1 class="px-5">Info</h1>
+        <div class="container-sphynx mx-auto">
+          <h1 class="m-3">Info</h1>
         </div>
       </div>
     </footer>

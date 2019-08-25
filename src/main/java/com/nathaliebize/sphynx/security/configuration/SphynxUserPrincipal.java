@@ -11,7 +11,7 @@ import com.nathaliebize.sphynx.model.AuthorizationGroup;
 import com.nathaliebize.sphynx.model.User;
 
 public class SphynxUserPrincipal implements UserDetails{
-    
+    private static final long serialVersionUID = 1L;
     private User user;
     private AuthorizationGroup authorizationGroup;
     

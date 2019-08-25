@@ -18,5 +18,14 @@ public class HomeController {
     public String showHomePage(Model model) {
         return "index";
     }
+    
+    /**
+     * Handles terms page get request
+     * @return template
+     */
+    @GetMapping("/terms")
+    public String showTermsPage(Model model) {
+        return "terms";
+    }
 
 }

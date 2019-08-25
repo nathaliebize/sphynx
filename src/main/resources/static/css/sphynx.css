@@ -24,6 +24,15 @@ body {
   width: 150px; 
 }
 
+.container-sphynx {
+  min-width: 600px;
+  max-width: 800px;
+}
+
+.container-fix-sphynx {
+	width: 600px;
+}
+
 .centered {
   text-align: center;
 }
@@ -38,11 +47,6 @@ body {
 
 .dark {
   background-color: #1d1d1d;
-}
-
-.detail {
-  font-size: 12px;
-  max-width: 600px;
 }
 
 .font-weight-light {
@@ -81,6 +85,7 @@ body {
 }
 
 .timeline {
+	min-width: 800px;
 	position: relative;
 }
 
