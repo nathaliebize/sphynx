@@ -1,16 +1,16 @@
 package com.nathaliebize.sphynx.model;
 
 import javax.validation.constraints.AssertTrue;
+
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 import com.nathaliebize.sphynx.security.constraint.PasswordField;
 
 /**
  * The RegisterUser class represents the user that register to the sphynx application.
- * 
- * @author Nathalie Bize
  *
  */
-
 @PasswordField(password = "password", passwordMatch = "confirmedPassword", min = 6, max = 124, notEmpty = true, messagePasswordMatch = "The password fields must match.", messageLength = "Password must be between 6 and 128 characters")
 public class RegisterUser {
     
@@ -54,5 +54,14 @@ public class RegisterUser {
 
     public void setAcceptedTerms(boolean acceptedTerms) {
         this.acceptedTerms = acceptedTerms;
+    }
+
+    /**
+     * Create an User from a RegisterUser.
+     * @return User
+     */
+    public User registerUserToUser() {
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+        return new User(this.email, encoder.encode(this.password));
     }
 }

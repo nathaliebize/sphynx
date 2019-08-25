@@ -9,9 +9,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.nathaliebize.sphynx.controller.SiteMap;
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 
+/**
+ * User represents one user of Sphynx app. It is linked to the table users in database.
+ *
+ */
 @Entity
 @Table(name = "users")
 public class User {
@@ -91,7 +94,7 @@ public class User {
     }
 
     /**
-     * Update registration key
+     * Generate registration key
      */
     public void generateRegistrationKey() {
         this.registrationKey = UUID.randomUUID().toString();

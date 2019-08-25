@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * Controller that handles terms page.
  *
- * @author Nathalie Bize
  *
  */
 public class TermsController {

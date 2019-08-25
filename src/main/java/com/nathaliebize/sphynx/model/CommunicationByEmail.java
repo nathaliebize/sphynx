@@ -2,6 +2,10 @@ package com.nathaliebize.sphynx.model;
 
 import com.nathaliebize.sphynx.controller.SiteMap;
 
+/**
+ * Class that handles communication by email with one user.
+ *
+ */
 public class CommunicationByEmail {
     final private User user;
     

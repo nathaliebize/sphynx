@@ -11,6 +11,10 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * Custom annotation for password field in forms.
+ *
+ */
 @Retention(RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 @Target({TYPE, ANNOTATION_TYPE})

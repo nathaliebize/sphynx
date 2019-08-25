@@ -4,7 +4,7 @@ import com.nathaliebize.sphynx.model.AuthorizationGroup;
 import com.nathaliebize.sphynx.model.CommunicationByEmail;
 import com.nathaliebize.sphynx.model.ResetPasswordUser;
 import com.nathaliebize.sphynx.model.RegisterUser;
-import com.nathaliebize.sphynx.model.ResetPasswordEmailUser;
+import com.nathaliebize.sphynx.model.ForgotPasswordUser;
 import com.nathaliebize.sphynx.model.User;
 import com.nathaliebize.sphynx.repository.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.repository.UserRepository;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller that handles all user's views
- * 
- * @author Nathalie Bize
  *
  */
 @Controller
@@ -67,13 +65,11 @@ public class UserController {
             return SiteMap.USER_REGISTER.getPath();
         }
         if (userRepository.findByEmail(registerUser.getEmail()) == null) {
-            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
-            User user = new User(registerUser.getEmail(), encoder.encode(registerUser.getPassword()));
+            User user = registerUser.registerUserToUser();
             userRepository.save(user);
             // TODO: send email with link
             CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
-            String link = communicationByEmail.sendConfirmationEmail();
-            model.addAttribute("link", link);
+            model.addAttribute("link", communicationByEmail.sendConfirmationEmail());
             return SiteMap.USER_VERIFY.getPath();
         } else {
             model.addAttribute("error", "email already used");
@@ -112,7 +108,7 @@ public class UserController {
      */
     @GetMapping("/forgot-password")
     public String showResetPasswordEmailPage(Model model) {
-        model.addAttribute("resetPasswordEmailUser", new ResetPasswordEmailUser());
+        model.addAttribute("resetPasswordEmailUser", new ForgotPasswordUser());
         return SiteMap.USER_FORGOT_PASSWORD.getPath();
     }
     
@@ -125,7 +121,7 @@ public class UserController {
      * @return template
      */
     @PostMapping("forgot-password")
-    public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ResetPasswordEmailUser resetPasswordEmailUser, BindingResult bindingResult, HttpServletRequest request) {
+    public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ForgotPasswordUser resetPasswordEmailUser, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_FORGOT_PASSWORD.getPath();
         }

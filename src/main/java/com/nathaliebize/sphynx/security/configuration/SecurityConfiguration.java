@@ -1,6 +1,7 @@
 package com.nathaliebize.sphynx.security.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,11 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.nathaliebize.sphynx.controller.SiteMap;
+
+/**
+ * The SecurityConfiguration sets the security configuration settings.
+ * 
+ */
 
 @Configuration
 @EnableWebSecurity

@@ -5,6 +5,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.BeanWrapperImpl;
 
+/**
+ * Custom constraint validator for password field in forms.
+ *
+ */
 public class PasswordValidator  implements ConstraintValidator<PasswordField, Object> {
     
     private String password;
