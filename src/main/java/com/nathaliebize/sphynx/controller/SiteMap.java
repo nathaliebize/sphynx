@@ -10,7 +10,7 @@ public enum SiteMap {
     SESSIONS("/sessions"),
     SITES("/sites"),
     TERMS("/terms"),
-    URL_BASE("http://localhost:8080/"),
+    URL_BASE("http://localhost:8080"),
     USER_FORGOT_PASSWORD("/user/forgot-password"),
     USER_LOGIN("/user/login"),
     USER_REGISTER("/user/register"),

@@ -174,7 +174,8 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_RESET_PASSWORD.getPath();
         }
-        userRepository.updatePassword(resetPasswordUser.getPassword(), resetPasswordUser.getRegistrationKey());
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
+        userRepository.updatePassword(encoder.encode(resetPasswordUser.getPassword()), resetPasswordUser.getRegistrationKey());
         request.getSession().setAttribute("userId", userRepository.findByRegistrationKey(resetPasswordUser.getRegistrationKey()).getId());
         return SiteMap.REDIRECT_SITES.getPath();
     }
