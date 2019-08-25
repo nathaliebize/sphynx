@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
   <head>
     <title>Home</title>
   </head>
@@ -19,8 +19,8 @@
             </div>
             <div class="d-flex justify-content-center ">
               <form>
-                <button formaction="/user/register" type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
-                <button formaction="/user/login" type="submit" class="btn btn-lg button-dark px-3 my-2 mx-3">Login</button>
+                <button th:formaction=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} type="submit" class="btn btn-lg button-blue px-3 my-2 mx-3">Register</button>
+                <button th:formaction=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} type="submit" class="btn btn-lg button-dark px-3 my-2 mx-3">Login</button>
               </form>
             </div>
           </div>

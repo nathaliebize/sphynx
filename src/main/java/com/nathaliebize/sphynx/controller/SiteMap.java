@@ -1,6 +1,8 @@
 package com.nathaliebize.sphynx.controller;
 
 public enum SiteMap {
+    HOME("/"),
+    LOGOUT("/logout"),
     REDIRECT_ERROR("redirect:/error"),
     REDIRECT_HOME("redirect:/"),
     REDIRECT_SITES("redirect:/sites"),
@@ -8,6 +10,7 @@ public enum SiteMap {
     SESSIONS("/sessions"),
     SITES("/sites"),
     TERMS("/terms"),
+    URL_BASE("http://localhost:8080/"),
     USER_FORGOT_PASSWORD("/user/forgot-password"),
     USER_LOGIN("/user/login"),
     USER_REGISTER("/user/register"),

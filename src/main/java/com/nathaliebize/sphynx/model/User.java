@@ -9,6 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.nathaliebize.sphynx.controller.SiteMap;
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 
 @Entity
@@ -90,27 +91,9 @@ public class User {
     }
 
     /**
-     * Sends an email to confirm the user's email address while registering
-     * @return link
-     */
-    public String sendConfirmationEmail() {
-        // TODO: Send email
-        return "http://sphynx.dev/user/verify?email=" + this.email + "&key=" + registrationKey;
-    }
-    
-    /**
      * Update registration key
      */
     public void generateRegistrationKey() {
         this.registrationKey = UUID.randomUUID().toString();
     }
-    
-    /**
-     * Sends an email to confirm the user's email address before reset password
-     * @return link
-     */
-    public String sendResetPasswordEmail() {
-        return "http://sphynx.dev/user/resetPassword?key=" + registrationKey;
-    }
-
 }

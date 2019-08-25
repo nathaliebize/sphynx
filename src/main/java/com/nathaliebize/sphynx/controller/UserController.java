@@ -1,6 +1,7 @@
 package com.nathaliebize.sphynx.controller;
 
 import com.nathaliebize.sphynx.model.AuthorizationGroup;
+import com.nathaliebize.sphynx.model.CommunicationByEmail;
 import com.nathaliebize.sphynx.model.ResetPasswordUser;
 import com.nathaliebize.sphynx.model.RegisterUser;
 import com.nathaliebize.sphynx.model.ResetPasswordEmailUser;
@@ -70,7 +71,8 @@ public class UserController {
             User user = new User(registerUser.getEmail(), encoder.encode(registerUser.getPassword()));
             userRepository.save(user);
             // TODO: send email with link
-            String link = user.sendConfirmationEmail();
+            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
+            String link = communicationByEmail.sendConfirmationEmail();
             model.addAttribute("link", link);
             return SiteMap.USER_VERIFY.getPath();
         } else {
@@ -134,7 +136,8 @@ public class UserController {
             user.generateRegistrationKey();
             userRepository.updateRegistrationKey(user.getRegistrationKey(), user.getEmail());
             // TODO: send email with link
-            String link = user.sendResetPasswordEmail();
+            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
+            String link = communicationByEmail.sendResetPasswordEmail();
             model.addAttribute("link", link);
             return SiteMap.USER_VERIFY.getPath();
         }
