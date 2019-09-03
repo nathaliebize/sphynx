@@ -96,7 +96,7 @@ public class User {
     /**
      * Generate registration key
      */
-    public void generateRegistrationKey() {
-        this.registrationKey = UUID.randomUUID().toString();
+    public String generateRegistrationKey() {
+        return this.registrationKey = UUID.randomUUID().toString();
     }
 }

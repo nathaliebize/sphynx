@@ -16,7 +16,7 @@ public class HomeController {
      */
     @GetMapping(value={"/", "/index"})
     public String showHomePage(Model model) {
-        return "index";
+        return SiteMap.HOME.getPath();
     }
     
     /**
@@ -25,7 +25,7 @@ public class HomeController {
      */
     @GetMapping("/terms")
     public String showTermsPage(Model model) {
-        return "terms";
+        return SiteMap.TERMS.getPath();
     }
 
 }

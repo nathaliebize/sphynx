@@ -1,24 +1,21 @@
-package com.nathaliebize.sphynx.security.configuration;
+package com.nathaliebize.sphynx.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.nathaliebize.sphynx.model.AuthorizationGroup;
+import com.nathaliebize.sphynx.configuration.SphynxUserPrincipal;
 import com.nathaliebize.sphynx.model.User;
-import com.nathaliebize.sphynx.repository.AuthorizationGroupRepository;
 import com.nathaliebize.sphynx.repository.UserRepository;
 
 @Service
-public class SphynxUserDetailsService implements UserDetailsService{
+public class SphynxUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final AuthorizationGroupRepository authorizationGroupRepository;
     
-    public SphynxUserDetailsService(UserRepository userRepository, AuthorizationGroupRepository authorizationGroupRepository) {
+    public SphynxUserDetailsService(UserRepository userRepository) {
         super();
         this.userRepository = userRepository;
-        this.authorizationGroupRepository = authorizationGroupRepository;
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -26,8 +23,7 @@ public class SphynxUserDetailsService implements UserDetailsService{
         if (user == null) {
             throw new UsernameNotFoundException("cannot find user: " + email);
         }
-        AuthorizationGroup authorizationGroup = this.authorizationGroupRepository.findByEmail(email);
-        return new SphynxUserPrincipal(user, authorizationGroup);
+        return new SphynxUserPrincipal(user);
     }
 
 }

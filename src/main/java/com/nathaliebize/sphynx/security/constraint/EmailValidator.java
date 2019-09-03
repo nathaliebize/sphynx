@@ -10,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 public class EmailValidator implements ConstraintValidator<EmailField, String> {
     
     private boolean notEmpty;
-    private Integer max;
+    private int max;
     private String regex;
     private String messageNotEmpty;
     private String messageRegex;
@@ -33,7 +33,7 @@ public class EmailValidator implements ConstraintValidator<EmailField, String> {
             context.buildConstraintViolationWithTemplate(messageNotEmpty).addConstraintViolation();
             return false;
         }
-        if (max < Integer.MAX_VALUE && value.length() > max) {
+        if (value.length() > max) {
             context.buildConstraintViolationWithTemplate(messageMax).addConstraintViolation();
             return false;
         }

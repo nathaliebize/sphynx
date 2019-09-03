@@ -1,4 +1,4 @@
-package com.nathaliebize.sphynx.security.configuration;
+package com.nathaliebize.sphynx.configuration;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,26 +7,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.nathaliebize.sphynx.model.AuthorizationGroup;
 import com.nathaliebize.sphynx.model.User;
 
 public class SphynxUserPrincipal implements UserDetails{
     private static final long serialVersionUID = 1L;
     private User user;
-    private AuthorizationGroup authorizationGroup;
     
-    public SphynxUserPrincipal(User user, AuthorizationGroup authorizationGroup) {
+    public SphynxUserPrincipal(User user) {
         super();
         this.user = user;
-        this.authorizationGroup = authorizationGroup;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (authorizationGroup == null) {
-            return Collections.emptySet();
-        }
-        return Collections.singleton(new SimpleGrantedAuthority(authorizationGroup.getAuthorizationGroup()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.nathaliebize.sphynx.security.configuration;
+package com.nathaliebize.sphynx.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,9 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import com.nathaliebize.sphynx.controller.SiteMap;
+import com.nathaliebize.sphynx.service.SphynxUserDetailsService;
 
 /**
  * The SecurityConfiguration sets the security configuration settings.
@@ -33,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(new Pbkdf2PasswordEncoder());
+        provider.setPasswordEncoder(new Pbkdf2PasswordEncoder("JDfidlqmepzRE34fdjsklWWrIfj"));
         provider.setAuthoritiesMapper(authoritiesMapper());
         return provider;
     }
@@ -55,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/", "/index", "/css/*", "/terms", "/user/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/", "/index", "/css/*", "/terms", "/user/*", "/error").permitAll()
             .antMatchers(HttpMethod.POST, "/user/*").permitAll()
             .anyRequest().authenticated()
             .and()

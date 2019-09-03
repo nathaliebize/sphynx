@@ -1,4 +1,4 @@
-package com.nathaliebize.sphynx.model;
+package com.nathaliebize.sphynx.model.view;
 
 import com.nathaliebize.sphynx.security.constraint.PasswordField;
 
@@ -7,7 +7,7 @@ import com.nathaliebize.sphynx.security.constraint.PasswordField;
  *
  */
 @PasswordField(password = "password", passwordMatch = "confirmedPassword", min = 6, max = 124, notEmpty = true, messagePasswordMatch = "The password fields must match.", messageLength = "Password must be between 6 and 128 characters")
-public class ResetPasswordUser {
+public class ResetPasswordUser {    
     private String registrationKey;
     
     private String password;
@@ -19,7 +19,7 @@ public class ResetPasswordUser {
     public ResetPasswordUser(String registrationKey) {
         this.registrationKey = registrationKey;
     }
-    
+
     public void setRegistrationKey(String registrationKey) {
         this.registrationKey = registrationKey;
     }

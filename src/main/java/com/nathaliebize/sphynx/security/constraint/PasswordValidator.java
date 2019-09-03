@@ -14,8 +14,8 @@ public class PasswordValidator  implements ConstraintValidator<PasswordField, Ob
     private String password;
     private String passwordMatch;
     private boolean notEmpty;
-    private Integer min;
-    private Integer max;
+    private int min;
+    private int max;
     private String messageNotBlank;
     private String messagePasswordMatch;
     private String messageLength;
@@ -34,12 +34,9 @@ public class PasswordValidator  implements ConstraintValidator<PasswordField, Ob
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        String passwordValue = (String) new BeanWrapperImpl(value)
-                .getPropertyValue(password);
-        String passwordMatchValue = (String) new BeanWrapperImpl(value)
-                .getPropertyValue(passwordMatch);
-        context.disableDefaultConstraintViolation();
-        
+        String passwordValue = (String) new BeanWrapperImpl(value).getPropertyValue(password);
+        String passwordMatchValue = (String) new BeanWrapperImpl(value).getPropertyValue(passwordMatch);
+        context.disableDefaultConstraintViolation();  
         
         if (notEmpty && passwordValue.isEmpty()) {
             context.buildConstraintViolationWithTemplate(messageNotBlank)

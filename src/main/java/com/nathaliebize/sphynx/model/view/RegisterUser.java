@@ -1,8 +1,6 @@
-package com.nathaliebize.sphynx.model;
+package com.nathaliebize.sphynx.model.view;
 
 import javax.validation.constraints.AssertTrue;
-
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 import com.nathaliebize.sphynx.security.constraint.PasswordField;
@@ -54,14 +52,5 @@ public class RegisterUser {
 
     public void setAcceptedTerms(boolean acceptedTerms) {
         this.acceptedTerms = acceptedTerms;
-    }
-
-    /**
-     * Create an User from a RegisterUser.
-     * @return User
-     */
-    public User registerUserToUser() {
-        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder();
-        return new User(this.email, encoder.encode(this.password));
     }
 }

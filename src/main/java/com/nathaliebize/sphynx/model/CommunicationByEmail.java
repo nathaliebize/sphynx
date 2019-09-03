@@ -13,6 +13,10 @@ public class CommunicationByEmail {
         this.user = user;
     }
     
+    public User getUser() {
+        return user;
+    }
+    
     /**
      * Sends an email to confirm the user's email address while registering
      * @return link
@@ -28,7 +32,7 @@ public class CommunicationByEmail {
      */
     public String sendResetPasswordEmail() {
         // TODO: Send email
-        return SiteMap.URL_BASE.getPath() + SiteMap.USER_RESET_PASSWORD.getPath() + "?key=" + this.user.getRegistrationKey();
+        return SiteMap.URL_BASE.getPath() + SiteMap.USER_RESET_PASSWORD.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
     }
 
 }

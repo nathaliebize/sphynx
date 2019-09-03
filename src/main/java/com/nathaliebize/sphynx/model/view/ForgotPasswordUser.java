@@ -1,4 +1,4 @@
-package com.nathaliebize.sphynx.model;
+package com.nathaliebize.sphynx.model.view;
 
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 

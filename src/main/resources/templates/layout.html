@@ -5,13 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet"
-      href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-      integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-      crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/sphynx.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).CSS_SPHYNX.getPath()}>
   </head>
   <body>
     <header>
@@ -19,8 +14,8 @@
         <div class="container-sphynx mx-auto d-flex">
           <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
           <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
-          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
           <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
+          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
           <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
         </div>
       </div>
