@@ -1,23 +1,31 @@
 package com.nathaliebize.sphynx.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Controller that handles home page
- *
- * @author Nathalie Bize
+ * Controller that handles home page.
  *
  */
 @Controller
 public class HomeController {
+    /**
+     * Handles home page get request
+     * @return index template
+     */
+    @GetMapping(value={"/", "/index"})
+    public String showHomePage(Model model) {
+        return SiteMap.INDEX.getPath();
+    }
     
     /**
-     * Home page get request handler
-     * @return the index template
+     * Handles terms page get request
+     * @return template
      */
-    @GetMapping("/")
-    public String showHomePage() {
-        return "index";
+    @GetMapping("/terms")
+    public String showTermsPage(Model model) {
+        return SiteMap.TERMS.getPath();
     }
+
 }

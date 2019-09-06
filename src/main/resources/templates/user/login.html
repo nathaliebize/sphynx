@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Sign into your account</title>
+</head>
+<body>
+  <section layout:fragment="content">
+    <div class="container-fluid light">
+      <div class="container-sphynx mx-auto py-5">
+        <div class="container-fix-sphynx p-5">
+          <h1 class="display-2 font-weight-bold m-5 px-5">Login</h1>
+          <form class="form-group mx-5 px-5" th:action=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} method="post">
+            <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
+            <input type="text" name="email" class="my-3 form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
+            <input type="password" name="password" class="my-3 form-control" id="inputPassword" placeholder="Password">
+            <div class="pb-4 form-group right-aligned">
+              <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_FORGOT_PASSWORD.getPath()}>Forgot password?</a>
+            </div>
+            <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
+            <div class="my-4 centered form-group">
+              Don't have an account? <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()}>Register here</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

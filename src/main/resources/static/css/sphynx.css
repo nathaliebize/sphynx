@@ -24,6 +24,15 @@ body {
   width: 150px; 
 }
 
+.container-sphynx {
+  min-width: 600px;
+  max-width: 800px;
+}
+
+.container-fix-sphynx {
+	width: 600px;
+}
+
 .centered {
   text-align: center;
 }
@@ -32,13 +41,12 @@ body {
 	color: #ffffff;
 }
 
-.dark {
-  background-color: #1d1d1d;
+.custom-file-control:focus, .form-control:focus {
+  color: #ffffff;
 }
 
-.detail {
-  font-size: 12px;
-  max-width: 600px;
+.dark {
+  background-color: #1d1d1d;
 }
 
 .font-weight-light {
@@ -57,8 +65,11 @@ body {
 	border-bottom: 1px solid white;	
 }
 
-.hide {
-	visibility: hidden;
+.form-control::-webkit-input-placeholder,
+.form-control:-moz-placeholder,
+.form-control::-moz-placeholder,
+.form-control:-ms-input-placeholder {
+  color: #b9b9b9;
 }
 
 .light {
@@ -74,16 +85,19 @@ body {
 }
 
 .timeline {
+	min-width: 800px;
 	position: relative;
 }
 
 .timeline-node:nth-child(even) {
   flex-direction: row-reverse;
 }
+
 .timeline-node:nth-child(odd) h3,
 .timeline-node:nth-child(odd) p {
   text-align: right;
 }
+
 .timeline-node:nth-child(odd) .timeline-date h3 {
   text-align: left;
 }

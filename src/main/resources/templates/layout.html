@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Sphynx</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).CSS_SPHYNX.getPath()}>
+  </head>
+  <body>
+    <header>
+      <div class="container-fluid light">
+        <div class="container-sphynx mx-auto d-flex">
+          <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
+          <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
+          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
+          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
+          <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
+        </div>
+      </div>
+    </header>
+    <section layout:fragment="content">
+      <p>Page content</p>
+    </section>
+    <footer>
+      <div class="container-fluid light">
+        <div class="container-sphynx mx-auto">
+          <h1 class="m-3">Info</h1>
+        </div>
+      </div>
+    </footer>
+    <div layout:fragment="script"></div>
+  </body>
+</html>

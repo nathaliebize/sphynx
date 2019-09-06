@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Terms and conditions</title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid light">
+        <div class="container-sphynx mx-auto py-5 text-center">
+          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">
+            With Sphynx, understand how your users interact with your website.
+          </h1>
+          <h4 class="font-weight-light">
+
+MIT License <br><br>
+
+Copyright (c) 2019 Nathalie Bize <br><br>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions: <br><br>
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software. <br><br>
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. <br><br>
+          </h4>
+          <form>
+            <button th:formaction=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} type="submit" class="btn btn-lg button-blue p-3 m-3">Register</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

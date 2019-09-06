@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Verify</title>
+</head>
+<body>
+  <section layout:fragment="content">
+    <div class="container-fluid light">
+      <div class="container-sphynx mx-auto py-5">
+        <div class="container-fix-sphynx p-5">
+          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Verification needed</h1>
+          <h6>Please check your emails and follow the link.</h6>
+          <span th:text=${link}> </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
