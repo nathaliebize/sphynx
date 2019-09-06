@@ -3,6 +3,7 @@ package com.nathaliebize.sphynx.controller;
 public enum SiteMap {
     CSS_SPHYNX("/css/sphynx.css"),
     HOME("/"),
+    INDEX("index"),
     LOGOUT("/logout"),
     REDIRECT_ERROR("redirect:/error"),
     REDIRECT_HOME("redirect:/"),

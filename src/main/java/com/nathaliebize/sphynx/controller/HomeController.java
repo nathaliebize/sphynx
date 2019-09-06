@@ -16,7 +16,7 @@ public class HomeController {
      */
     @GetMapping(value={"/", "/index"})
     public String showHomePage(Model model) {
-        return SiteMap.HOME.getPath();
+        return SiteMap.INDEX.getPath();
     }
     
     /**
