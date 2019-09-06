@@ -8,7 +8,7 @@
       <div class="container-fluid light">
         <div class="container-sphynx mx-auto py-5">
           <h1 class="display-2 text-center font-weight-bold p-5 mx-5">
-            With Sphynx, understand how your users interact with your website.
+              With Sphynx, understand how your users interact with your website.
           </h1>
           <h4 class="text-center font-weight-light p-3 mx-5">
               Be aware of the users' behavior
@@ -174,7 +174,7 @@
               exercitation ullamco laboris nisi ut aliquip ex commodo consequat
               Duis aute irure dolor in reprehenderit in voluptate velit esse
               cillum dolore eu fugiat nulla pariatur.</h6>
-            <button type="button" class="btn button-blue my-4">Download</button>
+            <button type="button" class="btn button-blue my-4" value="Download">Download</button>
           </div>
         </div>
       </div>
@@ -195,5 +195,8 @@
         </div>
       </div>
     </section>
+    <div layout:fragment="script">
+      <script type="text/javascript" th:src="@{/js/sphynx.js}"></script>
+    </div>
   </body>
 </html>
