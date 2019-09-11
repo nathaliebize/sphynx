@@ -111,6 +111,7 @@ public class UserController {
      */
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {
+        // verifier status avant!
         model.addAttribute("forgotPasswordUser", new ForgotPasswordUser());
         return SiteMap.USER_FORGOT_PASSWORD.getPath();
     }

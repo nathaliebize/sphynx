@@ -57,15 +57,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/", "/index", "/css/*", "/terms", "/user/*", "/error", "/js/*").permitAll()
-            .antMatchers(HttpMethod.POST, "/user/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/", "/index", "/css/*", "/terms", "/user/*", "/error", "/js/*", "/img/*").permitAll()
+            .antMatchers(HttpMethod.POST, "/user/*", "/save-event", "/save-session").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
             .loginPage(SiteMap.USER_LOGIN.getPath()).permitAll()
             .usernameParameter("email")
             .passwordParameter("password")
-            .defaultSuccessUrl("/sites", true)
+            .defaultSuccessUrl("/sites/", true)
             .and()
             .logout().invalidateHttpSession(true)
             .clearAuthentication(true)

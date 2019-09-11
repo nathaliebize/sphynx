@@ -13,9 +13,10 @@
       <div class="container-fluid light">
         <div class="container-sphynx mx-auto d-flex">
           <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
-          <a href="https://github.com/nathaliebize/sphynx" class="m-3">Github repo</a>
+          <a href="https://github.com/nathaliebize/sphynx" target="_blank" class="m-3">Github repo</a>
           <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
           <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
+          <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()} class="m-3">Sites</a>
           <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
         </div>
       </div>

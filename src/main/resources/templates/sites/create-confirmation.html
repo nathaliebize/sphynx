@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Confirmation</title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid light">
+        <div class="container-sphynx mx-auto py-5 text-center">
+          <h1 class="display-2 font-weight-bold m-5 px-5">
+            Confirmation
+          </h1>
+          <h6>You have successfully add a new site. Here the code to add to your html file.</h6>
+          <a th:href="${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()}" class="btn button-blue">Return to list</a>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
