@@ -6,37 +6,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-/**
- * Site represents one site powered by sphynx app.
- * It is linked to the sites table in the database.
- */
 @Entity
-@Table(name = "sites")
-public class Site {
-    
+@Table(name = "sites_view")
+public class SiteView {
     @Id
-    @GeneratedValue(generator = "sites_generator")
+    @GeneratedValue(generator = "sites_view_generator")
     @SequenceGenerator(
-            name = "sites_generator",
-            sequenceName = "sites_sequence",
+            name = "sites_view_generator",
+            sequenceName = "sites_view_sequence",
             initialValue = 1000
     )
     private Long id;
     
-    @NotNull
     private String url;
     
-    @NotNull
     private String description;
     
-    @NotNull
     @Column(name = "user_id")
     private Long userId;
     
-    private int size = 0;
-
+    @Column(name = "site_id")
+    private Long siteId;
+    
+    @Column(name = "session_list_size")
+    private int sessionListSize;
+    
     public Long getId() {
         return id;
     }
@@ -64,13 +59,26 @@ public class Site {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
-    public int getSize() {
-        return size;
+    
+    public int getSessionListSize() {
+//        int size = -1;
+//        ArrayList<Session> sessionList = siteService.getSessionList(this.site.getUserId(), this.site.getId());
+//        if (sessionList != null) {
+//            size = sessionList.size();
+//        }
+        return sessionListSize;
+    }
+    
+    public void setSessionListSize(int sessionListSize) {
+        this.sessionListSize = sessionListSize;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public Long getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(Long siteId) {
+        this.siteId = siteId;
     }
     
 }

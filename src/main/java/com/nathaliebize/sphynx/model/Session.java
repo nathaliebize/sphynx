@@ -1,5 +1,7 @@
 package com.nathaliebize.sphynx.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +33,9 @@ public class Session {
     @NotNull
     @Column(name = "user_id")
     private Long userId;
+    
+    @Column(name = "start_time")
+    private Date startTime;
     
     @Column(name = "session_status")
     private String status = "STARTED";
@@ -77,6 +82,16 @@ public class Session {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
 }

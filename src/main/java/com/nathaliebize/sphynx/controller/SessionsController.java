@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nathaliebize.sphynx.model.Event;
-import com.nathaliebize.sphynx.model.ViewEvent;
 import com.nathaliebize.sphynx.service.SiteService;
 
 /**
  * Controller that handles sessions pages.
- *
  */
 @Controller
 @RequestMapping("/sessions")
@@ -25,14 +23,14 @@ public class SessionsController {
     SiteService siteService;
     
     /**
-     * Handles sessions main page get request
-     * @return the main sessions template
+     * Displays the timeline for one particular session.
+     * @return the timeline template
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public String showSessionTimelinePage(Principal principal, Model model, @PathVariable final Long id) {
-        ArrayList<ViewEvent> viewEventList = siteService.getViewEventList(principal.getName(), id);
-        model.addAttribute("events", viewEventList);
+        ArrayList<Event> eventList = siteService.getEventList(principal.getName(), id);
+        model.addAttribute("events", eventList);
         return SiteMap.SESSIONS_TIMELINE.getPath();
     }
     

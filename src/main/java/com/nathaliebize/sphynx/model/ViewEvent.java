@@ -37,9 +37,7 @@ public class ViewEvent {
     private String path;
     
     private Date timeStop;
-    
-    private Long duration;
-    
+        
     public ViewEvent() {}
     
     public ViewEvent(Event event) {

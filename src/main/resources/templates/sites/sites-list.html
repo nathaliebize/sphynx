@@ -24,9 +24,10 @@
             <tbody>
               <tr th:each="site : ${sites}">
                 <td><span th:text="${site.getUrl()}">name</span></td>
+                <!-- <td><span th:text="{site.getSessionListSize()}"></span> -->
                 <td><span th:text="${site.getDescription()}">description</span></td>
                 <td><a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES_CREATE_CONFIRMATION.getPath()} class="btn">Code snippet</a>
-                <td># of session</td>
+                <td><span th:text="${site.getSize()}"># of session</span></td>
                 <td><a th:href="'/sites/' + ${site.getId()} +'/delete'" class="btn">Remove</a>
                 <td><a th:href="'/sites/' + ${site.getId()}" class="btn button-dark">Data</a>
               </tr>

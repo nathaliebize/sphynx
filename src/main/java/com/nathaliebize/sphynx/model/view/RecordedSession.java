@@ -1,5 +1,7 @@
 package com.nathaliebize.sphynx.model.view;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 public class RecordedSession {
@@ -11,6 +13,8 @@ public class RecordedSession {
     
     @NotNull
     private Long userId;
+    
+    private Date startTime;
 
     public Long getSessionId() {
         return sessionId;
@@ -36,4 +40,11 @@ public class RecordedSession {
         this.userId = userId;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 }

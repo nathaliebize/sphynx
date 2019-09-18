@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class SphynxApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SphynxApplication.class, args);
+	    SpringApplication.run(SphynxApplication.class, args);
 	}
 
 }

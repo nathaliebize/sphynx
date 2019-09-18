@@ -10,7 +10,7 @@ import com.nathaliebize.sphynx.model.ViewEvent;
 
 @Repository
 public interface ViewEventRepository extends JpaRepository<ViewEvent, Long>{
-    @Query("select v from ViewEvent v where v.userId = ?1 and v.sessionId = ?2")
+    @Query("select v from ViewEvent v where v.userId = ?1 and v.sessionId = ?2 order by v.timeStart asc")
     ArrayList<ViewEvent> getViewEventList(Long userId, Long sessionId);
 
 }

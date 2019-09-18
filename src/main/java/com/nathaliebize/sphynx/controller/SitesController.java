@@ -31,8 +31,11 @@ public class SitesController {
     private SiteService siteService;
     
     /**
-     * Handles sites main page get request
-     * @return the main sites template
+     * Displays the main page for logged users. It includes the user's list of the sites
+     * or the form to registered a new site if any exist yet.
+     * @param principal, the logged in user
+     * @param model
+     * @return the list of sites template or the create site form template
      */
     @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -46,15 +49,28 @@ public class SitesController {
         return SiteMap.SITES_INDEX.getPath();
     }
     
+    /**
+     * Displays the list of sessions for one particular user's site.
+     * @param principal, the logged in user
+     * @param model
+     * @param path variable id, the site id
+     * @return the sessions list template.
+     */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showSiteDetailsPage(Principal principal, Model model, @PathVariable final Long id) {
         ArrayList<Session> sessionList = siteService.getSessionList(principal.getName(), id);
+        Site site = siteService.findBySiteId(id);
+        model.addAttribute("site", site);
         model.addAttribute("sessionList", sessionList);
         return SiteMap.SESSIONS.getPath();
     }
     
-    
+    /**
+     * Displays the form to register a new site.
+     * @param model
+     * @return the create site form template.
+     */
     @GetMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showCreatePage(Model model) {
@@ -62,12 +78,13 @@ public class SitesController {
         return SiteMap.SITES_CREATE.getPath();
     }
     
-    @GetMapping("/create-confirmation")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String showCreateConfirmationPage(Model model) {
-        return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
-    }
-    
+    /**
+     * Handles the post request to register a new site.
+     * @param principal, the logged in user
+     * @param model
+     * @param created site, information about the new site to register
+     * @return the create confirmation template.
+     */
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String createPage(Principal principal, Model model, @Valid @ModelAttribute CreatedSite createdSite, BindingResult bindingResult) {
@@ -78,10 +95,24 @@ public class SitesController {
         return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
     }
     
+    /**
+     * Displays the confirmation page with a code snippet to insert 
+     * into the new sphynx-powered site.
+     * @return the create confirmation template.
+     */
+    @GetMapping("/create-confirmation")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String showCreateConfirmationPage() {
+        return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
+    }
+    
+    /**
+     * Displays the confirmation page to delete a registered site.
+     * @return the delete site template.
+     */
     @GetMapping("/{id}/delete")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showDeletePage() {
         return SiteMap.SITES_DELETE.getPath();
     }
-    
 }

@@ -25,10 +25,12 @@ function sphynx() {
 		let sessionId = Math.floor(Math.random() * 1000000000);
 		document.cookie = "sessionIdSphynx=" + sessionId + ";max-age=" + COOKIE_EXPIRATION_LENGTH;
 		console.log("new session - sessionId = " + sessionId);
+		let startTime = new Date();
 		sendSession({
 			"sessionId": sessionId,
 			"siteId": siteId,
-			"userId": userId
+			"userId": userId,
+			"startTime": startTime
 		});
 		return sessionId;
 	}
@@ -111,14 +113,19 @@ function sphynx() {
 	});
 	  
 	let activeTimer = setTimeout(checkActivity, 30000);
-	  
+	
+	let isInactive = false;
 	function checkActivity() {
 		let now = new Date();
 	    if ((now - dateLastEvent) > 60000) {
-	    	printInactiveEvent();
-	    	isScrolling = false;
+	    	if (isInactive == false) {
+	    		printInactiveEvent();
+	    	}
+	    	if ((now - dateLastEvent) > 
+      		isInactive = true;
+    		isScrolling = false;
 	    	activeTimer = setTimeout(checkActivity, 60000);
-	    } else {
+	    } else if (isInactive == false) {
 	    	activeTimer = setTimeout(checkActivity, 30000);
 	    }
 	}
@@ -134,6 +141,19 @@ function sphynx() {
 			"userId": userId,
 			"path": path,
 			"target": percentageView
+		});
+	}
+	
+	let pingTimer = setTimeout(ping, 12000);
+	
+	function ping () {
+		let date = new Date;
+		sendEvent( {
+			"type":"ACTIVE",
+			"timestamp":date,
+			"sessionId":sessionId,
+			"siteId": siteId,
+			"userId": userId
 		});
 	}
 
@@ -194,8 +214,13 @@ function sphynx() {
 				"path": path
 			});
 		}
-	});	
+	});		
+	
 }
+
+
+
+
 
 /*
  * 
