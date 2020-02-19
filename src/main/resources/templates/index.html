@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <title>Home</title>
+    <script type="text/javascript">
+      (function() {
+        let script = document.createElement("script");
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = function(){
+          script.onload = null;
+          myScript("3001", "2151");
+        };
+        //TODO: allow access to get requests when all will be in the online server.
+        <!-- The script is on the server but everything else is on localhost. 
+        script.src = "https://www.sphynx.dev/generalScript";
+        document.getElementsByTagName("head")[0].appendChild(script);
+      }());
+    </script>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid light">
+        <div class="mt-5 py-5 row justify-content-center">
+          <div class="col-lg-6 col-md-8">
+            <h1 class="display-2 text-center font-weight-bold">
+              With Sphynx, understand how your users interact with your website.
+            </h1>
+            <h4 class="text-center font-weight-light p-4 mx-5">
+              View your websites through your users' eyes.
+            </h4>
+            <div class="d-flex justify-content-center">
+              <form class="d-flex justify-content-center">
+                <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()} class="btn btn-lg button-dark px-3 my-2 mx-3">Login</a>
+                <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()} class="btn btn-lg button-blue px-3 my-2 mx-3">Register</a>
+                <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="btn btn-lg button-blue px-3 my-2 mx-3">Sites</a>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <img id="ipad" alt="ipad sphynx" class="img-fluid" src="/img/ipadView.png">
+        </div>
+      </div>
+      <div class="container-fluid dark">
+        <div class="row justify-content-center">
+          <div class="col-10">
+            <div class="py-5 row">
+              <div class="col-12 col-md-6 m-0 p-0 row">      
+                <div class="col-6 mr-md-auto">
+                  <div class="m-md-3">
+                    <img alt="secure" class="img-fluid" src="/img/lockPic2.png">
+                  </div>
+                  <h5 class="font-weight-bold m-md-3 py-4">Live</h5>
+                  <div class="font-weight-light m-md-3 pb-4">Results shown instantaneously.</div>
+                </div>
+                <div class="col-6 mr-md-auto">
+                  <div class="m-md-3">
+                    <img th:alt="'easy'" class="img-fluid" src="/img/setUpPic.png">
+                  </div>
+                  <h5 class="font-weight-bold m-md-3 py-4">Easy to set up</h5>
+                  <div class="font-weight-light m-md-3 pb-4">Simple snippet inserted in HTML.</div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 m-0 p-0 row">
+                <div class="col-6 mr-md-auto">
+                  <div class="m-md-3">
+                    <img th:alt="'organized'" class="img-fluid" src="/img/organizedPic.png">
+                  </div>
+                  <h5 class="font-weight-bold m-md-3 py-4">Structured</h5>
+                  <div class="font-weight-light m-md-3 pb-4">Logical flow charts.</div>
+                </div>
+                <div class="col-6 mr-md-auto">
+                  <div class="m-md-3">
+                    <img th:alt="'free'" class="img-fluid" src="/img/freePic.png">
+                  </div>
+                  <h5 class="font-weight-bold m-md-3 py-4">Free</h5>
+                  <div class="font-weight-light m-md-3 pb-4">Data stored 30 days for free.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid light">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="container-fluid mx-auto py-5 row">
+              <div class="col-sm-6">
+                <img alt="users of sphynx" class="img-fluid p-md-3 py-3" src="/img/users.png">
+              </div>
+              <div class="col-sm-6">
+                <h4 class="text-color-blue font-weight-bold p-md-3 py-3">SYNOPSIS</h4>
+                <h1 class="font-weight-bold p-md-3 py-3">Grasps your user's experience!</h1>
+                <h5 class="font-weight-light p-md-3 py-3">You invested time and money building a website, 
+                  polishing its design to make it intuitive for your customers. Yet, you still wonder
+                  if it has the impact that you desired. Sphynx allows you to understand how each user
+                  who lands on your website navigate through its contents.<br>
+                  Standard analytic tools focus on statistics and locations while Sphynx focuses on collecting
+                  quality and detailed session data. The tool is simple and free to use, I hope that it
+                  helps you fine-tune your websites so that they resonate with your users.
+                </h5>
+                <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).TERMS.getPath()} class="btn button-blue p-md-3 py-3 mx-md-3">Terms of use</a>
+              </div>
+            </div>
+            <div class="container-fluid mx-auto py-5 row">
+              <div class="col-sm-6">
+                <h4 class="text-color-blue font-weight-bold p-md-3 py-3">MOTIVE</h4>
+                <h1 class="font-weight-bold p-md-3 py-3">Why build sphynx?</h1>
+                <h5 class="font-weight-light p-md-3 py-3"> 
+                  I created Sphynx to further my knowledge in writing a multi-tiered projet from scratch. 
+                  I wanted to build a web application complex enough to involve technical areas such as 
+                  security management, data collection and storage. I kept the requirements simple enough  
+                  so that it could be built with realistic ressources in term of time, space 
+                  and financial investment. I felt that it would be a good experience to prepare myself for a
+                  career as software engineer.<br>
+                  This is an open source project. It is meant to be transparent and accessible to all. 
+                  The front-end is written in plain HTML and CSS, using Bootstrap to create a modern and
+                  responsive design. The HTML is rendered through Thymeleaf templates. 
+                  A Java Spring boot application captures the REST requests on the back-end side. It processes and persists 
+                  the data into a Postgres database using Hibernate as its ORM.
+                  You can find more details in the information section and access the entire project in Github. 
+                </h5>
+                <div class="d-flex justify-content-center p-md-3 py-3">
+                  <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).INFO.getPath()} class="btn button-dark p-md-3 py-3 mr-3">Tech Info</a>
+                  <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).GITHUB.getPath()} class="btn button-blue p-md-3 py-3 ml-3">Github Repo</a>  
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <img th:alt="'open source'" class="img-fluid p-md-3 py-3" src="/img/analytics.png">
+              </div>
+            </div>
+            <div class="container-fluid mx-auto py-5">
+              <h1 class="text-center p-3">What did I learn along the way?</h1>
+              <h5 class="p-3">I learned the importance of writing clean and readable code.
+              As I often had to go back to read the code I had written in the past, it became
+              clear that investing in proper naming, small testable methods, and packaged
+              structure made a huge difference in my ability to maintain the project.  
+              </h5>
+            </div>
+            <div class="container-fluid mx-auto py-5 row">
+              <div class="col-sm">
+                <img th:alt="'logo'" class="img-fluid m-3" src="/img/javaFileIcon.png">
+                <h5 class="font-weight-light m-3">I started my project with lots of spaggethi code.
+                Over time, I learned that having a clear separation of concerns amongst my classes and
+                application layers made things a lot easier to organize. I have several layers who
+                have very specific responsibilities. 
+                </h5>
+              </div>
+              <div class="col-sm">
+                <img th:alt="'logo'" class="img-fluid m-3" src="/img/testFileIcon.png">
+                <h5 class="font-weight-light m-3">I learned to love unit tests. They helped me
+                catch regressions for free as I was writing code. I wish I would have started writting
+                tests earlier, it's much harder to play catch-up after a lot of code has been written.
+                </h5>
+              </div>
+              <div class="col-sm">
+                <img th:alt="'logo'" class="img-fluid m-3" src="/img/warFileIcon.png">
+                <h5 class="font-weight-light m-3">I loved gaining an understanding of how everything
+                was tied together, from the requests flow to the server code, database storage and
+                presentation layer. I loved setting up my own server on a DigitalOcean droplet,
+                configuring certificates and proxy servers to make everything work as I wanted.
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid dark">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <h1 class="my-3 my-md-5 p-3 text-center">Tech stack</h1>
+            <div class="row py-3 py-md-5">
+                <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/javaIcon.png">
+                <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/springIcon.png">
+                <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/tomcatIcon.png">
+                <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/postgreSQLIcon.png">
+            </div>
+            <div class="row py-3 py-md-5">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/javaScriptIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/CSSIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/htmlIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/boostrapIcon.png">
+            </div>
+            <div class="row py-3 py-md-5">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/thymeleafIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/nginxIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/hibernateIcon.png">
+              <img th:alt="icon" class="col-3 px-md-5 p-auto img-fluid" src="/img/mavenIcon.png">
+            </div>
+          </div>
+       </div>
+      </div>
+    </section>
+  </body>
+</html>

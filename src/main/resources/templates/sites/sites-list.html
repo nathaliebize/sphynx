@@ -5,35 +5,50 @@
   </head>
   <body>
     <section layout:fragment="content">
-      <div class="container-fluid light">
-        <div class="container-sphynx mx-auto py-5 text-center">
-          <h1 class="display-2 font-weight-bold m-5 px-5">
-            Sites
+      <div class="container-fluid light row justify-content-center">
+        <div class="col-md-10 text-center">
+          <h1 class="display-2 my-5 font-weight-bold">
+            SITES
           </h1>
-          <table class="table table-hover">
+          <div class="table-responsive-sm">
+          <table class="table table-hover text-center">
             <thead class="thead-dark">
               <tr>
-                <th scope="col"> Name </th>
-                <th scope="col"> Description </th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Data</th>
+                <th colspan="3"></th> 
               </tr>
             </thead>
             <tbody>
               <tr th:each="site : ${sites}">
-                <td><span th:text="${site.getUrl()}">name</span></td>
-                <!-- <td><span th:text="{site.getSessionListSize()}"></span> -->
-                <td><span th:text="${site.getDescription()}">description</span></td>
-                <td><a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES_CREATE_CONFIRMATION.getPath()} class="btn">Code snippet</a>
-                <td><span th:text="${site.getSize()}"># of session</span></td>
-                <td><a th:href="'/sites/' + ${site.getId()} +'/delete'" class="btn">Remove</a>
-                <td><a th:href="'/sites/' + ${site.getId()}" class="btn button-dark">Data</a>
+                <td class=""><a th:href="'/sites/' + ${site.getId()}"><span th:text="${site.getUrl()}"></span></a></td>
+                <td class=""><a th:href="'/sites/' + ${site.getId()}"><span th:text="${site.getDescription()}"></span></a></td>
+                <td class="">
+                  <th:block th:switch="${site.getSize()}">
+                    <div th:case="0">
+                      <a th:href="'/sites/' + ${site.getId()}"><span>no session</span></a>
+                    </div>
+                    <div th:case="1">
+                      <a th:href="'/sites/' + ${site.getId()}"><span>1 session</span></a>
+                    </div>
+                    <div th:case="*">
+                      <a th:href="'/sites/' + ${site.getId()}"><span th:text="${site.getSize()} + ' sessions'"></span></a>
+                    </div>
+                  </th:block>
+                </td>
+                <td class="py-3 px-1"><a th:href="'/sites/' + ${site.getId()} +'/create'"><img class="img-icon" src="/img/code.jpg"></a>
+                <td class="py-3 px-1"><a th:href="'/sites/' + ${site.getId()} +'/edit'"><img class="img-icon" src="/img/edit.jpg"></a>
+                <td class="py-3 px-1"><a th:href="'/sites/' + ${site.getId()} +'/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a>
               </tr>
             </tbody>
           </table>
-          <h1><a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES_CREATE.getPath()} class="btn button-blue my-5">Add a new site</a></h1>
+        </div>
+        </div>
+      </div>
+      <div class="container-fluid light row justify-content-center">
+        <div class="col-md-10 text-center">
+          <h1><a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES_CREATE.getPath()} class="btn button-blue my-5">Add a new site</a></h1>
         </div>
       </div>
     </section>

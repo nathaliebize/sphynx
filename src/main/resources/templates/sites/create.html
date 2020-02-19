@@ -2,20 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
   <head>
     <title>Create new sphynx-powered site</title>
+    <script type="text/javascript" src="/js/sphynx.js"></script>
   </head>
   <body>
     <section layout:fragment="content">
       <div class="container-fluid light">
-        <div class="container-sphynx mx-auto py-5 text-center">
-          <h1 class="display-2 font-weight-bold m-5 px-5">
-            Create a new sphynx-powered site
-          </h1>
-          <form th:action=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES_CREATE.getPath()} method="POST" class="form-group m-5 px-5" th:object=${site}>
-            <input type="text" class="my-3 form-control" th:field="*{url}" placeholder="Site url">
-            <textarea rows="10" cols="30" class="my-3 form-control" th:field="*{description}" placeholder="Description of your site."></textarea>
-            <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()} class="btn button-dark my-5">Cancel</a>
-            <button type="submit" class="btn button-blue my-5">Create</button>
-          </form>
+        <div class="mt-5 py-5 row justify-content-center">
+          <div class="col-lg-6 col-md-8">
+            <h1 class="display-2 font-weight-bold text-center">
+              Create a new sphynx-powered site
+            </h1>
+            <form th:action=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES_CREATE.getPath()} method="POST" class="form-group m-5 px-5" th:object=${site}>
+              <input type="text" class="my-3 form-control" th:field="*{url}" placeholder="Site url">
+              <textarea rows="10" cols="30" class="my-3 form-control" th:field="*{description}" placeholder="Description of your site."></textarea>
+              <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="btn button-dark my-5">Cancel</a>
+              <button type="submit" class="btn button-blue my-5">Create</button>
+            </form>
+          </div>
         </div>
       </div>
     </section>

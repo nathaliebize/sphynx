@@ -2,11 +2,27 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
   <head>
     <title>Terms and conditions</title>
+    <script type="text/javascript" src="/js/sphynx.js"></script>
+    <!-- <script type="text/javascript">
+      (function() {
+        let script = document.createElement("script");
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = function(){
+          script.onload = null;
+          myScript("3001", "2151");
+        };
+        //TODO: allow access to get requests when all will be in the online server.
+        <!-- The script is on the server but everything else is on localhost. 
+        script.src = "https://www.sphynx.dev/generalScript.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
+      }());
+    </script> --> 
   </head>
   <body>
     <section layout:fragment="content">
-      <div class="container-fluid light">
-        <div class="container-sphynx mx-auto py-5 text-center">
+      <div class="container-fluid light row justify-content-center">
+        <div class="col-md-10 py-5 text-center">
           <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">
             With Sphynx, understand how your users interact with your website.
           </h1>
@@ -35,13 +51,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. <br><br>
           </h4>
           <form>
-            <button th:formaction=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} type="submit" class="btn btn-lg button-blue p-3 m-3">Register</button>
+            <button th:formaction=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()} type="submit" class="btn btn-lg button-blue p-3 m-3">Register</button>
           </form>
         </div>
       </div>
     </section>
-    <div layout:fragment="script">
-      <script type="text/javascript" th:src="@{/js/sphynx2.js}"></script>
-    </div>
   </body>
 </html>

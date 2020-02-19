@@ -5,13 +5,17 @@
   </head>
   <body>
     <section layout:fragment="content">
-      <div class="container-fluid light">
-        <div class="container-sphynx mx-auto py-5 text-center">
+      <div class="container-fluid light row justify-content-center">
+        <div class="col-md-10 py-5 text-center">
           <h1 class="display-2 font-weight-bold m-5 px-5">
             Confirmation
           </h1>
-          <h6>You have successfully add a new site. Here the code to add to your html file.</h6>
-          <a th:href="${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()}" class="btn button-blue">Return to list</a>
+          <h4 class="p-3">
+            You have successfully add a new site.<br>
+            Here the code to add to your html file:
+          </h4>
+          <h5 th:text=${snippet} class="p-5 mb-4"></h5>
+          <a th:href="${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()}" class="btn button-dark p-3">BACK TO SITES</a>
         </div>
       </div>
     </section>

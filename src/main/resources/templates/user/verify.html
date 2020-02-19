@@ -6,11 +6,11 @@
 <body>
   <section layout:fragment="content">
     <div class="container-fluid light">
-      <div class="container-sphynx mx-auto py-5">
-        <div class="container-fix-sphynx p-5">
-          <h1 class="display-2 font-weight-bold mt-5 mx-5 px-5">Verification needed</h1>
-          <h6>Please check your emails and follow the link.</h6>
-          <span th:text=${link}> </span>
+      <div class="mt-5 py-5 row justify-content-center">
+        <div class="col-md-8">
+          <h1 class="display-2 font-weight-bold text-center p-5">Verification needed</h1>
+          <h5>Please check your emails and follow the link.</h5>
+          <h6 th:text=${link}> </h6>
         </div>
       </div>
     </div>

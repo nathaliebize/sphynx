@@ -5,38 +5,29 @@
   </head>
   <body>
     <section layout:fragment="content">
-      <div class="container-fluid light">
-        <div class="container-sphynx mx-auto py-5 text-center">
-          <h1 th:text="${site.getUrl()}" class="display-2 font-weight-bold m-5 px-5">Session List</h1>
-          <h4 th:text="${site.getDescription()}" class="m-5 px-5"></h4>
+      <div class="container-fluid light row justify-content-center">
+        <div class="col-md-10 text-center">
+          <div class="my-5">
+            <h1 th:text="${site.getUrl()}" class="display-2 font-weight-bold">Session List</h1>
+            <h4 th:text="${site.getDescription()}" class=""></h4>
+          </div>
           <table class="table table-hover">
             <thead class="thead-dark">
               <tr>
-                <th scope="col"> Sessions of site </th>
-                <th scope="col"></th>
+                <th scope="col">Sessions</th>
                 <th scope="col">Date</th>
-                <th scope="col"></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="user_session, i : ${sessionList}">
-                <td><span th:unless="${user_session.getStatus() == 'ABORDED'}" th:text="${i.index + 1}"></span></td>
-                <td><span th:unless="${user_session.getStatus() == 'ABORDED'}" th:text="${user_session.getSessionId()}">session id</span></td>
-                <td><span th:unless="${user_session.getStatus() == 'ABORDED'}" th:text="${#dates.format(user_session.getStartTime(), 'EEE, dd MM yy - h a')}"></span></td>
-                <th:block th:switch="${user_session.getStatus()}">
-                <td>
-                  <a th:case="'ENDED'" th:href="'/sessions/' + ${user_session.getSessionId()}"><button type="button" class="btn">go</button></a>
-                  <a th:case="'STARTED'" th:href="'/sessions/' + ${user_session.getSessionId()}"><button type="button" class="btn">ongoing</button></a>
-<!--                   <a th:case="'ABORDED'" th:href="'/sessions/' + ${user_session.getSessionId()}"><button type="button" class="btn">aborded</button></a>
- -->                </td>
-                </th:block>
-                  <!-- <a th:if="${user_session.getStatus() == 'ENDED'}" th:href="'/sessions/' + ${user_session.getSessionId()}"><button type="button" class="btn">go</button></a>
-                  <a th:unless="${user_session.getStatus() == 'ENDED'}" th:href="'/sessions/' + ${user_session.getSessionId()}"><button type="button" class="btn">ongoing</button></a> -->
-                
+                <td><a th:href="'/sessions/' + ${user_session.getSessionId()}" class="link-row"><span th:text="${i.index + 1}"></span></a></td>
+                <td><a th:href="'/sessions/' + ${user_session.getSessionId()}" class="link-row"><span th:text="${#dates.format(user_session.getStartTime(), 'EEE, dd MMM yy - h:mm:ss a')}"></span></a></td>
+                <td><a th:href="'/sessions/' + ${user_session.getSessionId()} + '/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a></td>
               </tr>
             </tbody>
           </table>
-          <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()} class="btn button-dark my-5">Return</a>
+          <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="btn button-dark my-5">Back to sites</a>
         </div>
       </div>
     </section>

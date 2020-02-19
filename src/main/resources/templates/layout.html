@@ -3,21 +3,22 @@
   <head>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Sphynx</title>
     <meta charset="UTF-8">
-    <meta name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" type="text/css" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).CSS_SPHYNX.getPath()}>
+    <link rel="stylesheet" type="text/css" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).CSS_SPHYNX.getPath()}>
   </head>
   <body>
     <header>
       <div class="container-fluid light">
-        <div class="container-sphynx mx-auto d-flex">
-          <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
-          <a href="https://github.com/nathaliebize/sphynx" target="_blank" class="m-3">Github repo</a>
-          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
-          <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
-          <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).SITES.getPath()} class="m-3">Sites</a>
-          <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
+        <div class="row justify-content-center">
+          <div class="d-flex col-md-10">
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).HOME.getPath()} class="m-3 mr-auto">Home</a>
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).GITHUB.getPath()} class="m-3">Github repo</a>
+            <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()} class="m-3">Register</a>
+            <a sec:authorize="isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()} class="m-3">Log In</a>
+            <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).LOGOUT.getPath()} class="m-3">Log out</a>
+            <a sec:authorize="isAuthenticated() && !isAnonymous()" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="m-3">Site</a>
+          </div>
         </div>
       </div>
     </header>
@@ -26,8 +27,13 @@
     </section>
     <footer>
       <div class="container-fluid light">
-        <div class="container-sphynx mx-auto">
-          <h1 class="m-3">Info</h1>
+        <div class="row justify-content-center">
+          <div class="d-flex col-md-10 justify-content-center">
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).GITHUB.getPath()} target="_blank" class="m-3">Github repo</a>
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).LINKEDIN.getPath()} class="m-3">LinkedIn profile</a>
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).EMAIL.getPath()} class="m-3">Contact me</a>
+            <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).RESUME.getPath()} class="m-3">Resume</a>
+          </div>
         </div>
       </div>
     </footer>

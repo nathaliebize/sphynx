@@ -6,19 +6,21 @@
 <body>
   <section layout:fragment="content">
     <div class="container-fluid light">
-      <div class="container-sphynx mx-auto py-5">
-        <div class="container-fix-sphynx p-5">
-          <h1 class="display-2 font-weight-bold m-5 px-5">Login</h1>
-          <form class="form-group mx-5 px-5" th:action=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} method="post">
-            <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
-            <input type="text" name="email" class="my-3 form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address" value="nathaliebize@gmail.com">
-            <input type="password" name="password" class="my-3 form-control" id="inputPassword" placeholder="Password" value="testes">
-            <div class="pb-4 form-group right-aligned">
-              <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_FORGOT_PASSWORD.getPath()}>Forgot password?</a>
+      <div class="mt-5 py-5 row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <h1 class="display-2 font-weight-bold text-center">Login</h1>
+          <form class="form-group p-5" th:action=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()} method="post">
+            <div class="text-center" th:if="${param.error}" >Email or password incorrect.</div>
+            <input type="text" name="email" class="my-3 form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
+            <input type="password" name="password" class="my-3 form-control" id="inputPassword" placeholder="Password">
+            <div class="pb-4 right-aligned">
+              <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_FORGOT_PASSWORD.getPath()}>Forgot password?</a>
             </div>
-            <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
-            <div class="my-4 centered form-group">
-              Don't have an account? <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_REGISTER.getPath()}>Register here</a>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="my-4 btn btn-block button-blue">Login</button>
+            </div>
+            <div class="my-4 text-center">
+              Don't have an account? <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()}>Register here</a>
             </div>
           </form>
         </div>
