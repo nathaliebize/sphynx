@@ -1,7 +1,7 @@
 package com.nathaliebize.sphynx.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,26 +16,30 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.nathaliebize.sphynx.controller.SiteMap;
+import com.nathaliebize.sphynx.routing.SiteMap;
 import com.nathaliebize.sphynx.service.SphynxUserDetailsService;
 
 /**
- * The SecurityConfiguration sets the security configuration settings.
- * 
+ * The SecurityConfiguration sets the security configuration settings used by spring security.
+ * It extends the Spring boot WebSecurityConfigurerAdapter class.
  */
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private SphynxUserDetailsService userDetailsService;
+    
+    @Value("${sphynx.encoder.seed}")
+    private String seed;
     
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(new Pbkdf2PasswordEncoder("JDfidlqmepzRE34fdjsklWWrIfj"));
+        provider.setPasswordEncoder(new Pbkdf2PasswordEncoder(seed));
         provider.setAuthoritiesMapper(authoritiesMapper());
         return provider;
     }
@@ -57,8 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/", "/index", "/css/*", "/terms", "/user/*", "/error", "/js/*", "/img/*").permitAll()
-            .antMatchers(HttpMethod.POST, "/user/*", "/save-event", "/save-session", "/save-quit").permitAll()
+            .antMatchers(HttpMethod.GET, "/", "/index", "/info", "/css/*", "/terms", "/user/*", "/error-logout", "/error", "/js/*", "/img/*", "/sites/*").permitAll()
+            .antMatchers(HttpMethod.POST, "/user/*", "/save-event", "/save-session", "/save-quit", "/sites/*").permitAll()
+            .antMatchers(HttpMethod.DELETE, "/sites/*", "/sessions/*").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
