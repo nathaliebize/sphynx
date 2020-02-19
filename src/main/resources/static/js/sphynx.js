@@ -1,262 +1,276 @@
 /**
- * 
+ * Script that handles data collection for each sphynx-powered website;
  */
-
-sphynx();
-function sphynx() {
+     
+function myScript(userId, siteId) {
+	const COOKIE_EXPIRATION_LENGTH = 86400;
+	const domain = "https://www.sphynx/";
 	
-	let dateLastEvent = new Date();
-	let COOKIE_EXPIRATION_LENGTH = 86400;
+	let timestamp = new Date();
+	let path;
+	let isScrolling = false;
+	let scrollTopStart = 0;
+	let scrollTopFinish = 0;
+	let scrollTopLast = 0;
+	let percentageView = "";
+	let isReachedEndOfPage = false;
 	
-	let userId = "3001";
-	let siteId = "1301";
-	let path = window.location.href;
-	let sessionId = setSessionId();
-	
-	function setSessionId() {
-		let cookieArray = document.cookie.split(";");
+	let sessionId = getSessionId();
+		
+	// Retrieves the current sessionId if existing or generates a new one.
+	function getSessionId() {
+		// Checks if there is a sphynxSessionId cookie already set. 
+		const cookieArray = document.cookie.split(";");
 		for (let i = 0; i < cookieArray.length; i++) {
 			let pairValueArray = cookieArray[i].split("=");
-			if (pairValueArray[0].trim() === "sessionIdSphynx") {
-				console.log("already exist - sessionId = " + pairValueArray[1].trim());
+			if (pairValueArray[0].trim() === "sphynxSessionId") {
 				return pairValueArray[1].trim();
 			}
 		}
-		let sessionId = Math.floor(Math.random() * 1000000000);
-		document.cookie = "sessionIdSphynx=" + sessionId + ";max-age=" + COOKIE_EXPIRATION_LENGTH;
-		console.log("new session - sessionId = " + sessionId);
-		let startTime = new Date();
+		
+		// Generates a new sphynxSessionId. Sets the cookie with its expiration date.
+		let newSessionId = uuidv4();
+		document.cookie = "sphynxSessionId=" + newSessionId + ";max-age=" + COOKIE_EXPIRATION_LENGTH;
+		
+		// Saves the new session and the 'start' event in database.
+		let startTime = timestamp = new Date();
+		path = window.location.href;
 		sendSession({
-			"sessionId": sessionId,
-			"siteId": siteId,
-			"userId": userId,
-			"startTime": startTime
+			sessionId: newSessionId,
+			siteId,
+			userId,
+			startTime
 		});
-		return sessionId;
+		sendEvent({
+			type: "START",
+			timestamp,
+			sessionId: newSessionId,
+			siteId,
+			userId,
+			path
+		});
+		return newSessionId;
 	}
-	  
-	function sendEvent(json) {
+	
+	// Generates a UUID string.
+	function uuidv4() {
+	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    	var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
+	
+	// Send a POST request to save data in the database.
+	function sendData(json, urlExtension) {
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "http://localhost:8080/save-event", true);
+		var url = domain + urlExtension;
+		xhr.open("POST", url, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.send(JSON.stringify(json));
 	}
 	
 	function sendSession(json) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "http://localhost:8080/save-session", true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.send(JSON.stringify(json));
+		sendData(json, "save-session");
 	}
-   
-	let isScrolling = false;
-	let scrollTopStart = 0;
-	let scrollTopFinish = 0;
-	let scrollTopLast = 0;
-	let percentageViewStart = 0;
-	let percentageViewFinish = 0;
-	let isReachedEndOfPage = false;
-	  
+	
+	function sendEvent(json) {
+		sendData(json, "save-event");
+	}
+	
+	// Listens for 'scroll' event.
+	// Updates the timestamp to keep the status active.
+	// Checks if the path has changed.
+	// Checks if the end of document has been reached.
 	document.addEventListener("scroll", function() {
-		dateLastEvent = new Date();
+		timestamp = new Date();
 		scrollTopLast = document.documentElement.scrollTop;
-		if (isScrolling === false) {
+		if (pathHasChanged()) {
+			path = window.location.href;
 			sendEvent( {
-				"type":"READING",
-				"groupType": "2",
-				"timestamp":dateLastEvent,
-				"sessionId":sessionId,
-				"siteId": siteId,
-				"userId": userId,
-				"path": path
+				type: "CHANGE_URL",
+				timestamp,
+				sessionId,
+				siteId,
+				userId,
+				target: "",
+				path
 			});
+		}
+		if (isScrolling === false) {
 			isScrolling = true;
 			scrollTopFinish = scrollTopStart = document.documentElement.scrollTop;
 		} else {
-			setTimeout(function() {
-				sendEvent( {
-					"type":"READING",
-					"groupType": "2",
-					"timestamp":dateLastEvent,
-					"sessionId":sessionId,
-					"siteId": siteId,
-					"userId": userId,
-					"path": path
-				});
-			}, 60000);
 			if (scrollTopLast > scrollTopFinish) {
 				scrollTopFinish = scrollTopLast;
 			} else if (scrollTopLast < scrollTopStart) {
 				scrollTopStart = scrollTopLast;
 			}
-			percentageViewStart = (100 * scrollTopStart / document.documentElement.scrollHeight).toFixed(0);
-			percentageViewFinish = (100 * (scrollTopFinish + window.innerHeight) / document.documentElement.scrollHeight).toFixed(0);
-			if (!isReachedEndOfPage && scrollTopLast === (document.documentElement.scrollHeight - window.innerHeight)) {
+//			let percentageViewStart = (100 * scrollTopStart / document.documentElement.scrollHeight).toFixed(0);
+//			let percentageViewFinish = (100 * (scrollTopFinish + window.innerHeight) / document.documentElement.scrollHeight).toFixed(0);
+//			percentageView = "percentage view: " + percentageViewStart + " - " + percentageViewFinish;
+			if (hasReachedEndOfPage()) {
 				isReachedEndOfPage = true;
-				let percentageView = "percentage view: " + percentageViewStart + " - " + percentageViewFinish;
 				sendEvent( {
-					"type":"VIEW_ONE_HUNDRED",
-					"groupType": "1",
-					"timestamp":dateLastEvent,
-					"sessionId":sessionId,
-					"siteId": siteId,
-					"userId": userId,
-					"path": path,
-					"target": percentageView
+					type: "VIEW_ONE_HUNDRED",
+					timestamp,
+					target: "",
+					sessionId,
+					siteId,
+					userId
 				});
 			}
 	    }
 	});
-	  
+	
+	// Adds mousemove event listener.
+	// Updates timestamp to keep status actif
 	document.addEventListener("mousemove", function() {
-		dateLastEvent = new Date();
+		timestamp = new Date();
 	});
 	  
-	let activeTimer = setTimeout(checkActivity, 30000);
 	
+	// Returns true if the end of page hasn't been reach before and 
+	// the top of current view is the height of the document minus the height of the screen
+	function hasReachedEndOfPage() {
+		return (!isReachedEndOfPage && scrollTopLast === (document.documentElement.scrollHeight - window.innerHeight));
+	}
+	 
+	// Listens and saves 'click' events.
+	document.addEventListener("click", (e) => {
+		timestamp = new Date();
+		let target = getTarget(e);
+		sendEvent( {
+			type: "CLICK",
+			timestamp,
+			sessionId,
+			siteId,
+			userId,
+			target
+		});
+    });
+	
+	// Gets the target of a given event.
+	function getTarget(e) {
+		let target = "";
+		const nodeName = e.target.nodeName;
+		const alt = e.target.alt;
+		const placeholder = e.target.placeholder;
+		const id = e.target.id;
+		console.log("nodename = " + nodeName);
+		console.log("placeholder = " + placeholder);
+		console.log("id = " + id);
+		if (nodeName != undefined) {
+			target = target.concat(nodeName);
+		}
+		
+		if (nodeName === 'IMG') {
+			if (alt =! undefined && alt != null) {
+				return target.concat(" - ", alt);
+			}
+		} else if (nodeName === 'INPUT' || nodeName === 'TEXTAREA') {
+			if (placeholder != undefined && placeholder != null) {
+				return target.concat(" - ", placeholder);
+			}
+		} else if (nodeName === 'INPUT' || nodeName === 'TEXTAREA') {
+			if (id != undefined && id != null) {
+				return target.concat(" - ", id);
+			}
+		} else if (e.target.innerHTML != undefined || e.target.innerHTML != null) {
+			let html = e.target.innerHTML.trim().split(" ");
+			target = target.concat(" - ", html[0]);
+			for (let i = 1; i < 3; i ++) {
+				if (html[i] != undefined && html[i] != null) {
+					return target.concat(" ", html[i]);
+				}
+			}
+		}
+		return target;
+	}
+
+	// Add keydown listener when on focus.
+	document.addEventListener("focusin", (e) => {
+		document.addEventListener("keydown", sendTypingEvent);
+	});
+	
+	// Sends 'keydown' event
+	function sendTypingEvent(e) {
+		timestamp = new Date();
+		let target = getTarget(e);
+		sendEvent({
+			type: "KEYDOWN",
+			timestamp,
+			sessionId,
+			siteId,
+			userId,
+			target
+		});
+		document.removeEventListener("keydown", sendTypingEvent);
+	}
+	  
+	// Adds event listener to catch when user leave and return to tab.
+	document.addEventListener("visibilitychange", function() {
+		if (document.hidden) {
+			isScrolling = false;
+			timestamp = new Date();
+			sendEvent({
+				type: "LEAVE_TAB",
+				timestamp,
+				sessionId,
+				siteId,
+				userId,
+				target: ""
+			});
+		} else {
+			timestamp = new Date();
+			sendEvent({
+				type: "RETURN_TAB",
+				timestamp,
+				sessionId,
+				siteId,
+				userId,
+				target: ""
+			});
+		}
+	});	
+	
+	// Send inactive event
+	let activeTimer = setTimeout(checkActivity, 30000);
 	let isInactive = false;
 	function checkActivity() {
 		let now = new Date();
-	    if ((now - dateLastEvent) > 60000) {
+	    if ((now - timestamp) > 60000) {
 	    	if (isInactive == false) {
-	    		printInactiveEvent();
+	    		sendEvent( {
+	    			type: "INACTIVE",
+	    			timestamp,
+	    			sessionId,
+	    			siteId,
+	    			userId,
+	    			target: ""
+	    		});
+	    		isInactive = true;
 	    	}
-	    	if ((now - dateLastEvent) > 
-      		isInactive = true;
+	    	if (now - timestamp > 360000 && isInactive == true) {
+	    		isInactive = false;
+	    		document.cookie = "sessionIdSphynx=" + sessionId + ";max-age=1";
+	    		setTimeout(function() {
+	    			sessionId = setSessionId();
+	    		}, 2000);
+	    	}
     		isScrolling = false;
 	    	activeTimer = setTimeout(checkActivity, 60000);
 	    } else if (isInactive == false) {
 	    	activeTimer = setTimeout(checkActivity, 30000);
 	    }
 	}
-	  
-	function printInactiveEvent() {
-		let percentageView = "percentage view: " + percentageViewStart + " - " + percentageViewFinish;
-		sendEvent( {
-			"type":"INACTIVITY",
-			"groupType": "2",
-			"timestamp":dateLastEvent,
-			"sessionId":sessionId,
-			"siteId": siteId,
-			"userId": userId,
-			"path": path,
-			"target": percentageView
-		});
+	
+	// Checks if path has changed.
+	function pathHasChanged() {
+		return  path != window.location.href;
 	}
 	
-	let pingTimer = setTimeout(ping, 12000);
-	
-	function ping () {
-		let date = new Date;
-		sendEvent( {
-			"type":"ACTIVE",
-			"timestamp":date,
-			"sessionId":sessionId,
-			"siteId": siteId,
-			"userId": userId
-		});
-	}
-
-	document.addEventListener("click", (e) => {
-		dateLastEvent = new Date();
-		let target = e.target.nodeName + " - " + e.target.innerHTML.trim().slice(0, 10);
-		sendEvent( {
-			"type":"CLICK",
-			"groupType": "1",
-			"timestamp":dateLastEvent,
-			"sessionId":sessionId,
-			"siteId": siteId,
-			"userId": userId,
-			"path": path,
-			"target": target
-		});
-    })
-
-	
-// only when change focus
-	document.addEventListener("keydown", function() {
-		dateLastEvent = new Date();
-		sendEvent({
-			"type":"KEYDOWN",
-			"groupType": "2",
-			"timestamp":dateLastEvent,
-			"sessionId":sessionId,
-			"siteId": siteId,
-			"userId": userId,
-			"path": path
-		});
+	// Changes the cookie expiration to 1 second when the user is about to leave the page.
+	window.addEventListener('beforeunload', function() {
+		document.cookie = "sessionIdSphynx=" + sessionId + ";max-age=1";
 	});
-	  
-	document.addEventListener("visibilitychange", function() {
-		if (document.hidden) {
-			isScrolling = false;
-			let dateLeaving = new Date();
-			let percentageView = "percentage view: " + percentageViewStart + " - " + percentageViewFinish;
-			sendEvent({
-				"type":"LEAVE_TAB",
-				"groupType": "1",
-				"timestamp":dateLastEvent,
-				"sessionId":sessionId,
-				"siteId": siteId,
-				"userId": userId,
-				"path": path,
-				"target": percentageView
-			});
-		} else {
-			dateLastEvent = new Date();
-			sendEvent({
-				"type":"RETURN_TAB",
-				"groupType": "1",
-				"timestamp":dateLastEvent,
-				"sessionId":sessionId,
-				"siteId": siteId,
-				"userId": userId,
-				"path": path
-			});
-		}
-	});		
-	
 }
-
-
-
-
-
-/*
- * 
- * 	function getMonthAndDay(date) {
-		return (date.getMonth() + 1) + "/" + date.getDate();
-	}
-	  
-	function getTime(date) {
-		return (date.getHours() < 10 ? '0' : '') + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
-	}
- * 
- * 
- * 
- * 	function getContent(element) {
-		let content = null;
-		if (element.tagName != null) {
-		    if (element.tagName.toLowerCase() === "img") {
-		    	content = element.alt;
-		    } else if (element.tagName.toLowerCase() === "a") {
-		    	content = element.innerHTML.trim().slice(0, 10);
-		    	if (content === null) {
-		    		content = element.href;
-		    	}
-		    } else if (element.tagName.toLowerCase() === "button") {
-		    	content = element.value;
-		    }
-		}
-	    if ((content === null || content === "") && element.innerHTML != null) {
-	    	content = element.innerHTML.trim().slice(0, 10);
-	    }
-	    if (content === null || content === "") {
-			content = element.name;
-		}
-		if (content === null || content === "") {
-			content = element.id;
-	    }
-	    return content;
-	}
-	*/
