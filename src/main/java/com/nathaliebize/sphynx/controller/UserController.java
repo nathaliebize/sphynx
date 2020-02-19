@@ -17,10 +17,11 @@ import com.nathaliebize.sphynx.model.User;
 import com.nathaliebize.sphynx.model.view.ForgotPasswordUser;
 import com.nathaliebize.sphynx.model.view.RegisterUser;
 import com.nathaliebize.sphynx.model.view.ResetPasswordUser;
+import com.nathaliebize.sphynx.routing.SiteMap;
 import com.nathaliebize.sphynx.service.UserService;
 
 /**
- * Controller that handles all user's views
+ * Controller that handles the user views
  */
 @Controller
 @RequestMapping("/user")
@@ -87,11 +88,11 @@ public class UserController {
     @GetMapping("/verify")
     public String verifyEmail(Model model, @RequestParam String email, @RequestParam String key, @ModelAttribute("link") String link) {
         if (email == null || key == null ) {
-            return SiteMap.REDIRECT_ERROR.getPath();
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         }
         User user = userService.verifyEmailAndRegistrationKeyAndRegistrationStatus(email, key);
         if (user == null) {
-            return SiteMap.REDIRECT_ERROR.getPath();
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         }
         return SiteMap.REDIRECT_SITES.getPath();
     }
@@ -103,7 +104,6 @@ public class UserController {
      */
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {
-        // verifier status avant!
         model.addAttribute("forgotPasswordUser", new ForgotPasswordUser());
         return SiteMap.USER_FORGOT_PASSWORD.getPath();
     }
@@ -122,7 +122,7 @@ public class UserController {
         }
         User user = userService.updateRegistrationKey(forgotPasswordUser);
         if (user == null) {
-            return SiteMap.REDIRECT_ERROR.getPath();
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         } else {
             // TODO: send email with link
             CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
@@ -145,7 +145,7 @@ public class UserController {
             model.addAttribute("resetPasswordUser", new ResetPasswordUser(key));
             return SiteMap.USER_RESET_PASSWORD.getPath();
         } else {
-            return SiteMap.REDIRECT_ERROR.getPath();
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         }
     }
     
@@ -164,14 +164,5 @@ public class UserController {
         }
         userService.updatePassword(resetPasswordUser);
         return SiteMap.REDIRECT_SITES.getPath();
-    }
-    
-    /**
-     * Handles logout get request
-     * @return redirection to home page
-     */
-    @GetMapping("/logout")
-    public String logout(Model model) {
-        return SiteMap.REDIRECT_HOME.getPath();
     }
 }
