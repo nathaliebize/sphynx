@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nathaliebize.sphynx.model.Session;
 import com.nathaliebize.sphynx.model.Site;
-import com.nathaliebize.sphynx.model.view.CreatedSite;
+import com.nathaliebize.sphynx.model.view.SubmitedSite;
+import com.nathaliebize.sphynx.routing.SiteMap;
 import com.nathaliebize.sphynx.service.SiteService;
 
 /**
@@ -31,8 +32,9 @@ public class SitesController {
     private SiteService siteService;
     
     /**
-     * Displays the main page for logged users. It includes the user's list of the sites
-     * or the form to registered a new site if any exist yet.
+     * Handles the GET request and displays the main page for logged users. 
+     * It shows the user's updated list of the sites
+     * or the form to registered a new site if none exists yet.
      * @param principal, the logged in user
      * @param model
      * @return the list of sites template or the create site form template
@@ -42,44 +44,51 @@ public class SitesController {
     public String showSitesListPage(Principal principal, Model model) {
         ArrayList<Site> siteList = siteService.getSiteList(principal.getName());
         if (siteList.isEmpty()) {
-            model.addAttribute("site", new CreatedSite());
+            model.addAttribute("site", new SubmitedSite());
             return SiteMap.SITES_CREATE.getPath();
         }
+        siteService.processData(principal.getName());
         model.addAttribute("sites", siteList);
         return SiteMap.SITES_INDEX.getPath();
     }
     
     /**
-     * Displays the list of sessions for one particular user's site.
+     * Handles the GET request and displays the list of sessions 
+     * for one particular site of the logged in user.
      * @param principal, the logged in user
      * @param model
-     * @param path variable id, the site id
-     * @return the sessions list template.
+     * @param path variable siteId, the site id
+     * @return the sessions list template or the error page.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{siteId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showSiteDetailsPage(Principal principal, Model model, @PathVariable final Long id) {
-        ArrayList<Session> sessionList = siteService.getSessionList(principal.getName(), id);
-        Site site = siteService.findBySiteId(id);
-        model.addAttribute("site", site);
-        model.addAttribute("sessionList", sessionList);
-        return SiteMap.SESSIONS.getPath();
+    public String showSiteDetailsPage(Principal principal, Model model, @PathVariable final Long siteId) {
+        ArrayList<Session> sessionList = siteService.getSessionList(principal.getName(), siteId);
+        Site site = siteService.findBySiteId(siteId);
+        if (sessionList != null && site != null) {
+            model.addAttribute("site", site);
+            model.addAttribute("sessionList", sessionList);
+            return SiteMap.SESSIONS_INDEX.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }   
     }
     
     /**
-     * Displays the form to register a new site.
+     * Handles the GET request and displays the form to register a new site.
      * @param model
      * @return the create site form template.
      */
     @GetMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showCreatePage(Model model) {
-        model.addAttribute("site", new CreatedSite());
+        model.addAttribute("site", new SubmitedSite());
         return SiteMap.SITES_CREATE.getPath();
     }
     
     /**
-     * Handles the post request to register a new site.
+     * Handles the POST request to register a new site in database for a logged in user.
+     * Redirect to the confirmation page.
      * @param principal, the logged in user
      * @param model
      * @param created site, information about the new site to register
@@ -87,32 +96,89 @@ public class SitesController {
      */
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String createPage(Principal principal, Model model, @Valid @ModelAttribute CreatedSite createdSite, BindingResult bindingResult) {
+    public String createPage(Principal principal, Model model, @Valid @ModelAttribute SubmitedSite createdSite, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return SiteMap.SITES_CREATE.getPath();
         }
-        siteService.saveSite(createdSite, principal.getName());
-        return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
+        Long siteId = siteService.saveSite(createdSite, principal.getName());
+        return "redirect:/sites/" + siteId + "/create";
     }
     
     /**
-     * Displays the confirmation page with a code snippet to insert 
-     * into the new sphynx-powered site.
-     * @return the create confirmation template.
+     * Handles GET requests and displays create confirmation page.
      */
-    @GetMapping("/create-confirmation")
+    @GetMapping("/{siteId}/create")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showCreateConfirmationPage() {
-        return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
+    public String getCreateConfirmationPage(Principal principal, Model model, @PathVariable final Long siteId) {
+        if (siteId != null) {
+            String snippet = siteService.generateCodeSnippet(principal.getName(), siteId);
+            if (snippet.equals("")) {
+                return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+            }
+            model.addAttribute("snippet", snippet);
+            return SiteMap.SITES_CREATE_CONFIRMATION.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }
     }
     
     /**
-     * Displays the confirmation page to delete a registered site.
-     * @return the delete site template.
+     * Displays the confirmation page before deleting a registered site.
+     * @return the delete site confirmation template.
      */
-    @GetMapping("/{id}/delete")
+    @GetMapping("/{siteId}/delete-confirmation")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showDeletePage() {
-        return SiteMap.SITES_DELETE.getPath();
+    public String showDeleteConfirmationPage(Model model, @PathVariable final Long siteId) {
+        Site site = siteService.findBySiteId(siteId);
+        if (site != null) {
+            model.addAttribute("site", site);
+            return SiteMap.SITES_DELETE_CONFIRMATION.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }
+    }
+    
+    /**
+     * Deletes a registered site and displays site list page template.
+     * @return the site list template.
+     */
+    @GetMapping("/{siteId}/delete")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String deleteSite(Principal principal, Model model, @PathVariable final Long siteId) {
+        if (siteService.deleteSite(principal.getName(), siteId)) {
+            return SiteMap.REDIRECT_SITES.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }
+    }
+    
+    /**
+     * Displays the editing page.
+     * @return the edit page template
+     */
+    @GetMapping("/{siteId}/edit")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String showEditPage(Principal principal, Model model, @PathVariable final Long siteId) {
+        Site site = siteService.findBySiteId(siteId);
+        if (site != null) {
+            model.addAttribute("site", site);
+            return SiteMap.SITES_EDIT.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }
+    }
+    
+    /**
+     * Edits a registered website info.
+     * @return the site page template
+     */
+    @PostMapping("/{siteId}/edit")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String editSite(Principal principal, Model model, @PathVariable final Long siteId, @Valid @ModelAttribute Site site) {
+        if (siteService.updateSite(siteId, site.getUrl(), site.getDescription())) {
+            return SiteMap.REDIRECT_SITES.getPath();
+        } else {
+            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+        }
     }
 }

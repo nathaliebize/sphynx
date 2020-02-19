@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nathaliebize.sphynx.model.Event;
+import com.nathaliebize.sphynx.model.Session;
+import com.nathaliebize.sphynx.model.Site;
+import com.nathaliebize.sphynx.routing.SiteMap;
 import com.nathaliebize.sphynx.service.SiteService;
 
 /**
@@ -24,14 +27,47 @@ public class SessionsController {
     
     /**
      * Displays the timeline for one particular session.
-     * @return the timeline template
+     * @return the timeline template.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/{id}")
-    public String showSessionTimelinePage(Principal principal, Model model, @PathVariable final Long id) {
-        ArrayList<Event> eventList = siteService.getEventList(principal.getName(), id);
-        model.addAttribute("events", eventList);
+    @GetMapping("/{sessionId}")
+    public String showSessionTimelinePage(Principal principal, Model model, @PathVariable final String sessionId) {
+        ArrayList<Event> eventList = siteService.getEventList(principal.getName(), sessionId);
+        Session session = siteService.findBySessionId(sessionId);
+        Site site = null;
+        if (eventList !=  null && session != null) {
+            site = siteService.findBySiteId(session.getSiteId());
+        }
+        if (site != null) {
+            model.addAttribute("site", site);
+            model.addAttribute("user_session", session);
+            model.addAttribute("events", eventList);
+        }
         return SiteMap.SESSIONS_TIMELINE.getPath();
     }
     
+    /**
+     * Displays the confirmation page to delete a session.
+     * @return the delete session template.
+     */
+    @GetMapping("/{sessionId}/delete-confirmation")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String showDeletePage(Model model, @PathVariable final String sessionId) {
+        Session session = siteService.findBySessionId(sessionId);
+        if (session != null) {
+            model.addAttribute("sessionSphynx", session);
+        }
+        return SiteMap.SESSIONS_DELETE_CONFIRMATION.getPath();
+    }
+    
+    /**
+     * Deletes a session.
+     * @return the delete site template.
+     */
+    @GetMapping("/{sessionId}/delete")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String deleteSession(Principal principal, Model model, @PathVariable final String sessionId) {
+        return (siteService.deleteSession(principal.getName(), sessionId)) ? SiteMap.REDIRECT_SITES.getPath() :
+            SiteMap.REDIRECT_ERROR_LOGOUT.getPath(); 
+    }
 }
