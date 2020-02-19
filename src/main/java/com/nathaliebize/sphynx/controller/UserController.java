@@ -21,21 +21,13 @@ import com.nathaliebize.sphynx.service.UserService;
 
 /**
  * Controller that handles all user's views
- *
  */
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService = new UserService();
     
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
     
     /**
      * Handles login get request
@@ -111,6 +103,7 @@ public class UserController {
      */
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {
+        // verifier status avant!
         model.addAttribute("forgotPasswordUser", new ForgotPasswordUser());
         return SiteMap.USER_FORGOT_PASSWORD.getPath();
     }

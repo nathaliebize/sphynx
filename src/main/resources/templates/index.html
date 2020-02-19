@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
   <head>
     <title>Home</title>
   </head>
@@ -79,7 +79,7 @@
               brunch knausgaard glossier celiac biodiesel la croix fanny pack
               organic single-origin coffee. Bushwick adaptogen ennui lo-fi blog
               chicharrones.</h6>
-            <button type="button" class="btn button-blue p-3 m-3">Button 1</button>
+            <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).TERMS.getPath()} class="btn button-blue p-3 m-3">Terms</a>
           </div>
           <div class="col">
             <img alt="Detail left" class="img-fluid" src="https://via.placeholder.com/400x600">
@@ -196,7 +196,7 @@
       </div>
     </section>
     <div layout:fragment="script">
-      <script type="text/javascript" th:src="@{/js/sphynx.js}"></script>
+      <script type="text/javascript" th:src="@{/js/sphynx2.js}"></script>
     </div>
   </body>
 </html>

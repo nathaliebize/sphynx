@@ -15,20 +15,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-    private final Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("JDfidlqmepzRE34fdjsklWWrIfj");
+    private Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("JDfidlqmepzRE34fdjsklWWrIfj");
     
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public Pbkdf2PasswordEncoder getEncoder() {
-        return encoder;
-    }
-
     public User registerNewUser(RegisterUser registerUser) {
         User user = verifyEmail(registerUser.getEmail());
         if (user != null) {

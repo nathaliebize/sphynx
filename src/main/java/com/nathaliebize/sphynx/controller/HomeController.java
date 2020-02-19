@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Controller that handles home page.
- *
  */
 @Controller
 public class HomeController {
@@ -27,5 +26,4 @@ public class HomeController {
     public String showTermsPage(Model model) {
         return SiteMap.TERMS.getPath();
     }
-
 }

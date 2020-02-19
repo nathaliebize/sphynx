@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
   <title>Sign into your account</title>
 </head>
@@ -11,8 +11,8 @@
           <h1 class="display-2 font-weight-bold m-5 px-5">Login</h1>
           <form class="form-group mx-5 px-5" th:action=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_LOGIN.getPath()} method="post">
             <h6 class="centered" th:if="${param.error}" >Email or password incorrect.</h6>
-            <input type="text" name="email" class="my-3 form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address">
-            <input type="password" name="password" class="my-3 form-control" id="inputPassword" placeholder="Password">
+            <input type="text" name="email" class="my-3 form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email address" value="nathaliebize@gmail.com">
+            <input type="password" name="password" class="my-3 form-control" id="inputPassword" placeholder="Password" value="testes">
             <div class="pb-4 form-group right-aligned">
               <a th:href=${T(com.nathaliebize.sphynx.controller.SiteMap).USER_FORGOT_PASSWORD.getPath()}>Forgot password?</a>
             </div>

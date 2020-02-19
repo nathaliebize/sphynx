@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Timeline</title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid light">
+        <div class="container-sphynx mx-auto py-5 text-center">
+          <h1 class="display-2 font-weight-bold m-5 px-5">
+            Timeline
+          </h1>
+          <div class="timeline"  th:each="event : ${events}">
+            <div class="row" th:classappend="${event.getGroupType() == 1} ? timeline-right : timeline-left">
+              <div class="col-5 py-3">
+                <h4 th:if="${event.getGroupType() == 0}" class="py-2" th:text="${#dates.format(event.getTimestamp(), 'EEE, dd MMM yy - h a')}"></h4>
+                <h1 th:if="${event.getGroupType() == 0}" class="py-2">Start</h1>
+                <h4 th:unless="${event.getGroupType() == 0}" class="py-2" th:text="${event.getType()}"></h4>
+                <h6 class="py-2" th:text="${event.getTarget()}"></h6>
+                <h6 class="py-2" th:text="${event.getPath()}"></h6>
+              </div>
+              <div class="col-2 py-3">
+                <div class="timeline-line"></div>
+                <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).START}" alt="image" class="py-2 img-fluid timeline-img-big" src="/img/start.jpg">
+                <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CLICK}" alt="image" class="py-2 img-fluid timeline-img" src="/img/click.jpg">
+                <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).KEYDOWN}" alt="image" class="py-2 img-fluid timeline-img" src="/img/typing.jpg">
+                <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" alt="image" class="py-2 img-fluid timeline-img" src="/img/leave.jpg">
+              </div>
+              <div class="col-5 py-3"></div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
