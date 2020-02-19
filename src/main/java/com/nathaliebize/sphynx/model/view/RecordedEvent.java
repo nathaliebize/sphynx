@@ -6,9 +6,13 @@ import javax.validation.constraints.NotNull;
 
 import com.nathaliebize.sphynx.model.EventType;
 
+/**
+ * One event recorded by a sphynx-powered website.
+ * sessionId, siteId, userId, type and timestamp cannot be null.
+ */
 public class RecordedEvent {
     @NotNull
-    private Long sessionId;
+    private String sessionId;
     
     @NotNull
     private Long siteId;
@@ -18,9 +22,7 @@ public class RecordedEvent {
     
     @NotNull
     private EventType type;
-    
-    private int groupType;
-    
+        
     @NotNull
     private Date timestamp;
     
@@ -28,11 +30,11 @@ public class RecordedEvent {
     
     private String path;
 
-    public Long getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Long sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -60,14 +62,6 @@ public class RecordedEvent {
         this.type = type;
     }
 
-    public int getGroupType() {
-        return groupType;
-    }
-
-    public void setGroupType(int groupType) {
-        this.groupType = groupType;
-    }
-
     public Date getTimestamp() {
         return timestamp;
     }
@@ -91,5 +85,4 @@ public class RecordedEvent {
     public void setPath(String path) {
         this.path = path;
     }
-
 }

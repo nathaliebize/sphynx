@@ -4,9 +4,13 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * One session recorded by a sphynx-powered website.
+ * sessionId, siteId, userId and startTime cannot be null.
+ */
 public class RecordedSession {
     @NotNull
-    private Long sessionId;
+    private String sessionId;
     
     @NotNull
     private Long siteId;
@@ -14,13 +18,14 @@ public class RecordedSession {
     @NotNull
     private Long userId;
     
+    @NotNull
     private Date startTime;
-
-    public Long getSessionId() {
+    
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Long sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 

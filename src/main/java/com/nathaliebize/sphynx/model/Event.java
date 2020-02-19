@@ -9,6 +9,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Event represents one event that has been triggers powered by sphynx app.
+ * It is linked to the sites table in the database.
+ */
 @Entity
 @Table(name = "events")
 public class Event {
@@ -22,7 +26,7 @@ public class Event {
     private Long id;
     
     @NotNull
-    private Long sessionId;
+    private String sessionId;
     
     @NotNull
     private Long siteId;
@@ -42,11 +46,11 @@ public class Event {
     
     private String path;
 
-    public Long getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Long sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -104,6 +108,30 @@ public class Event {
 
     public void setPath(String path) {
         this.path = path;
+    }
+    
+    /**
+     * Calculates the duration between a given start and the timestamp of this event.
+     * @param start time (precedent event timestamp)
+     * @return (HH:)MM:SS
+     */
+    public String getDuration(Date startTime) {
+        long elapsedTime = this.timestamp.getTime() - startTime.getTime();
+        
+        int hours = Math.toIntExact(elapsedTime / (60 * 60 * 1000) % 24);
+        int minutes = Math.toIntExact(elapsedTime / (60 * 1000) % 60);
+        int seconds = Math.toIntExact(elapsedTime / 1000 % 60);
+        int roundedMinutes = minutes + (seconds > 30 ? 1 : 0);
+        
+        if (hours > 0) {
+            return String.valueOf(hours) + "h" + String.valueOf(roundedMinutes);
+        } else if (minutes > 0) {
+            return String.valueOf(roundedMinutes) + " min";
+        } else if (seconds > 0) {
+            return String.valueOf(seconds) + " sec";
+        } else {
+            return "";
+        }         
     }
     
 }
