@@ -3,11 +3,10 @@ package com.nathaliebize.sphynx.model.view;
 import javax.validation.constraints.NotNull;
 
 /**
- * CreatedSite represents one site sudmited by user.
+ * One site that is submited by user to be saved in database.
+ * The url and description properties cannot be null.
  */
-public class CreatedSite {
-
-    
+public class SubmitedSite {
     @NotNull
     private String url;
     

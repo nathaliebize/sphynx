@@ -9,6 +9,9 @@ import com.nathaliebize.sphynx.configuration.SphynxUserPrincipal;
 import com.nathaliebize.sphynx.model.User;
 import com.nathaliebize.sphynx.repository.UserRepository;
 
+/**
+ * The SphynxUserDetailsService implements the Spring boot UserDetailsService.
+ */
 @Service
 public class SphynxUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -17,6 +20,7 @@ public class SphynxUserDetailsService implements UserDetailsService {
         super();
         this.userRepository = userRepository;
     }
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = this.userRepository.findByEmail(email);

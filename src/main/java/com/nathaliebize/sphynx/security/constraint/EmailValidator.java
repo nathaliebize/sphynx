@@ -4,8 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Custom constraint validator for email field in forms.
- *
+ * Custom constraint validator for the email field in forms.
  */
 public class EmailValidator implements ConstraintValidator<EmailField, String> {
     

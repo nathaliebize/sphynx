@@ -9,7 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.nathaliebize.sphynx.model.User;
 
-public class SphynxUserPrincipal implements UserDetails{
+/**
+ * The SphynxUserPrincipal implements the Spring boot UserDetails interface.
+ */
+public class SphynxUserPrincipal implements UserDetails {
     private static final long serialVersionUID = 1L;
     private User user;
     

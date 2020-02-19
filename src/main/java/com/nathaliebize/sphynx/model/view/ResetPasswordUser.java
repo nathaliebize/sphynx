@@ -4,7 +4,7 @@ import com.nathaliebize.sphynx.security.constraint.PasswordField;
 
 /**
  * The ResetPasswordUser class represents the user that is about to reset his password.
- *
+ * The new password needs to be valid.
  */
 @PasswordField(password = "password", passwordMatch = "confirmedPassword", min = 6, max = 124, notEmpty = true, messagePasswordMatch = "The password fields must match.", messageLength = "Password must be between 6 and 128 characters")
 public class ResetPasswordUser {    

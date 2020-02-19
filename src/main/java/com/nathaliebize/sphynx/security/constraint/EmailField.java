@@ -8,8 +8,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Custom annotation for email field in forms.
- *
+ * Custom annotation for the email field in forms.
  */
 @Retention(RUNTIME)
 @Constraint(validatedBy = EmailValidator.class)

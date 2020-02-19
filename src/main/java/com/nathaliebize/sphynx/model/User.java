@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull;
 import com.nathaliebize.sphynx.security.constraint.EmailField;
 
 /**
- * User represents one user of Sphynx app. It is linked to the table users in database.
- *
+ * User represents one user of Sphynx app. 
+ * It is linked to the table users in database.
  */
 @Entity
 @Table(name = "users")

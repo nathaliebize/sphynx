@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sites")
 public class Site {
-    
     @Id
     @GeneratedValue(generator = "sites_generator")
     @SequenceGenerator(
@@ -71,6 +70,5 @@ public class Site {
 
     public void setSize(int size) {
         this.size = size;
-    }
-    
+    } 
 }

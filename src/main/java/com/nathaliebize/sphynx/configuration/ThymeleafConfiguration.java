@@ -10,9 +10,16 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
+/**
+ * The ThymeleafConfiguration class configures the template engine, template resolver and view resolver.
+ */
 @Configuration
 public class ThymeleafConfiguration {
     
+    /**
+     * Configures and returns the template engine.
+     * @return template engine
+     */
     @Bean
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -23,6 +30,10 @@ public class ThymeleafConfiguration {
         return templateEngine;
     }
     
+    /**
+     * Configures and returns the thymeleaf template resolver.
+     * @return template resolver
+     */
     @Bean
     public SpringResourceTemplateResolver thymeleafTemplateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -33,6 +44,10 @@ public class ThymeleafConfiguration {
         return templateResolver;
     }
     
+    /**
+     * Configures and return the thymeleaf view resolver.
+     * @return view resolver
+     */
     @Bean
     public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();

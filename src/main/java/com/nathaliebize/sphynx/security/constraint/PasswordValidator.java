@@ -6,8 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapperImpl;
 
 /**
- * Custom constraint validator for password field in forms.
- *
+ * Custom constraint validator for the password field in forms.
  */
 public class PasswordValidator  implements ConstraintValidator<PasswordField, Object> {
     

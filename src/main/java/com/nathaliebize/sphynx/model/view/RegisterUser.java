@@ -7,7 +7,7 @@ import com.nathaliebize.sphynx.security.constraint.PasswordField;
 
 /**
  * The RegisterUser class represents the user that register to the sphynx application.
- *
+ * The class ensures that the email and password submitted are valid and that the user accepts the terms and conditions.
  */
 @PasswordField(password = "password", passwordMatch = "confirmedPassword", min = 6, max = 124, notEmpty = true, messagePasswordMatch = "The password fields must match.", messageLength = "Password must be between 6 and 128 characters")
 public class RegisterUser {
