@@ -2,8 +2,6 @@ package com.nathaliebize.sphynx.service;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,7 @@ import com.nathaliebize.sphynx.model.Event;
 import com.nathaliebize.sphynx.model.Session;
 import com.nathaliebize.sphynx.model.Site;
 import com.nathaliebize.sphynx.model.User;
-import com.nathaliebize.sphynx.model.view.CreatedSite;
+import com.nathaliebize.sphynx.model.view.SubmitedSite;
 import com.nathaliebize.sphynx.model.view.RecordedEvent;
 import com.nathaliebize.sphynx.model.view.RecordedSession;
 import com.nathaliebize.sphynx.repository.EventRepository;
@@ -35,21 +33,54 @@ public class SiteService {
     private EventRepository eventRepository;    
     
     /**
-     * Saves a site into the database. It takes a createdSite object and convert it to
-     * a Site object. 
+     * Saves a site into the database. It takes a SubmitedSite object and convert it to
+     * a Site object.
      * @param createdSite
-     * @param email
-     * @return true if user could be retrive, false otherwise.
+     * @param principalName
+     * @return the site id if user could be retrive, null otherwise.
      */
-    public boolean saveSite(CreatedSite createdSite, String email) {
-        Long userId = getUserId(email);
+    public Long saveSite(SubmitedSite submitedSite, String principalName) {
+        Long userId = getUserId(principalName);
         if (userId != null) {
             Site site = new Site();
             site.setUserId(userId);
-            site.setUrl(createdSite.getUrl());
-            site.setDescription(createdSite.getDescription());
+            site.setUrl(submitedSite.getUrl());
+            site.setDescription(submitedSite.getDescription());
             siteRepository.save(site);
-            return true;
+            return site.getId();
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Saves a new session to database given a recordedSession.
+     * @param recordedSession
+     */
+    public void saveSession(RecordedSession recordedSession) {
+        if (validate(recordedSession)) {
+            Session session = new Session();
+            Long userId = recordedSession.getUserId();
+            session.setUserId(userId);
+            session.setSiteId(recordedSession.getSiteId());
+            session.setSessionId(recordedSession.getSessionId());
+            session.setStartTime(recordedSession.getStartTime());
+            sessionRepository.save(session);
+            processData(userId);
+        } 
+    }
+    
+    /**
+     * Check if a recorded session has a correct user id and site id corresponding properties.
+     * @param recordedSession
+     * @return true if correct
+     */
+    private boolean validate(RecordedSession recordedSession) {
+        if (recordedSession != null) {
+            Long recordedUserId = recordedSession.getUserId();
+            Long recordedSiteId = recordedSession.getSiteId();
+            Site site = findBySiteId(recordedSiteId);        
+            return (site != null && recordedUserId.equals(site.getUserId()));
         } else {
             return false;
         }
@@ -57,88 +88,87 @@ public class SiteService {
     
     /**
      * Saves an event to database.
-     * @param jsonString
+     * @param recordedEvent
      */
-    public void saveEvent(RecordedEvent jsonString) {
-        Event event = new Event();
-        event.setSessionId(jsonString.getSessionId());
-        event.setSiteId(jsonString.getSiteId());
-        event.setUserId(jsonString.getUserId());
-        event.setTimestamp(jsonString.getTimestamp());
-        event.setType(jsonString.getType());
-        event.setPath(jsonString.getPath());
-        event.setTarget(jsonString.getTarget());
-        event.setGroupType(jsonString.getGroupType());
-        eventRepository.save(event);
-    }
-    
-//    public void closeSession(RecordedEvent jsonString) {
-//        Session session = sessionRepository.findBySessionId(jsonString.getSessionId());
-//
-//        if (getEventList(session.getUserId(), session.getSessionId()).size() < 4) {
-//            sessionRepository.delete(session);
-//        } else {
-//            createViewEventList(session);
-//            session.setStatus("ENDED");
-//            sessionRepository.changeSessionStatus("ENDED", jsonString.getSessionId());
-//            processData(session.getUserId());
-//        }
-//    }
-    
-    /**
-     * Saves a session to database.
-     * @param jsonString
-     */
-    public void saveSession(RecordedSession jsonString) {
-        Session session = new Session();
-        session.setUserId(jsonString.getUserId());
-        session.setSiteId(jsonString.getSiteId());
-        session.setSessionId(jsonString.getSessionId());
-        session.setStartTime(jsonString.getStartTime());
-        sessionRepository.save(session);
-        
+    public void saveEvent(RecordedEvent recordedEvent) {
+        if (validate(recordedEvent)) {
+            Event event = new Event();
+            event.setSessionId(recordedEvent.getSessionId());
+            event.setSiteId(recordedEvent.getSiteId());
+            event.setUserId(recordedEvent.getUserId());
+            event.setTimestamp(recordedEvent.getTimestamp());
+            event.setType(recordedEvent.getType());
+            
+            String path = recordedEvent.getPath();
+            if (path != null) {
+                event.setPath(path);
+            }
+            String target = recordedEvent.getTarget();
+            if (target != null) {
+                event.setTarget(target);
+            }
+            eventRepository.save(event);
+        }
     }
     
     /**
-     * Returns a list of Site for one given email addresse.
-     * @param email
-     * @return
+     * Check if a recorded event has a correct user id, site id and session id corresponding properties.
+     * @param recordedEvent
+     * @return true if correct
      */
-    public ArrayList<Site> getSiteList(String email) {
-        Long userId = getUserId(email);
+    private boolean validate(RecordedEvent recordedEvent) {
+        if (recordedEvent != null) {
+            Long recordedUserId = recordedEvent.getUserId();
+            Long recordedSiteId = recordedEvent.getSiteId();
+            String recordedSessionId = recordedEvent.getSessionId();
+            Session session = findBySessionId(recordedSessionId);
+            return (session != null && recordedSiteId.equals(session.getSiteId()) && recordedUserId.equals(session.getUserId()));
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Returns an arraylist of sites for a given principal user's name.
+     * @param principalName
+     * @return list of sites
+     */
+    public ArrayList<Site> getSiteList(String principalName) {
+        Long userId = getUserId(principalName);
         ArrayList<Site> siteList = null;
         if (userId != null) {
-            siteList = siteRepository.findByUserId(userId);
+            siteList = siteRepository.getSiteList(userId);
         }
         return siteList;
     }
+    
     /**
-     * Returns a list of Site for one given user id.
+     * Returns an arraylist of sites for one given user id.
      * @param userId
-     * @return
+     * @return list of sites
      */
     public ArrayList<Site> getSiteList(Long userId) {
-        return siteRepository.findByUserId(userId);
+        return siteRepository.getSiteList(userId);
     }
 
     /**
-     * Returns a list of Session for one given userId and site id pair.
+     * Returns an arraylist of sessions for one given userId and site id pair.
      * @param userId
-     * @param id
-     * @return
+     * @param siteId
+     * @return list of sessions
      */
-    public ArrayList<Session> getSessionList(@NotNull Long userId, Long id) {
-        return sessionRepository.getSessionList(userId, id);
+    public ArrayList<Session> getSessionList(Long userId, Long siteId) {
+        return sessionRepository.getSessionList(userId, siteId);
     }
     
     /**
-     * Returns a list of Session for one given email address and site id pair.
-     * @param email
+     * Returns an arraylist of sessions for a given principal user's name and site id pair.
+     * @param principalName
      * @param siteId
-     * @return
+     * @return list of sessions
      */
-    public ArrayList<Session> getSessionList(String email, Long siteId) {
-        Long userId = getUserId(email);
+    public ArrayList<Session> getSessionList(String principalName, Long siteId) {
+        Long userId = getUserId(principalName);
         ArrayList<Session> sessionList = null;
         if (userId != null) {
             sessionList = sessionRepository.getSessionList(userId, siteId);
@@ -146,33 +176,24 @@ public class SiteService {
         return sessionList;
     }
     
-//    public ArrayList<ViewEvent> getViewEventList(String email, Long sessionId) {
-//        Long userId = getUserId(email);
-//        ArrayList<ViewEvent> viewEventList = new ArrayList<ViewEvent>();
-//        if (userId != null) {
-//            viewEventList = viewEventRepository.getViewEventList(userId, sessionId);
-//        }
-//        return viewEventList;
-//    }
-    
     /**
-     * Returns a list of Events for a given session, using the session id and user id.
+     * Returns an arraylist of events for a given session, using the session id and user id.
      * @param userId
      * @param sessionId
-     * @return
+     * @return list of events
      */
-    public ArrayList<Event> getEventList(Long userId, Long sessionId) {
+    public ArrayList<Event> getEventList(Long userId, String sessionId) {
         return eventRepository.getEventList(userId, sessionId);
     }
 
     /**
-     * Returns a list of Events for a given session, using an email address and session id.
-     * @param email
+     * Returns an arraylist of events for a given session, using the principal's name and the session id.
+     * @param principalName
      * @param sessionId
-     * @return
+     * @return list of events
      */
-    public ArrayList<Event> getEventList(String email, Long sessionId) {
-        Long userId = getUserId(email);
+    public ArrayList<Event> getEventList(String principalName, String sessionId) {
+        Long userId = getUserId(principalName);
         ArrayList<Event> eventList = new ArrayList<Event>();
         if (userId != null) {
             eventList = eventRepository.getEventList(userId, sessionId);
@@ -181,74 +202,57 @@ public class SiteService {
     }
     
     /**
-     * Returns the user id for a given email address.
-     * @param email
-     * @return
+     * Returns the user id for a given principal user's name.
+     * @param principalName
+     * @return user id
      */
-    private Long getUserId(String email) {
-        User user = userRepository.findByEmail(email);
-        Long userId = null;
+    private Long getUserId(String principalName) {
+        User user = userRepository.findByEmail(principalName);
         if (user != null) {
-            userId = user.getId();
+            return user.getId();
+        } else {
+            return -1L;
         }
-        return userId;
     }
 
     /**
-     * Return a Site from database given an site id.
-     * @param id
-     * @return
+     * Return a site from database for a given site id.
+     * @param site id
+     * @return site
      */
-    public Site findBySiteId(Long id) {
-        Site site = siteRepository.findBySiteId(id);
-        return site;
+    public Site findBySiteId(Long siteId) {
+        return siteRepository.findBySiteId(siteId);
     }
     
-//    /**
-//     * Iterates throught the events' session and create a viewEvent list to parse the information.
-//     * @param session
-//     */
-//    private void createViewEventList(Session session) {
-//        ArrayList<Event> eventList = getEventList(session.getUserId(), session.getSessionId());
-//        ArrayList<ViewEvent> viewEventList = new ArrayList<ViewEvent>();
-//        boolean eventRunning = false;
-//        for (int i = 0, j = 0; i < eventList.size(); i++) {
-//            if (eventRunning) {
-//                while (i < eventList.size() - 1 && eventList.get(i).getType().equals(eventList.get(i + 1).getType())) {
-//                    i ++;
-//                }
-//                eventRunning = false;
-//                viewEventList.get(j - 1).setTimeStop(eventList.get(((i+1) < eventList.size()) ? i + 1 : i).getTimestamp());
-//            } else {
-//                ViewEvent parsedEvent = new ViewEvent(eventList.get(i));
-//                viewEventList.add(parsedEvent);
-//                if (i == 0) {
-//                    viewEventList.get(j).setGroupType(0);
-//                }
-//                j++;
-//                if (eventList.get(i).getGroupType() == 2 && i + 1 < eventList.size() && eventList.get(i).getType().equals(eventList.get(i + 1).getType())) {
-//                    eventRunning = true;
-//                }
-//            }
-//        }
-//        for (ViewEvent viewEvent : viewEventList) {
-//            viewEventRepository.save(viewEvent);
-//        }
-//    }
+    /**
+     * Return a session from database for a give session id.
+     * @param sessionId
+     * @return session
+     */
+    public Session findBySessionId(String sessionId) {
+        return sessionRepository.findBySessionId(sessionId);
+    }
 
     /**
      * Update size (number of session) of a given site.
      * @param site
      */
     private void updateSiteSize(Site site) {
-        int siteSize = sessionRepository.getSessionList(site.getUserId(), site.getId()).size();
-        if (siteSize != site.getSize()) {
-            siteRepository.updateSiteSize(site.getId(), siteSize);
+        if (site != null) {
+            ArrayList<Session> sessionList = sessionRepository.getSessionList(site.getUserId(), site.getId());
+            int siteSize = -1;
+            if (sessionList != null) {
+                siteSize = sessionList.size();
+            }
+            if (siteSize != -1 && siteSize != site.getSize()) {
+                siteRepository.updateSiteSize(site.getId(), siteSize);
+            }
         }
     }
     
     /**
-     * Process the data in database to update number of session, clean up aborded session.
+     * Process the data in database to update number of session for a given user id.
+     * @param userId
      */
     public void processData(Long userId) {
         ArrayList<Site> siteList = getSiteList(userId);
@@ -258,5 +262,120 @@ public class SiteService {
             }
         }
     }
+    
+    /**
+     * Process the data in database to update number of session for a given name.
+     * @param principalName
+     */
+    public void processData(String principalName) {
+        Long userId = getUserId(principalName);
+        if (userId != null) {
+            processData(userId);
+        }
+    }
+
+    /**
+     * Deletes a site and its related sessions for a given siteId and a given user from the databse.
+     * @param principalName
+     * @param siteId
+     * @return true if site was deleted
+     */
+    public boolean deleteSite(String principalName, Long siteId) {
+        Long userId = getUserId(principalName);
+        Site site = siteRepository.findBySiteId(siteId);
+        if (site != null && site.getUserId().equals(userId)) {
+            siteRepository.delete(site);
+            ArrayList<Session> sessionList = getSessionList(principalName, siteId);
+            if (sessionList != null) {
+                for (Session session : sessionList) {
+                    deleteSession(principalName, session.getSessionId());
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Deletes all sessions for a given site id and a given user from the databse.
+     * @param principalName
+     * @param sessionId
+     */
+    public boolean deleteSession(String principalName, String sessionId) {
+        Long userId = getUserId(principalName);
+        Session session = sessionRepository.findBySessionId(sessionId);
+        if (session != null && session.getUserId().equals(userId)) {
+            sessionRepository.deleteBySessionId(sessionId);
+            processData(userId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Validates if a site belong to a user, given the site id and principal name.
+     * @param principalName
+     * @param siteId
+     * @return true if correct
+     */
+    public boolean validate(String principalName, long siteId) {
+        Long siteUserId = findBySiteId(siteId).getUserId();
+        Long principalUserId = userRepository.findByEmail(principalName).getId();
+        return siteUserId.equals(principalUserId);
+    }
+    
+    /**
+     * Generates the code snippet with the correct user id and site id for a given user and a given site.
+     * @param principalName
+     * @param siteId
+     * @return the code snippet.
+     */
+    public String generateCodeSnippet(String principalName, long siteId) {
+        if (validate(principalName, siteId)) {
+            Long userId = getUserId(principalName);
+            StringBuilder snippet = new StringBuilder();
+            snippet.append("<script type='text/javascript'>\n"
+                    + "(function() {\n"
+                    + "let script = document.createElement('script');\n"
+                    + "script.type = 'text/javascript';\n"
+                    + "script.async = true;\n"
+                    + "script.onload = function(){\n"
+                    + "script.onload = null;\n"
+                    + "myScript('"
+                    + String.valueOf(userId)
+                    + "', '"
+                    + String.valueOf(siteId)
+                    + "');\n"
+                    + "};\n"
+                    + "script.src = 'https://www.sphynx.dev/generalScript.js';\n"
+                    + "document.getElementsByTagName('head')[0].appendChild(script);\n"
+                    + "}());\n"
+                    + "</script>");
+            return snippet.toString();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Update site url and description for a given site id.
+     * @param siteId
+     * @param url
+     * @param description
+     * @return true is site was updated
+     */
+    public boolean updateSite(Long siteId, String url, String description) {
+        Site site = siteRepository.findBySiteId(siteId);
+        if (site != null) {
+            siteRepository.updateSiteInfo(siteId, url, description);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }
