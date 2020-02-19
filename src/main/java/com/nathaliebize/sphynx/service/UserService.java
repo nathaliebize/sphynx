@@ -1,6 +1,7 @@
 package com.nathaliebize.sphynx.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,23 @@ import com.nathaliebize.sphynx.repository.UserRepository;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
     
-    private Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("JDfidlqmepzRE34fdjsklWWrIfj");
+    @Value("${sphynx.encoder.seed}")
+    private String seed;
+        
+    public UserService() {
+        
+    }
     
     public User registerNewUser(RegisterUser registerUser) {
         User user = verifyEmail(registerUser.getEmail());
         if (user != null) {
             return null;
         } else {
-            user = new User(registerUser.getEmail(), encoder.encode(registerUser.getPassword()));
+            user = new User(registerUser.getEmail(), new Pbkdf2PasswordEncoder(seed).encode(registerUser.getPassword()));
             this.userRepository.save(user);
             return user;
         }
@@ -63,7 +70,7 @@ public class UserService {
     }
 
     public void updatePassword(ResetPasswordUser resetPasswordUser) {
-        this.userRepository.updatePassword(encoder.encode(resetPasswordUser.getPassword()), resetPasswordUser.getRegistrationKey());
+        this.userRepository.updatePassword(new Pbkdf2PasswordEncoder(seed).encode(resetPasswordUser.getPassword()), resetPasswordUser.getRegistrationKey());
     }
 
 }
