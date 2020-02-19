@@ -20,25 +20,19 @@ public class DataController {
     
     /**
      * Receives data from sphynx-powered websites.
-     * Save each event into the events table.
+     * Saves each event into the events table.
      */
     @PostMapping("/save-event")
-    public void saveEvent(@RequestBody RecordedEvent jsonString) {
-        siteService.saveEvent(jsonString);
+    public void saveEvent(@RequestBody RecordedEvent recordedEvent) {
+        siteService.saveEvent(recordedEvent);
     }
     
     /**
      * Receives data from sphynx-powered websites.
-     * Save each new session into the sessions table.
+     * Saves each new session into the sessions table.
      */
     @PostMapping("/save-session")
-    public void saveSession(@RequestBody RecordedSession jsonString) {
-        siteService.saveSession(jsonString);
+    public void saveSession(@RequestBody RecordedSession recordedSession) {
+        siteService.saveSession(recordedSession);
     }
-    
-    @PostMapping("/save-quit")
-    public void saveExitEvent(@RequestBody RecordedEvent jsonString) {
-        siteService.processData(jsonString.getUserId());
-    }
-
 }
