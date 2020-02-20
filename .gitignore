@@ -16,4 +16,4 @@ target/
 *.jar
 
 ## Configuration files ##
-#**/ressources/application.properties
+application.properties
