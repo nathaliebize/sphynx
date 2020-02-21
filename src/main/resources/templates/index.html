@@ -92,13 +92,13 @@
               <div class="col-sm-6">
                 <h4 class="text-color-blue font-weight-bold p-md-3 py-3">SYNOPSIS</h4>
                 <h1 class="font-weight-bold p-md-3 py-3">Grasps your user's experience!</h1>
-                <h5 class="font-weight-light p-md-3 py-3">You invested time and money building a website, 
+                <h5 class="font-weight-light p-md-3 py-3"><p>You invested time and money building a website, 
                   polishing its design to make it intuitive for your customers. Yet, you still wonder
                   if it has the impact that you desired. Sphynx allows you to understand how each user
-                  who lands on your website navigate through its contents.<br>
+                  who lands on your website navigate through its contents.</p><p>
                   Standard analytic tools focus on statistics and locations while Sphynx focuses on collecting
                   quality and detailed session data. The tool is simple and free to use, I hope that it
-                  helps you fine-tune your websites so that they resonate with your users.
+                  helps you fine-tune your websites so that they resonate with your users.</p>
                 </h5>
                 <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).TERMS.getPath()} class="btn button-blue p-md-3 py-3 mx-md-3">Terms of use</a>
               </div>
@@ -107,22 +107,22 @@
               <div class="col-sm-6">
                 <h4 class="text-color-blue font-weight-bold p-md-3 py-3">MOTIVE</h4>
                 <h1 class="font-weight-bold p-md-3 py-3">Why build sphynx?</h1>
-                <h5 class="font-weight-light p-md-3 py-3"> 
+                <h5 class="font-weight-light p-md-3 py-3"><p>
                   I created Sphynx to further my knowledge in writing a multi-tiered projet from scratch. 
                   I wanted to build a web application complex enough to involve technical areas such as 
                   security management, data collection and storage. I kept the requirements simple enough  
                   so that it could be built with realistic ressources in term of time, space 
                   and financial investment. I felt that it would be a good experience to prepare myself for a
-                  career as software engineer.<br>
+                  career as software engineer.</p><p>
                   This is an open source project. It is meant to be transparent and accessible to all. 
                   The front-end is written in plain HTML and CSS, using Bootstrap to create a modern and
                   responsive design. The HTML is rendered through Thymeleaf templates. 
                   A Java Spring boot application captures the REST requests on the back-end side. It processes and persists 
                   the data into a Postgres database using Hibernate as its ORM.
-                  You can find more details in the information section and access the entire project in Github. 
+                  You can find more details in the information section and access the entire project in Github.</p> 
                 </h5>
                 <div class="d-flex justify-content-center p-md-3 py-3">
-                  <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).INFO.getPath()} class="btn button-dark p-md-3 py-3 mr-3">Tech Info</a>
+                  <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).INFO.getPath()} class="btn button-dark p-md-3 py-3 mr-3">More details</a>
                   <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).GITHUB.getPath()} class="btn button-blue p-md-3 py-3 ml-3">Github Repo</a>  
                 </div>
               </div>

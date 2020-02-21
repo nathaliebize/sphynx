@@ -7,61 +7,63 @@
     <section layout:fragment="content">
       <div class="container-fluid row justify-content-center">
         <div class="col-10 py-5 my-5 justify-content-right">
-          <h1 class="pt-5 display-2 font-weight-bold">All about the project.</h1>
-          <h2 class="display-3 font-weight-bold">Overview.</h2>
-          <div class="pt-5 font-weight-light">
-            <p>Sphynx is a service that shows you how users interact with your website. 
-            The web application allows you to follow your users’ behavior while browsing your pages.</p>
+          <h1 class="pt-5 display-2 font-weight-bold">Sphynx technical details</h1>
+          <h2 class="display-3 font-weight-bold">Overview</h2>
+          <h5 class="font-weight-light p-md-3 py-3">
+            <p>Sphynx is a web application that illustrate how users interact with websites. 
+            The tool allows you to follow your users’ behavior as they browse and interact through your pages.</p>
             <p>The front-end is written in plain HTML and CSS, using Bootstrap to create a modern and
             responsive design. The HTML is rendered through Thymeleaf templates. 
             A Java Spring boot application captures the REST requests on the back-end side. It processes and persists 
             the data into a Postgres database using Hibernate as its ORM.</p>
-          </div>
+          </h5>
           <img th:alt="'sphynx app diagram'" class="img-fluid pt-5" src="/img/sphynxAppDiagram.png">
-          <h2 class="pt-5 mt-5 display-3 font-weight-bold">Specs.</h2>
-          <div class="pt-5 font-weight-light">
+          <h2 class="pt-5 mt-5 display-3 font-weight-bold">EngProd</h2>
+          <h5 class="font-weight-light p-md-3 py-3">
             <p>WEB SERVER</p>
-            <p>The server is configured with a Nginx reverse-proxy and Tomcat application server. 
+            <p>The server is configured with an Nginx reverse-proxy and a Tomcat application server. 
               A Secure Socket Layer (SSL) certificate allows the server to receive secured requests.
               Nginx redirects the HTTP and HTTPS requests, received on ports 80 and 443, to the Tomcat webcontainer port.
               Tomcat enables a servlet based application to run.</p>          
-          </div>
-          <div class="pt-5 font-weight-light">
+          </h5>
+          <h5 class="font-weight-light p-md-3 py-3">
             <p>DIGITAL OCEAN - DROPLET</p>
             <p>Sphynx application is hosted on a DigitalOcean droplet, a web server running on Ubuntu. 
             The memory of 1GB is scaled for our traffic’s flow and database’s size. 
-            The droplet is constituted by 1 virtual CPU, 1 TB of transfer and 25 GB of SSD disk. 
+            The droplet is comprised of 1 virtual CPU, 1 TB of transfer and 25 GB of SSD disk. 
             The cost of service is $5/month.</p>          
-          </div>
-          <div class="pt-5 font-weight-light">
-            <p>DEPLOYEMENT</p>
-            <p>How to deploy the app? Tomcat .war.</p>          
-          </div>
+          </h5>
+          <h5 class="font-weight-light p-md-3 py-3">
+            <p>DEPLOYMENT</p>
+            <p>How to deploy the app? Currently done manually be deploying the packaged war file.</p>          
+          </h5>
           <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).GITHUB.getPath()} class="btn button-dark p-3 my-3">Github</a>
         </div>
       </div>
       <div class="container-fluid dark">
         <div class="row justify-content-center">
           <div class="col-10 justify-content-right">
-            <h1 class="pt-5 display-2 font-weight-bold">About me.</h1>
+            <h1 class="pt-5 display-2 font-weight-bold">About me</h1>
             <div class="pt-5 row d-flex">
               <img th:alt="portrait" class="col-3 img-fluid mb-auto" src="/img/portrait.jpg">
               <div class="col-9">
-                <h5 class="font-weight-light">I have an atypical background. I grew up in France where I study and received a Bachelor of Science in Midwifery.
-                  When I moved to California, it opened new opportunities to me. I decided to reinvent myself.
-                  I was drawn to a C++ class in my community college and I was hooked! Since then, I aced all my 
-                  computer sciences classes and learned various langages and technical tools.
+                <h5 class="font-weight-light">My name is Nathalie. I have an atypical background for a software engineer.
+                  I grew up in France where I studied and received a Bachelor of Science in Midwifery.
+                  I moved to the Silicon Valley a few years ago and decided to reinvent myself.
+                  I was drawn to a C++ class in my community college and was hooked! Since then, I aced all of the available 
+                  CS classes where I learned various programming languages and tools.
                 </h5>
                 <a target="_blank" th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).RESUME.getPath()} class="btn button-dark p-3 my-3">Resume</a>
               </div>
             </div>
             <h2 class="pt-5 mt-5 display-3 font-weight-bold">Why build sphynx?</h2>
-            <h5 class="mt-5 font-weight-light">I created Sphynx to further my knowledge in writing a multi-tiered projet from scratch. 
+            <h5 class="mt-5 font-weight-light">They say that you learn the best by being hands-on.
+              I created Sphynx to further my knowledge in writing a multi-tiered projet from scratch.
               I wanted to build a web application complex enough to involve technical areas such as 
               security management, data collection and storage. I kept the requirements simple enough  
               so that it could be built with realistic ressources in term of time, space 
-              and financial investment. I felt that it would be a good experience to prepare myself for a
-              career as software engineer.
+              and financial investment. Now that it's completed, I feel that it was a great experience
+              to prepare myself for a career as a software engineer.
             </h5>
             <h2 class="pt-5 mt-5 display-3 font-weight-bold">What did I learn along the way?</h2>
             <h5 class="mt-5 font-weight-light">I learned the importance of writing clean and readable code.
@@ -71,7 +73,6 @@
             </h5>
             <div class="mt-5 row">
               <div class="col-sm">
-                <img th:alt="java" class="img-fluid p-3" src="/img/javaFileIcon.png">
                 <h5 class="font-weight-light p-3">I started my project with lots of spaggethi code.
                   Over time, I learned that having a clear separation of concerns amongst my classes and
                   application layers made things a lot easier to organize. I have several layers who
@@ -79,14 +80,12 @@
                 </h5>
               </div>
               <div class="col-sm">
-                <img th:alt="'logo'" class="img-fluid p-3" src="/img/testFileIcon.png">
                 <h5 class="font-weight-light p-3">I learned to love unit tests. They helped me
                   catch regressions for free as I was writing code. I wish I would have started writting
                   tests earlier, it's much harder to play catch-up after a lot of code has been written.
                 </h5>
               </div>
               <div class="col-sm">
-                <img th:alt="'logo'" class="img-fluid p-3" src="/img/warFileIcon.png">
                 <h5 class="font-weight-light p-3">I loved gaining an understanding of how everything
                   was tied together, from the requests flow to the server code, database storage and
                   presentation layer. I loved setting up my own server on a DigitalOcean droplet,
