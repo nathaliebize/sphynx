@@ -1,15 +1,25 @@
 package com.nathaliebize.sphynx.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.nathaliebize.sphynx.routing.SiteMap;
 
 /**
  * Class that handles communication by email with one user.
  */
 public class CommunicationByEmail {
-    final private User user;
+    private User user;
     
-    public CommunicationByEmail(User user) {
+    private String domain;
+    
+    public CommunicationByEmail(User user, String host) {
         this.user = user;
+        this.domain = host;
     }
     
     public User getUser() {
@@ -22,7 +32,7 @@ public class CommunicationByEmail {
      */
     public String sendConfirmationEmail() {
         // TODO: Send email
-        return SiteMap.URL_BASE.getPath() + SiteMap.USER_VERIFY.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
+        return domain + SiteMap.USER_VERIFY.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
     }
     
     /**
@@ -31,7 +41,7 @@ public class CommunicationByEmail {
      */
     public String sendResetPasswordEmail() {
         // TODO: Send email
-        return SiteMap.URL_BASE.getPath() + SiteMap.USER_RESET_PASSWORD.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
+        return domain + SiteMap.USER_RESET_PASSWORD.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
     }
 
 }

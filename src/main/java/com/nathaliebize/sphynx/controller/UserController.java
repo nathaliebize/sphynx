@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -59,14 +60,14 @@ public class UserController {
      * @return /sites view if data are valid, /user/register view otherwise
      */
     @PostMapping("/register")
-    public String register(Model model, @Valid @ModelAttribute RegisterUser registerUser, BindingResult bindingResult) {
+    public String register(Model model, @Valid @ModelAttribute RegisterUser registerUser, BindingResult bindingResult, @RequestHeader String host) {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_REGISTER.getPath();
         }
         User user = userService.registerNewUser(registerUser);
         if (user != null) {
             // TODO: send email with link
-            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
+            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user, host);
             String link = communicationByEmail.sendConfirmationEmail();
             model.addAttribute("link", link);
             return SiteMap.USER_VERIFY.getPath();
@@ -116,7 +117,7 @@ public class UserController {
      * @return /user/verify if user is valid. /error otherwise
      */
     @PostMapping("forgot-password")
-    public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ForgotPasswordUser forgotPasswordUser, BindingResult bindingResult) {
+    public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ForgotPasswordUser forgotPasswordUser, BindingResult bindingResult, @RequestHeader String host) {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_FORGOT_PASSWORD.getPath();
         }
@@ -125,7 +126,7 @@ public class UserController {
             return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         } else {
             // TODO: send email with link
-            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user);
+            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user, host);
             String link = communicationByEmail.sendResetPasswordEmail();
             model.addAttribute("link", link);
             return SiteMap.USER_VERIFY.getPath();

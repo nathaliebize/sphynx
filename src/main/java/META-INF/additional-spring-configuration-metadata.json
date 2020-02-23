@@ -1,4 +1,6 @@
-{"properties": [{
-  "name": "sphynx.encoder.seed",
-  "desciption": "String use to initiate the Pbkdf2PasswordEncoder encoder."
-}]}
+{"properties": [
+  {
+    "name": "sphynx.encoder.seed",
+    "desciption": "String use to initiate the Pbkdf2PasswordEncoder encoder."
+  }
+]}

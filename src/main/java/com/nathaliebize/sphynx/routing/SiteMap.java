@@ -32,7 +32,6 @@ public enum SiteMap {
     SITES_EDIT("/sites/edit"),
     SITES_INDEX("/sites/sites-list"),
     TERMS("/terms"),
-    URL_BASE("https://www.sphynx/"),
     USER_FORGOT_PASSWORD("/user/forgot-password"),
     USER_LOGIN("/user/login"),
     USER_REGISTER("/user/register"),
