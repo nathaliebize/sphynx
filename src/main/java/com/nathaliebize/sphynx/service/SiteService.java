@@ -1,5 +1,6 @@
 package com.nathaliebize.sphynx.service;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,15 +118,25 @@ public class SiteService {
      * @return true if correct
      */
     private boolean validate(RecordedEvent recordedEvent) {
-        if (recordedEvent != null) {
-            Long recordedUserId = recordedEvent.getUserId();
-            Long recordedSiteId = recordedEvent.getSiteId();
+        Long recordedUserId = null;
+        Long recordedSiteId = null;
+        Session session = null;
+        String recordedHost = null;
+        String databaseHost = null;
+        try {
+            recordedUserId = recordedEvent.getUserId();
+            recordedSiteId = recordedEvent.getSiteId();
             String recordedSessionId = recordedEvent.getSessionId();
-            Session session = findBySessionId(recordedSessionId);
-            return (session != null && recordedSiteId.equals(session.getSiteId()) && recordedUserId.equals(session.getUserId()));
-        } else {
+            URL recordedUrl = new URL(recordedEvent.getPath());
+            recordedHost = recordedUrl.getHost();        
+            session = findBySessionId(recordedSessionId);
+            URL databaseUrl = null;
+            databaseUrl = new URL(siteRepository.findBySiteId(session.getSiteId()).getUrl());
+            databaseHost = databaseUrl.getHost();
+        } catch (Exception e) {
             return false;
         }
+        return (recordedHost != null && databaseHost != null && recordedHost.equals(databaseHost) && recordedSiteId.equals(session.getSiteId()) && recordedUserId.equals(session.getUserId()));
     }
     
     /**

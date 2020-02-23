@@ -44,6 +44,7 @@ public class Event {
     
     private String target;
     
+    @NotNull
     private String path;
 
     public String getSessionId() {

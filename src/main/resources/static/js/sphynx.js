@@ -1,10 +1,12 @@
 /**
  * Script that handles data collection for each sphynx-powered website;
  */
-     
+myScript("3001", "2151");
 function myScript(userId, siteId) {
 	const COOKIE_EXPIRATION_LENGTH = 86400;
-	const domain = "https://www.sphynx/";
+	// TODO: Change domain
+	// const domain = "https://www.sphynx.dev/";
+	const domain = "http://localhost:8080/";
 	
 	let timestamp = new Date();
 	let path;
@@ -96,6 +98,7 @@ function myScript(userId, siteId) {
 				path
 			});
 		}
+		path = window.location.href;
 		if (isScrolling === false) {
 			isScrolling = true;
 			scrollTopFinish = scrollTopStart = document.documentElement.scrollTop;
@@ -116,7 +119,8 @@ function myScript(userId, siteId) {
 					target: "",
 					sessionId,
 					siteId,
-					userId
+					userId,
+					path
 				});
 			}
 	    }
@@ -137,6 +141,7 @@ function myScript(userId, siteId) {
 	 
 	// Listens and saves 'click' events.
 	document.addEventListener("click", (e) => {
+		path = window.location.href;
 		timestamp = new Date();
 		let target = getTarget(e);
 		sendEvent( {
@@ -145,7 +150,8 @@ function myScript(userId, siteId) {
 			sessionId,
 			siteId,
 			userId,
-			target
+			target,
+			path
 		});
     });
 	
@@ -164,15 +170,15 @@ function myScript(userId, siteId) {
 		}
 		
 		if (nodeName === 'IMG') {
-			if (alt =! undefined && alt != null) {
+			if (alt != null) {
 				return target.concat(" - ", alt);
 			}
 		} else if (nodeName === 'INPUT' || nodeName === 'TEXTAREA') {
-			if (placeholder != undefined && placeholder != null) {
+			if (placeholder != null) {
 				return target.concat(" - ", placeholder);
 			}
 		} else if (nodeName === 'INPUT' || nodeName === 'TEXTAREA') {
-			if (id != undefined && id != null) {
+			if (id != null) {
 				return target.concat(" - ", id);
 			}
 		} else if (e.target.innerHTML != undefined || e.target.innerHTML != null) {
@@ -195,6 +201,7 @@ function myScript(userId, siteId) {
 	// Sends 'keydown' event
 	function sendTypingEvent(e) {
 		timestamp = new Date();
+		path = window.location.href;
 		let target = getTarget(e);
 		sendEvent({
 			type: "KEYDOWN",
@@ -202,13 +209,15 @@ function myScript(userId, siteId) {
 			sessionId,
 			siteId,
 			userId,
-			target
+			target,
+			path
 		});
 		document.removeEventListener("keydown", sendTypingEvent);
 	}
 	  
 	// Adds event listener to catch when user leave and return to tab.
 	document.addEventListener("visibilitychange", function() {
+		path = window.location.href;
 		if (document.hidden) {
 			isScrolling = false;
 			timestamp = new Date();
@@ -218,7 +227,8 @@ function myScript(userId, siteId) {
 				sessionId,
 				siteId,
 				userId,
-				target: ""
+				target: "",
+				path
 			});
 		} else {
 			timestamp = new Date();
@@ -228,7 +238,8 @@ function myScript(userId, siteId) {
 				sessionId,
 				siteId,
 				userId,
-				target: ""
+				target: "",
+				path
 			});
 		}
 	});	
@@ -238,6 +249,7 @@ function myScript(userId, siteId) {
 	let isInactive = false;
 	function checkActivity() {
 		let now = new Date();
+		path = window.location.href;
 	    if ((now - timestamp) > 60000) {
 	    	if (isInactive == false) {
 	    		sendEvent( {
@@ -246,7 +258,8 @@ function myScript(userId, siteId) {
 	    			sessionId,
 	    			siteId,
 	    			userId,
-	    			target: ""
+	    			target: "",
+	    			path
 	    		});
 	    		isInactive = true;
 	    	}
