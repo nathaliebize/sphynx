@@ -13,8 +13,12 @@
               Create a new sphynx-powered site
             </h1>
             <form th:action=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES_CREATE.getPath()} method="POST" class="form-group m-5 px-5" th:object=${site}>
-              <input type="text" class="my-3 form-control" th:field="*{url}" placeholder="Site url">
-              <textarea rows="10" cols="30" class="my-3 form-control" th:field="*{description}" placeholder="Description of your site."></textarea>
+              <div>
+                <input type="text" class="my-3 form-control" th:field="*{url}" placeholder="Site url">
+                <span th:if="${#fields.hasErrors('url')}" class="help-block" th:errors="*{url}"></span>
+                <textarea rows="10" cols="30" class="my-3 form-control" th:field="*{description}" placeholder="Description of your site."></textarea>
+                <span th:if="${#fields.hasErrors('description')}" class="help-block" th:errors="*{description}"></span>
+              </div>
               <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="btn button-dark my-5">Cancel</a>
               <button type="submit" class="btn button-blue my-5">Create</button>
             </form>

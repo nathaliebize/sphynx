@@ -1,16 +1,19 @@
 package com.nathaliebize.sphynx.model.view;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+
+import com.nathaliebize.sphynx.security.constraint.UrlField;
 
 /**
  * One site that is submited by user to be saved in database.
  * The url and description properties cannot be null.
  */
 public class SubmitedSite {
-    @NotNull
+    @NotBlank(message="Must not be blank")
+    @UrlField(message="Must be a valid url")
     private String url;
     
-    @NotNull
+    @NotBlank(message="Must not be blank")
     private String description;
 
     public String getUrl() {

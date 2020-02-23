@@ -96,11 +96,11 @@ public class SitesController {
      */
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String createPage(Principal principal, Model model, @Valid @ModelAttribute SubmitedSite createdSite, BindingResult bindingResult) {
+    public String createPage(Model model, @Valid @ModelAttribute("site") SubmitedSite site, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return SiteMap.SITES_CREATE.getPath();
         }
-        Long siteId = siteService.saveSite(createdSite, principal.getName());
+        Long siteId = siteService.saveSite(site, principal.getName());
         return "redirect:/sites/" + siteId + "/create";
     }
     
