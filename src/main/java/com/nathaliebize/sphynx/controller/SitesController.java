@@ -132,7 +132,7 @@ public class SitesController {
         Site site = siteService.findBySiteId(siteId);
         if (site != null) {
             model.addAttribute("site", site);
-            return SiteMap.SITES_DELETE_CONFIRMATION.getPath();
+            return SiteMap.SITES_DELETE_REQUEST_CONFIRMATION.getPath();
         } else {
             return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         }

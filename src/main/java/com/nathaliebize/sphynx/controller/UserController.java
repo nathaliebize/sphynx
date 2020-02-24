@@ -107,7 +107,7 @@ public class UserController {
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {
         model.addAttribute("forgotPasswordUser", new ForgotPasswordUser());
-        return SiteMap.USER_FORGOT_PASSWORD.getPath();
+        return SiteMap.USER_RESET_PASSWORD_REQUEST.getPath();
     }
     
     /**
@@ -120,7 +120,7 @@ public class UserController {
     @PostMapping("forgot-password")
     public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ForgotPasswordUser forgotPasswordUser, BindingResult bindingResult, @RequestHeader String host) {
         if (bindingResult.hasErrors()) {
-            return SiteMap.USER_FORGOT_PASSWORD.getPath();
+            return SiteMap.USER_RESET_PASSWORD_REQUEST.getPath();
         }
         User user = userService.updateRegistrationKey(forgotPasswordUser);
         if (user == null) {

@@ -57,7 +57,7 @@ public class SessionsController {
         if (session != null) {
             model.addAttribute("sessionSphynx", session);
         }
-        return SiteMap.SESSIONS_DELETE_CONFIRMATION.getPath();
+        return SiteMap.SESSIONS_DELETE_REQUEST_CONFIRMATION.getPath();
     }
     
     /**
