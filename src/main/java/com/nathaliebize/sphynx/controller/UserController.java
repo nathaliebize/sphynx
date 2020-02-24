@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nathaliebize.sphynx.model.CommunicationByEmail;
 import com.nathaliebize.sphynx.model.User;
 import com.nathaliebize.sphynx.model.view.ForgotPasswordUser;
 import com.nathaliebize.sphynx.model.view.RegisterUser;
 import com.nathaliebize.sphynx.model.view.ResetPasswordUser;
 import com.nathaliebize.sphynx.routing.SiteMap;
+import com.nathaliebize.sphynx.service.EmailSender;
 import com.nathaliebize.sphynx.service.UserService;
 
 /**
@@ -30,6 +30,9 @@ public class UserController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private EmailSender emailSender;
     
     /**
      * Handles login get request
@@ -65,18 +68,16 @@ public class UserController {
             return SiteMap.USER_REGISTER.getPath();
         }
         User user = userService.registerNewUser(registerUser);
-        if (user != null) {
-            // TODO: send email with link
-            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user, host);
-            String link = communicationByEmail.sendConfirmationEmail();
-            model.addAttribute("link", link);
+        if (user != null && host != null) {
+            emailSender.setUser(user);
+            emailSender.setHost(host);
+            emailSender.sendConfirmationRegistrationEmail();
             return SiteMap.USER_VERIFY.getPath();
         } else {
             model.addAttribute("error", "email already used");
             return SiteMap.USER_REGISTER.getPath();
         }
     }
-    
 
     /**
      * Handles verify get request. Tells user to check his emails or verifies the email when have parameter.
@@ -126,9 +127,9 @@ public class UserController {
             return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
         } else {
             // TODO: send email with link
-            CommunicationByEmail communicationByEmail = new CommunicationByEmail(user, host);
-            String link = communicationByEmail.sendResetPasswordEmail();
-            model.addAttribute("link", link);
+            emailSender.setUser(user);
+            emailSender.setHost(host);
+            emailSender.sendPasswordResetRequestConfirmationEmail();;
             return SiteMap.USER_VERIFY.getPath();
         }
     }
