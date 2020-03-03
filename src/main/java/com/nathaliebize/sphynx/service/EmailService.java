@@ -16,7 +16,7 @@ import com.nathaliebize.sphynx.routing.SiteMap;
  * Class that sent emails to users.
  */
 @Service
-public class EmailSender {
+public class EmailService {
     
     @Autowired
     public JavaMailSender javaMailSender;
