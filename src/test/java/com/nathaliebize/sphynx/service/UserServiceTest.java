@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +42,6 @@ public class UserServiceTest {
     
     @Value("${sphynx.encoder.seed}")
     private String seed;
-    
-    @Before
-    public void setup() {
-        }
-    
     
     @Test
     public void testRegisterNewUserAccount() {

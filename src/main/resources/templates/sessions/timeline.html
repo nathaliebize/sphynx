@@ -8,8 +8,8 @@
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-md-10 py-5 my-5 text-center">
-            <h1 th:text="${#dates.format(user_session.getStartTime(), 'EEE, dd MMM yy')}" class="display-3 font-weight-bold"></h1>
-            <h1 th:text="${#dates.format(user_session.getStartTime(), 'h:mm a')}" class="display-4"></h1>
+            <h1 th:text="${#dates.format(user_session.getDate(), 'EEE, dd MMM yy')}" class="display-3 font-weight-bold"></h1>
+            <h1 th:text="${#dates.format(user_session.getDate(), 'h:mm a')}" class="display-4"></h1>
             <h1 th:text="${site.getUrl()}" class="display-4"></h1>
           </div>
         </div>
@@ -17,47 +17,43 @@
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-md-8">
-          
-              <div class="timeline" th:each="event, i : ${events}">
-                <div class="timeline d-flex justify-content-start">
-                  <div class="d-flex">
-                    <p class="timeline-duration align-self-center text-center font-weight-light">
-                      <span th:unless="${i.last}" th:if="${events[i.index].getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE or events[i.index].getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" th:text="Inactive"></span>
-                      <br><span th:unless="${i.last}" th:text="${events[i.index + 1].getDuration(events[i.index].getTimestamp())}"></span>
-                    </p>
-                    <div th:unless="${i.last}" class=""  th:classappend="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE or event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB} ? timeline-line-inactive : timeline-line-active"></div>
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).START}" alt="start" class="timeline-img" src="/img/timelineScreen.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CLICK}" alt="click" class="timeline-img" src="/img/timelineClick.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).KEYDOWN}" alt="type" class="timeline-img" src="/img/timelineType.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).VIEW_ONE_HUNDRED}" alt="view" class="timeline-img" src="/img/timelineTab.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" alt="leave" class="timeline-img" src="/img/timelineLeave.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).RETURN_TAB}" alt="return" class="timeline-img" src="/img/timelineReturn.png">
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE}" alt="inactive" class="timeline-img" src="/img/timelineInactive.png">                    
-                    <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CHANGE_URL}" alt="changePage" class="timeline-img" src="/img/timelineChangeURL.png">                    
-                  </div>
-                  <div class="timeline-text">
-                    <div class="dark mb-5 mx-2 mx-md-3">
-                      <div class="d-flex flex-column px-5 py-4">
-                        <div class="flex-fill display-4 font-weight-bold py-3" th:text="(${i.last} ? 'Ended session - ' : '') + ${event.getType().getActivity()}"></div> 
-                        <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).START} or ${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CHANGE_URL} and ${event.getPath()} != null" class="flex-fill font-weight-light py-3" th:text="'The user navigated to ' + ${event.getPath()}"></div>
-                        <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CLICK} and ${event.getTarget()} != null" class="flex-fill font-weight-light py-3"><span th:text="'The user clicked on the element '"></span><span class="font-weight-bold" th:text="${event.getTarget()}"></span></div>
-                        <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).KEYDOWN} and ${event.getTarget()} != null" class="flex-fill font-weight-light py-3"><span th:text="'The user typed on the field '"></span><span class="font-weight-bold" th:text="${event.getTarget()}"></span></div>
-                        <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" class="flex-fill font-weight-light py-3"><p>The user leaves the tab without closing the page.</p><p>The page is not visible at this time.</p></div>
-                        <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).RETURN_TAB}" class="flex-fill font-weight-light py-3">The user returned to the tab.</div>
-                        <div class="flex-fill font-weight-light py-3" th:text="${#dates.format(event.getTimestamp(), 'h:mm:ss a ')}"></div>
-                      </div>
+            <div class="timeline" th:each="event, i : ${events}">
+              <div class="timeline d-flex justify-content-start">
+                <div class="d-flex">
+                  <p class="timeline-duration align-self-center text-center font-weight-light">
+                    <span th:unless="${i.last}" th:if="${events[i.index].getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE or events[i.index].getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" th:text="Inactive"></span>
+                    <br><span th:unless="${i.last}" th:text="${events[i.index + 1].getDuration(events[i.index].getDate())}"></span>
+                  </p>
+                  <div th:unless="${i.last}" class=""  th:classappend="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE or event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB} ? timeline-line-inactive : timeline-line-active"></div>
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).START}" alt="start" class="timeline-img" src="/img/timelineScreen.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CLICK}" alt="click" class="timeline-img" src="/img/timelineClick.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).KEYDOWN}" alt="type" class="timeline-img" src="/img/timelineType.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).VIEW_ONE_HUNDRED}" alt="view" class="timeline-img" src="/img/timelineTab.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" alt="leave" class="timeline-img" src="/img/timelineLeave.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).RETURN_TAB}" alt="return" class="timeline-img" src="/img/timelineReturn.png">
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).INACTIVE}" alt="inactive" class="timeline-img" src="/img/timelineInactive.png">                    
+                  <img th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CHANGE_URL}" alt="changePage" class="timeline-img" src="/img/timelineChangeURL.png">                    
+                </div>
+                <div class="timeline-text">
+                  <div class="dark mb-5 mx-2 mx-md-3">
+                    <div class="d-flex flex-column px-5 py-4">
+                      <div class="flex-fill display-4 font-weight-bold py-3" th:text="(${i.last} ? 'Ended session - ' : '') + ${event.getType().getActivity()}"></div> 
+                      <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).START} or ${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CHANGE_URL} and ${event.getPath()} != null" class="flex-fill font-weight-light py-3" th:text="'The user navigated to ' + ${event.getPath()}"></div>
+                      <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).CLICK} and ${event.getTarget()} != null" class="flex-fill font-weight-light py-3"><span th:text="'The user clicked on the element '"></span><span class="font-weight-bold" th:text="${event.getTarget()}"></span></div>
+                      <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).KEYDOWN} and ${event.getTarget()} != null" class="flex-fill font-weight-light py-3"><span th:text="'The user typed on the field '"></span><span class="font-weight-bold" th:text="${event.getTarget()}"></span></div>
+                      <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).LEAVE_TAB}" class="flex-fill font-weight-light py-3"><p>The user leaves the tab without closing the page.</p><p>The page is not visible at this time.</p></div>
+                      <div th:if="${event.getType() == T(com.nathaliebize.sphynx.model.EventType).RETURN_TAB}" class="flex-fill font-weight-light py-3">The user returned to the tab.</div>
+                      <div class="flex-fill font-weight-light py-3" th:text="${#dates.format(event.getDate(), 'h:mm:ss a ')}"></div>
                     </div>
                   </div>
                 </div>
               </div>
-              
-            
-            
+            </div>  
           </div>
           <div class="container-fluid my-5 justify-content-center">
             <h1 class="col-md-10 py-5 my-5 text-center">
-              <a th:href="'/sessions/' + ${events.get(0).getSessionId()} + '/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a>
-              <a th:href="${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} + ${events[0].getSiteId()}" class="btn button-dark">Back to list</a>
+              <a th:href="'/sessions/' + ${user_session.getId()} + '/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a>
+              <a th:href="${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} + ${user_session.getSiteId()}" class="btn button-dark">Back to list</a>
             </h1>
           </div>
             

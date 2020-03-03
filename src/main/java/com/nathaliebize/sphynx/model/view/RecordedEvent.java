@@ -8,7 +8,8 @@ import com.nathaliebize.sphynx.model.EventType;
 
 /**
  * One event recorded by a sphynx-powered website.
- * sessionId, siteId, userId, type and timestamp cannot be null.
+ * sessionId, siteId, userId, type, timestamp and path cannot be null.
+ * Target property is optional.
  */
 public class RecordedEvent {
     @NotNull
@@ -24,14 +25,15 @@ public class RecordedEvent {
     private EventType type;
         
     @NotNull
-    private Date timestamp;
+    private Date date;
     
     private String target;
     
+    @NotNull
     private String path;
 
     public String getSessionId() {
-        return sessionId;
+        return this.sessionId;
     }
 
     public void setSessionId(String sessionId) {
@@ -39,7 +41,7 @@ public class RecordedEvent {
     }
 
     public Long getSiteId() {
-        return siteId;
+        return this.siteId;
     }
 
     public void setSiteId(Long siteId) {
@@ -47,7 +49,7 @@ public class RecordedEvent {
     }
 
     public Long getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(Long userId) {
@@ -55,23 +57,23 @@ public class RecordedEvent {
     }
 
     public EventType getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(EventType type) {
         this.type = type;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return this.date;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getTarget() {
-        return target;
+        return this.target;
     }
 
     public void setTarget(String target) {
@@ -79,7 +81,7 @@ public class RecordedEvent {
     }
 
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     public void setPath(String path) {

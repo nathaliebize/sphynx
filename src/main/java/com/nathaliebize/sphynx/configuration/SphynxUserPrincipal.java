@@ -55,5 +55,4 @@ public class SphynxUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return user.getRegistrationStatus().equals("VERIFIED");
     }
-
 }

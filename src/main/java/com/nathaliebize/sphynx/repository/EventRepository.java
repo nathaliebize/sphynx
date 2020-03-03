@@ -17,6 +17,6 @@ public interface EventRepository extends JpaRepository <Event, Long> {
      * @param sessionId
      * @return list of events
      */
-    @Query("select e from Event e where e.userId = ?1 and e.sessionId = ?2 order by e.timestamp asc")
+    @Query("select e from Event e where e.userId = ?1 and e.sessionId = ?2 order by e.date asc")
     ArrayList<Event> getEventList(Long userId, String sessionId);
 }

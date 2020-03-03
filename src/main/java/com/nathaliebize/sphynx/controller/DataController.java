@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nathaliebize.sphynx.model.view.RecordedEvent;
 import com.nathaliebize.sphynx.model.view.RecordedSession;
-import com.nathaliebize.sphynx.service.SiteService;
-
+import com.nathaliebize.sphynx.service.DataService;
 /**
  * Rest controller that handles the events and sessions data sent to the server.
  */
@@ -16,7 +15,7 @@ import com.nathaliebize.sphynx.service.SiteService;
 public class DataController {
     
     @Autowired
-    SiteService siteService;
+    DataService dataService;
     
     /**
      * Receives data from sphynx-powered websites.
@@ -24,7 +23,7 @@ public class DataController {
      */
     @PostMapping("/save-event")
     public void saveEvent(@RequestBody RecordedEvent recordedEvent) {
-        siteService.saveEvent(recordedEvent);
+        dataService.saveEvent(recordedEvent);
     }
     
     /**
@@ -33,6 +32,6 @@ public class DataController {
      */
     @PostMapping("/save-session")
     public void saveSession(@RequestBody RecordedSession recordedSession) {
-        siteService.saveSession(recordedSession);
+        dataService.saveSession(recordedSession);
     }
 }
