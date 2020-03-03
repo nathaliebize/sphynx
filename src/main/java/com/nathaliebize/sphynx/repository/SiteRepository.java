@@ -24,32 +24,33 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
     ArrayList<Site> getSiteList(Long userId);
     
     /**
-     * Retrieves a site given a site id
-     * @param id
+     * Retrieves a site given a user id and site id.
+     * @param userId
+     * @param siteId
      * @return site
      */
-    @Query("select s from Site s where s.id = ?1")
-    Site findBySiteId(Long id);
+    @Query("select s from Site s where s.userId = ?1 and s.id = ?2")
+    Site getSite(Long userId, Long id);
 
     /**
-     * Updates the size to a given site.
-     * @param id
+     * Updates the size to a site given a user id and a site id.
+     * @param userId
+     * @param siteId
      * @param size
      */
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("update Site s set s.size = ?2 where s.id = ?1")
-    void updateSiteSize(Long id, int size);
+    @Query("update Site s set s.size = ?3 where s.userId = ?1 and s.id = ?2")
+    void updateSiteSize(Long userId, Long id, int size);
     
     /**
      * Update the url and description of a given site.
-     * @param id
+     * @param userId
      * @param url
      * @param description
      */
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("update Site s set s.url = ?2, s.description = ?3 where s.id = ?1")
-    void updateSiteInfo(Long id, String url, String description);
-
+    @Query("update Site s set s.url = ?3, s.description = ?4 where s.userId = ?1 and s.id = ?2")
+    void updateSiteInfo(Long userId, Long id, String url, String description);
 }

@@ -33,10 +33,10 @@ public class SessionsController {
     @GetMapping("/{sessionId}")
     public String showSessionTimelinePage(Principal principal, Model model, @PathVariable final String sessionId) {
         ArrayList<Event> eventList = siteService.getEventList(principal.getName(), sessionId);
-        Session session = siteService.findBySessionId(sessionId);
+        Session session = siteService.getSession(principal.getName(), sessionId);
         Site site = null;
         if (eventList !=  null && session != null) {
-            site = siteService.findBySiteId(session.getSiteId());
+            site = siteService.getSite(principal.getName(), session.getSiteId());
         }
         if (site != null) {
             model.addAttribute("site", site);
@@ -52,8 +52,8 @@ public class SessionsController {
      */
     @GetMapping("/{sessionId}/delete-confirmation")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showDeletePage(Model model, @PathVariable final String sessionId) {
-        Session session = siteService.findBySessionId(sessionId);
+    public String showDeletePage(Principal principal, Model model, @PathVariable final String sessionId) {
+        Session session = siteService.getSession(principal.getName(), sessionId);
         if (session != null) {
             model.addAttribute("sessionSphynx", session);
         }
