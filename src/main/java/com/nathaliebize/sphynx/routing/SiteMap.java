@@ -5,8 +5,8 @@ package com.nathaliebize.sphynx.routing;
  */
 public enum SiteMap {
     CSS_SPHYNX("/css/sphynx.css"),
-    EMAIL("#"),
     ERROR("/error"),
+    ERROR_LOGOUT("/error-logout"),
     GITHUB("https://github.com/nathaliebize/sphynx"),
     HOME("/"),
     INDEX("index"),
@@ -19,7 +19,6 @@ public enum SiteMap {
     REDIRECT_SITES("redirect:/sites/"),
     REDIRECT_SITES_CREATE("redirect:/sites/create"),
     REDIRECT_USER_LOGIN("redirect:/user/login"),
-    RESUME("#"),
     SCRIPT("/js/sphynx"),
     SESSIONS("/sessions"),
     SESSIONS_DELETE_REQUEST_CONFIRMATION("/sessions/delete-request-confirmation"),
@@ -37,7 +36,7 @@ public enum SiteMap {
     USER_REGISTER("/user/register"),
     USER_RESET_PASSWORD("/user/reset-password"),
     USER_VERIFY("/user/verify"),
-    VERIFY("/verify");
+    USER_RESET_PASSWORD_CONFIRMATION("/user/reset-password-confirmation");
     
     private String path;
     
