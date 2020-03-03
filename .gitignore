@@ -7,7 +7,6 @@ HELP.md
 .settings
 mvnw
 mvnw.cmd
-**/src/test/**
 target/
 
 ### Java ###
