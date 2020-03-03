@@ -50,7 +50,7 @@ public class UserService {
     public User verifyUser(String email, String key, String status) {
         User user = findUser(email);
         if (user != null && user.getRegistrationKey().equals(key) && user.getRegistrationStatus().toString().equals(status)) {
-            this.userRepository.changeRegistrationStatus("VERIFIED", user.getEmail());
+            this.userRepository.updateRegistrationStatus("VERIFIED", user.getEmail());
             return user;
         } else {
             return null;
@@ -92,9 +92,15 @@ public class UserService {
      * Update the password of user after verify the registration key.
      * @param resetPasswordUser
      */
-    public void updatePassword(ResetPasswordUser resetPasswordUser) {
-        if (resetPasswordUser != null && resetPasswordUser.getPassword() != null && resetPasswordUser.getRegistrationKey() != null) {
+    public boolean updatePassword(ResetPasswordUser resetPasswordUser) {
+        if (resetPasswordUser == null) {
+            return false;
+        }
+        try {
             this.userRepository.updatePassword(new Pbkdf2PasswordEncoder(seed).encode(resetPasswordUser.getPassword()), resetPasswordUser.getRegistrationKey());
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
     
