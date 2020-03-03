@@ -47,7 +47,7 @@ public class SitesController {
             model.addAttribute("site", new SubmitedSite());
             return SiteMap.SITES_CREATE.getPath();
         }
-        siteService.processData(principal.getName());
+        siteService.updateSiteSize(principal.getName());
         model.addAttribute("sites", siteList);
         return SiteMap.SITES_INDEX.getPath();
     }
@@ -64,7 +64,7 @@ public class SitesController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showSiteDetailsPage(Principal principal, Model model, @PathVariable final Long siteId) {
         ArrayList<Session> sessionList = siteService.getSessionList(principal.getName(), siteId);
-        Site site = siteService.findBySiteId(siteId);
+        Site site = siteService.getSite(principal.getName(), siteId);
         if (sessionList != null && site != null) {
             model.addAttribute("site", site);
             model.addAttribute("sessionList", sessionList);
@@ -96,12 +96,15 @@ public class SitesController {
      */
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String createPage(Model model, @Valid @ModelAttribute("site") SubmitedSite site, BindingResult bindingResult, Principal principal) {
+    public String createPage(Model model, @Valid @ModelAttribute("site") SubmitedSite submitedSite, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return SiteMap.SITES_CREATE.getPath();
         }
-        Long siteId = siteService.saveSite(site, principal.getName());
-        return "redirect:/sites/" + siteId + "/create";
+        Site site = siteService.saveSite(submitedSite, principal.getName());
+        if (site == null || site.getId() == null) {
+            return SiteMap.ERROR.getPath();
+        }
+        return "redirect:/sites/" + site.getId() + "/create";
     }
     
     /**
@@ -128,8 +131,8 @@ public class SitesController {
      */
     @GetMapping("/{siteId}/delete-confirmation")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showDeleteConfirmationPage(Model model, @PathVariable final Long siteId) {
-        Site site = siteService.findBySiteId(siteId);
+    public String showDeleteConfirmationPage(Principal principal, Model model, @PathVariable final Long siteId) {
+        Site site = siteService.getSite(principal.getName(), siteId);
         if (site != null) {
             model.addAttribute("site", site);
             return SiteMap.SITES_DELETE_REQUEST_CONFIRMATION.getPath();
@@ -159,7 +162,7 @@ public class SitesController {
     @GetMapping("/{siteId}/edit")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String showEditPage(Principal principal, Model model, @PathVariable final Long siteId) {
-        Site site = siteService.findBySiteId(siteId);
+        Site site = siteService.getSite(principal.getName(), siteId);
         if (site != null) {
             model.addAttribute("site", site);
             return SiteMap.SITES_EDIT.getPath();
@@ -175,7 +178,7 @@ public class SitesController {
     @PostMapping("/{siteId}/edit")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String editSite(Principal principal, Model model, @PathVariable final Long siteId, @Valid @ModelAttribute Site site) {
-        if (siteService.updateSite(siteId, site.getUrl(), site.getDescription())) {
+        if (siteService.updateSite(principal.getName(), siteId, site.getUrl(), site.getDescription())) {
             return SiteMap.REDIRECT_SITES.getPath();
         } else {
             return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
