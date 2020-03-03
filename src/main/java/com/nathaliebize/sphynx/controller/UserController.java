@@ -18,7 +18,7 @@ import com.nathaliebize.sphynx.model.view.ForgotPasswordUser;
 import com.nathaliebize.sphynx.model.view.RegisterUser;
 import com.nathaliebize.sphynx.model.view.ResetPasswordUser;
 import com.nathaliebize.sphynx.routing.SiteMap;
-import com.nathaliebize.sphynx.service.EmailSender;
+import com.nathaliebize.sphynx.service.EmailService;
 import com.nathaliebize.sphynx.service.UserService;
 
 /**
@@ -32,7 +32,7 @@ public class UserController {
     private UserService userService;
     
     @Autowired
-    private EmailSender emailSender;
+    private EmailService emailService;
     
     /**
      * Handles login get request
@@ -68,35 +68,19 @@ public class UserController {
             return SiteMap.USER_REGISTER.getPath();
         }
         User user = userService.registerNewUser(registerUser);
-        if (user != null && host != null) {
-            emailSender.setUser(user);
-            emailSender.setHost(host);
-            emailSender.sendConfirmationRegistrationEmail();
-            return SiteMap.USER_VERIFY.getPath();
+        if (user != null) {
+            if (host != null) {
+                emailService.setUser(user);
+                emailService.setHost(host);
+                emailService.sendConfirmationRegistrationEmail();
+                return SiteMap.USER_VERIFY.getPath();
+            } else {
+                return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+            }
         } else {
             model.addAttribute("error", "email already used");
             return SiteMap.USER_REGISTER.getPath();
         }
-    }
-
-    /**
-     * Handles verify get request. Tells user to check his emails or verifies the email when have parameter.
-     * @param model
-     * @param email
-     * @param key
-     * @param link
-     * @return /sites view if email is verified. /error otherwise
-     */
-    @GetMapping("/verify")
-    public String verifyEmail(Model model, @RequestParam String email, @RequestParam String key, @ModelAttribute("link") String link) {
-        if (email == null || key == null ) {
-            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
-        }
-        User user = userService.verifyEmailAndRegistrationKeyAndRegistrationStatus(email, key);
-        if (user == null) {
-            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
-        }
-        return SiteMap.REDIRECT_SITES.getPath();
     }
     
     /**
@@ -104,8 +88,8 @@ public class UserController {
      * @param model
      * @return /user/resetPasswordEmail view
      */
-    @GetMapping("/forgot-password")
-    public String showForgotPasswordPage(Model model) {
+    @GetMapping("/reset-password-request")
+    public String showResetPasswordRequestPage(Model model) {
         model.addAttribute("forgotPasswordUser", new ForgotPasswordUser());
         return SiteMap.USER_RESET_PASSWORD_REQUEST.getPath();
     }
@@ -113,26 +97,26 @@ public class UserController {
     /**
      * Handles forgot-password post request. Receives user's email address and send link to user.
      * @param model
-     * @param forgotPasswordEmailUser
+     * @param forgotPasswordUser
      * @param bindingResult
      * @return /user/verify if user is valid. /error otherwise
      */
-    @PostMapping("forgot-password")
+    @PostMapping("/reset-password-request")
     public String sendPasswordResetLink(Model model, @Valid @ModelAttribute ForgotPasswordUser forgotPasswordUser, BindingResult bindingResult, @RequestHeader String host) {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_RESET_PASSWORD_REQUEST.getPath();
         }
         User user = userService.updateRegistrationKey(forgotPasswordUser);
         if (user == null) {
-            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+            return SiteMap.ERROR.getPath();
         } else {
-            // TODO: send email with link
-            emailSender.setUser(user);
-            emailSender.setHost(host);
-            emailSender.sendPasswordResetRequestConfirmationEmail();;
+            emailService.setUser(user);
+            emailService.setHost(host);
+            emailService.sendPasswordResetRequestConfirmationEmail();;
             return SiteMap.USER_VERIFY.getPath();
         }
     }
+    
     /**
      * Handles reset-password get request. Asks user to enter new password and confirmation password.
      * @param model
@@ -142,12 +126,12 @@ public class UserController {
      */
     @GetMapping("/reset-password")
     public String showResetPasswordPage(Model model, @RequestParam String email, @RequestParam String key) {
-        User user = userService.verifyEmailandRegistrationKey(email, key);
+        User user = userService.verifyUser(email, key);
         if (user != null) {
-            model.addAttribute("resetPasswordUser", new ResetPasswordUser(key));
+            model.addAttribute("resetPasswordUser", new ResetPasswordUser(email, key));
             return SiteMap.USER_RESET_PASSWORD.getPath();
         } else {
-            return SiteMap.REDIRECT_ERROR_LOGOUT.getPath();
+            return SiteMap.ERROR.getPath();
         }
     }
     
@@ -164,7 +148,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return SiteMap.USER_RESET_PASSWORD.getPath();
         }
-        userService.updatePassword(resetPasswordUser);
-        return SiteMap.REDIRECT_SITES.getPath();
+        if (userService.updatePassword(resetPasswordUser)) {
+            return SiteMap.USER_RESET_PASSWORD_CONFIRMATION.getPath();
+        }
+        return SiteMap.ERROR.getPath();
     }
 }
