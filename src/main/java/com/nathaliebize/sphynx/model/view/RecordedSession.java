@@ -19,10 +19,13 @@ public class RecordedSession {
     private Long userId;
     
     @NotNull
-    private Date startTime;
+    private Date date;
+    
+    @NotNull
+    private String host;
     
     public String getSessionId() {
-        return sessionId;
+        return this.sessionId;
     }
 
     public void setSessionId(String sessionId) {
@@ -30,7 +33,7 @@ public class RecordedSession {
     }
 
     public Long getSiteId() {
-        return siteId;
+        return this.siteId;
     }
 
     public void setSiteId(Long siteId) {
@@ -38,18 +41,26 @@ public class RecordedSession {
     }
 
     public Long getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getDate() {
+        return this.date;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getHost() {
+        return this.host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }

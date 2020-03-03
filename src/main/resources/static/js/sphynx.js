@@ -8,7 +8,7 @@ function myScript(userId, siteId) {
 	// const domain = "https://www.sphynx.dev/";
 	const domain = "http://localhost:8080/";
 	
-	let timestamp = new Date();
+	let date = new Date();
 	let path;
 	let isScrolling = false;
 	let scrollTopStart = 0;
@@ -35,17 +35,19 @@ function myScript(userId, siteId) {
 		document.cookie = "sphynxSessionId=" + newSessionId + ";max-age=" + COOKIE_EXPIRATION_LENGTH;
 		
 		// Saves the new session and the 'start' event in database.
-		let startTime = timestamp = new Date();
+		let startTime = date = new Date();
 		path = window.location.href;
+		host = document.location.host;
 		sendSession({
 			sessionId: newSessionId,
 			siteId,
 			userId,
-			startTime
+			date,
+			host
 		});
 		sendEvent({
 			type: "START",
-			timestamp,
+			date,
 			sessionId: newSessionId,
 			siteId,
 			userId,
@@ -80,17 +82,17 @@ function myScript(userId, siteId) {
 	}
 	
 	// Listens for 'scroll' event.
-	// Updates the timestamp to keep the status active.
+	// Updates the date to keep the status active.
 	// Checks if the path has changed.
 	// Checks if the end of document has been reached.
 	document.addEventListener("scroll", function() {
-		timestamp = new Date();
+		date = new Date();
 		scrollTopLast = document.documentElement.scrollTop;
 		if (pathHasChanged()) {
 			path = window.location.href;
 			sendEvent( {
 				type: "CHANGE_URL",
-				timestamp,
+				date,
 				sessionId,
 				siteId,
 				userId,
@@ -115,7 +117,7 @@ function myScript(userId, siteId) {
 				isReachedEndOfPage = true;
 				sendEvent( {
 					type: "VIEW_ONE_HUNDRED",
-					timestamp,
+					date,
 					target: "",
 					sessionId,
 					siteId,
@@ -127,9 +129,9 @@ function myScript(userId, siteId) {
 	});
 	
 	// Adds mousemove event listener.
-	// Updates timestamp to keep status actif
+	// Updates date to keep status actif
 	document.addEventListener("mousemove", function() {
-		timestamp = new Date();
+		date = new Date();
 	});
 	  
 	
@@ -142,11 +144,11 @@ function myScript(userId, siteId) {
 	// Listens and saves 'click' events.
 	document.addEventListener("click", (e) => {
 		path = window.location.href;
-		timestamp = new Date();
+		date = new Date();
 		let target = getTarget(e);
 		sendEvent( {
 			type: "CLICK",
-			timestamp,
+			date,
 			sessionId,
 			siteId,
 			userId,
@@ -162,9 +164,6 @@ function myScript(userId, siteId) {
 		const alt = e.target.alt;
 		const placeholder = e.target.placeholder;
 		const id = e.target.id;
-		console.log("nodename = " + nodeName);
-		console.log("placeholder = " + placeholder);
-		console.log("id = " + id);
 		if (nodeName != undefined) {
 			target = target.concat(nodeName);
 		}
@@ -200,12 +199,12 @@ function myScript(userId, siteId) {
 	
 	// Sends 'keydown' event
 	function sendTypingEvent(e) {
-		timestamp = new Date();
+		date = new Date();
 		path = window.location.href;
 		let target = getTarget(e);
 		sendEvent({
 			type: "KEYDOWN",
-			timestamp,
+			date,
 			sessionId,
 			siteId,
 			userId,
@@ -220,10 +219,10 @@ function myScript(userId, siteId) {
 		path = window.location.href;
 		if (document.hidden) {
 			isScrolling = false;
-			timestamp = new Date();
+			date = new Date();
 			sendEvent({
 				type: "LEAVE_TAB",
-				timestamp,
+				date,
 				sessionId,
 				siteId,
 				userId,
@@ -231,10 +230,10 @@ function myScript(userId, siteId) {
 				path
 			});
 		} else {
-			timestamp = new Date();
+			date = new Date();
 			sendEvent({
 				type: "RETURN_TAB",
-				timestamp,
+				date,
 				sessionId,
 				siteId,
 				userId,
@@ -250,11 +249,11 @@ function myScript(userId, siteId) {
 	function checkActivity() {
 		let now = new Date();
 		path = window.location.href;
-	    if ((now - timestamp) > 60000) {
+	    if ((now - date) > 60000) {
 	    	if (isInactive == false) {
 	    		sendEvent( {
 	    			type: "INACTIVE",
-	    			timestamp,
+	    			date,
 	    			sessionId,
 	    			siteId,
 	    			userId,
@@ -263,11 +262,11 @@ function myScript(userId, siteId) {
 	    		});
 	    		isInactive = true;
 	    	}
-	    	if (now - timestamp > 360000 && isInactive == true) {
+	    	if (now - date > 360000 && isInactive == true) {
 	    		isInactive = false;
 	    		document.cookie = "sessionIdSphynx=" + sessionId + ";max-age=1";
 	    		setTimeout(function() {
-	    			sessionId = setSessionId();
+	    			sessionId = getSessionId();
 	    		}, 2000);
 	    	}
     		isScrolling = false;
