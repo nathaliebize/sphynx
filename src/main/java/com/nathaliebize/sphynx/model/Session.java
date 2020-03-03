@@ -4,9 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -16,19 +14,11 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "sessions")
-public class Session {    
+public class Session {     
     @Id
-    @GeneratedValue(generator = "sessions_generator")
-    @SequenceGenerator(
-            name = "sessions_generator",
-            sequenceName = "sessions_sequence",
-            initialValue = 1000
-    )
-    private Long id;
-    
     @NotNull
-    @Column(name = "session_id")
-    private String sessionId;
+    @Column(name = "id")
+    private String id;
     
     @NotNull
     @Column(name = "site_id")
@@ -38,22 +28,20 @@ public class Session {
     @Column(name = "user_id")
     private Long userId;
     
-    @Column(name = "start_time")
-    private Date startTime;
-    
-    @Column(name = "session_status")
-    private String status = "STARTED";
+    @NotNull
+    @Column(name = "date")
+    private Date date;
 
-    public String getSessionId() {
-        return sessionId;
-    }
+    @NotNull
+    @Column(name = "url")
+    private String host;
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Long getSiteId() {
@@ -72,23 +60,19 @@ public class Session {
         this.userId = user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Date getDate() {
+        return date;
     }
 
-    public String getStatus() {
-        return status;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getHost() {
+        return host;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setHost(String url) {
+        this.host = url;
     }
 }

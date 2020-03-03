@@ -21,9 +21,9 @@
             </thead>
             <tbody>
               <tr th:each="user_session, i : ${sessionList}">
-                <td><a th:href="'/sessions/' + ${user_session.getSessionId()}" class="link-row"><span th:text="${i.index + 1}"></span></a></td>
-                <td><a th:href="'/sessions/' + ${user_session.getSessionId()}" class="link-row"><span th:text="${#dates.format(user_session.getStartTime(), 'EEE, dd MMM yy - h:mm:ss a')}"></span></a></td>
-                <td><a th:href="'/sessions/' + ${user_session.getSessionId()} + '/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a></td>
+                <td><a th:href="'/sessions/' + ${user_session.getId()}" class="link-row"><span th:text="${i.index + 1}"></span></a></td>
+                <td><a th:href="'/sessions/' + ${user_session.getId()}" class="link-row"><span th:text="${#dates.format(user_session.getDate(), 'EEE, dd MMM yy - h:mm:ss a')}"></span></a></td>
+                <td><a th:href="'/sessions/' + ${user_session.getId()} + '/delete-confirmation'"><img class="img-icon" src="/img/trash.jpg"></a></td>
               </tr>
             </tbody>
           </table>
