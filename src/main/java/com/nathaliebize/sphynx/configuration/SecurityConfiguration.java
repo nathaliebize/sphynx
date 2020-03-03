@@ -61,10 +61,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/", "/index", "/info", "/css/*", "/terms", "/user/*", "/error-logout", "/error", "/js/*", "/img/*", "/sites/*").permitAll()
-            .antMatchers(HttpMethod.POST, "/user/*", "/save-event", "/save-session", "/save-quit", "/sites/*").permitAll()
-            .antMatchers(HttpMethod.DELETE, "/sites/*", "/sessions/*").permitAll()
-            .anyRequest().authenticated()
+            .antMatchers(HttpMethod.GET, 
+                    "/", "/index", "/info", "/terms",
+                    "/favicon.ico", "/css/*", "/js/*", "/img/*",
+                    "/error-logout", "/error",  
+                    "/user/login", "/user/register", "/user/verify", 
+                    "/user/reset-password-request", "/user/reset-password").permitAll()
+            .antMatchers(HttpMethod.POST, "/save-event", "/save-session").permitAll()
+            .antMatchers(HttpMethod.POST, "/user/register", "/user/reset-password-request").permitAll()
+            .antMatchers(HttpMethod.GET, "/user/*", "sites/*").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/sites/*", "/sessions/*").authenticated()
             .and()
             .formLogin()
             .loginPage(SiteMap.USER_LOGIN.getPath()).permitAll()

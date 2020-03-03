@@ -50,17 +50,4 @@ public class HomeController {
     public String getGeneralScript() {
         return SiteMap.SCRIPT.getPath();
     }
-    
-    /**
-     * Handles the error-logout GET request and logs the user out.
-     * @return error template.
-     */
-     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-     @GetMapping("/error-logout")
-     public String showErrorPage(HttpSession session) {
-         if (session != null) {
-             session.invalidate();
-         }
-         return SiteMap.ERROR.getPath();
-     }
 }
