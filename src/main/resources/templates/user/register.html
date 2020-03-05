@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-<head>
-  <title>Create an account</title>
-</head>
-<body>
-
-
-
-  <section layout:fragment="content">
-    <div class="container-fluid light">
-      <div class="mt-5 py-5 row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-          <h1 class="display-2 font-weight-bold text-center">Register</h1>
-          <form class="form-group p-5" th:action=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()} method="post" th:object="${registerUser}">
-            <h6 class="text-center" th:if="${error} == 'email already used'" >You already have an account with this email address. Please <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()} >log in.</a></h6>
-            <input type="text" class="my-3 form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
-            <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
-            <input type="password" class="my-3 form-control" id="inputPassword1" th:field="*{password}" placeholder="Password (min. 6 characters)">
-            <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
-            <input type="password" class="my-3 form-control" id="inputPassword2" th:field="*{confirmedPassword}" placeholder="Confirm password">
-            <span th:if="${#fields.hasErrors('confirmedPassword')}" class="help-block" th:errors="*{confirmedPassword}"></span>
-            <div class="form-check">
-              <input class="form-check-input my-3" type="checkbox" id="termsCheck" th:field="*{acceptedTerms}">
-              <label class="form-check-label my-3" th:for="termsCheck" >I accept the <a href="/terms">Terms and Conditions</a></label>
-              <div th:if="${#fields.hasErrors('acceptedTerms')}" class="help-block" th:errors="*{acceptedTerms}"></div>
-            </div>
-            <button type="submit" class="my-3 btn btn-block button-blue" id="submitButton">Register</button>
-            <div class="my-4 text-center form-group">
-              Already have an account? <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()}>Sign in</a>
-            </div>
-          </form>
+  <head>
+    <title>Create an account</title>
+    <script type="text/javascript">
+        (function() {
+          let script = document.createElement("script");
+          script.type = 'text/javascript';
+          script.async = true;
+          script.src = "https://www.sphynx.dev/general-script.js";
+          document.getElementsByTagName("head")[0].appendChild(script);
+          script.onload = function(){
+            script.onload = null;
+            myScript("3001", "2151");
+          }; 
+        }());
+    </script>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container-fluid light">
+        <div class="mt-5 py-5 row justify-content-center">
+          <div class="col-lg-6 col-md-8">
+            <h1 class="display-2 font-weight-bold text-center">Register</h1>
+            <form class="form-group p-5" th:action=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_REGISTER.getPath()} method="post" th:object="${registerUser}">
+              <h6 class="text-center" th:if="${error} == 'email already used'" >You already have an account with this email address. Please <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()} >log in.</a></h6>
+              <input type="text" class="my-3 form-control" id="inputEmail" th:field="*{email}" aria-describedby="emailHelp" placeholder="Email address">
+              <span th:if="${#fields.hasErrors('email')}" class="help-block" th:errors="*{email}"></span>
+              <input type="password" class="my-3 form-control" id="inputPassword1" th:field="*{password}" placeholder="Password (min. 6 characters)">
+              <span th:if="${#fields.hasErrors('password')}" class="help-block" th:errors="*{password}"></span>
+              <input type="password" class="my-3 form-control" id="inputPassword2" th:field="*{confirmedPassword}" placeholder="Confirm password">
+              <span th:if="${#fields.hasErrors('confirmedPassword')}" class="help-block" th:errors="*{confirmedPassword}"></span>
+              <div class="form-check">
+                <input class="form-check-input my-3" type="checkbox" id="termsCheck" th:field="*{acceptedTerms}">
+                <label class="form-check-label my-3" th:for="termsCheck" >I accept the <a href="/terms">Terms and Conditions</a></label>
+                <div th:if="${#fields.hasErrors('acceptedTerms')}" class="help-block" th:errors="*{acceptedTerms}"></div>
+              </div>
+              <button type="submit" class="my-3 btn btn-block button-blue" id="submitButton">Register</button>
+              <div class="my-4 text-center form-group">
+                Already have an account? <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).USER_LOGIN.getPath()}>Sign in</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-</body>
+    </section>
+  </body>
 </html>

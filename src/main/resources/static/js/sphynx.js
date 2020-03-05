@@ -1,7 +1,6 @@
 /**
  * Script that handles data collection for each sphynx-powered website;
  */
-myScript("3001", "2151");
 function myScript(userId, siteId) {
 	const COOKIE_EXPIRATION_LENGTH = 86400;
 	const domain = "https://www.sphynx.dev/";
@@ -49,6 +48,7 @@ function myScript(userId, siteId) {
 			sessionId: newSessionId,
 			siteId,
 			userId,
+			target: "",
 			path
 		});
 		return newSessionId;

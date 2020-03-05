@@ -7,14 +7,12 @@
         let script = document.createElement("script");
         script.type = 'text/javascript';
         script.async = true;
+        script.src = "https://www.sphynx.dev/general-script.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
         script.onload = function(){
           script.onload = null;
           myScript("3001", "2151");
-        };
-        //TODO: allow access to get requests when all will be in the online server.
-        <!-- The script is on the server but everything else is on localhost. 
-        script.src = "https://www.sphynx.dev/generalScript";
-        document.getElementsByTagName("head")[0].appendChild(script);
+        }; 
       }());
     </script>
   </head>

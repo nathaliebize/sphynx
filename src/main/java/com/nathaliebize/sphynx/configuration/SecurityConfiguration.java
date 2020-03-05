@@ -64,6 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, 
                     "/", "/index", "/info", "/terms",
                     "/favicon.ico", "/css/*", "/js/*", "/img/*",
+                    "/general-script",
                     "/error-logout", "/error",  
                     "/user/login", "/user/register", "/user/verify", 
                     "/user/reset-password-request", "/user/reset-password").permitAll()

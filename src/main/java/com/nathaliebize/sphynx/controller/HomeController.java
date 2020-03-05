@@ -1,13 +1,8 @@
 package com.nathaliebize.sphynx.controller;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import com.nathaliebize.sphynx.routing.SiteMap;
 
 /**
@@ -46,7 +41,7 @@ public class HomeController {
      * Handles the script GET request.
      * @return js script.
      */
-    @GetMapping("/generalScript")
+    @GetMapping("/general-script")
     public String getGeneralScript() {
         return SiteMap.SCRIPT.getPath();
     }
