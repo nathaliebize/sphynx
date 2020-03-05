@@ -8,7 +8,7 @@ import com.nathaliebize.sphynx.model.EventType;
 
 /**
  * One event recorded by a sphynx-powered website.
- * sessionId, siteId, userId, type, timestamp and path cannot be null.
+ * sessionId, siteId, userId, type, date and path cannot be null.
  * Target property is optional.
  */
 public class RecordedEvent {

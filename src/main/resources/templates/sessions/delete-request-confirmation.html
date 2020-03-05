@@ -10,7 +10,8 @@
           <h1 class="display-2 font-weight-bold m-5 px-5">
             Delete Session
           </h1>
-          <h4 class="m-5 px-5">Do you want to delete the session from <span th:text="${#dates.format(sessionSphynx.getStartTime(), 'EEE, dd MMM yy - h:mm:ss a')}" class="blue"></span> ?</h4>
+          <h4 class="m-5 px-5">Do you want to delete the session from </h4>
+          <h4><span th:text="${#dates.format(sessionSphynx.getDate(), 'EEE, dd MMM yy - h:mm:ss a')}" class="blue"></span> ?</h4>
           <h4 class="m-5 px-5">All informations from its sessions will be lost.</h4>
           <a th:href=${T(com.nathaliebize.sphynx.routing.SiteMap).SITES.getPath()} class="btn button-dark my-5">BACK TO SITES</a>
           <a th:href="'/sessions/' + ${sessionSphynx.getId()} + '/delete'" class="btn button-red my-5" id="delete-button">DELETE</a>
