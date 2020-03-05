@@ -4,7 +4,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,7 @@ public class EmailService {
     
     @Autowired
     public JavaMailSender javaMailSender;
-    
-    // TODO: remove when using client's email address.
-    @Value("${spring.mail.username}")
-    private String to;
-    
+        
     private User user;
     
     private String host;
@@ -67,9 +62,7 @@ public class EmailService {
         MimeMessageHelper helper;
         try {
             helper = new MimeMessageHelper(message, true);
-            // TODO: set address to user's
-            // helper.setTo(user.getEmail());
-            helper.setTo(to);
+            helper.setTo(this.user.getEmail());
             helper.setSubject(object);
             helper.setText(body, true);
         } catch (MessagingException e) {
@@ -100,9 +93,7 @@ public class EmailService {
         MimeMessageHelper helper;
         try {
             helper = new MimeMessageHelper(message, true);
-            // TODO: set address to user's
-            // helper.setTo(user.getEmail());
-            helper.setTo(to);
+            helper.setTo(this.user.getEmail());
             helper.setSubject(object);
             helper.setText(body, true);
         } catch (MessagingException e) {

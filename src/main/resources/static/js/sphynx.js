@@ -4,9 +4,7 @@
 myScript("3001", "2151");
 function myScript(userId, siteId) {
 	const COOKIE_EXPIRATION_LENGTH = 86400;
-	// TODO: Change domain
-	// const domain = "https://www.sphynx.dev/";
-	const domain = "http://localhost:8080/";
+	const domain = "https://www.sphynx.dev/";
 	
 	let date = new Date();
 	let path;
@@ -110,9 +108,6 @@ function myScript(userId, siteId) {
 			} else if (scrollTopLast < scrollTopStart) {
 				scrollTopStart = scrollTopLast;
 			}
-//			let percentageViewStart = (100 * scrollTopStart / document.documentElement.scrollHeight).toFixed(0);
-//			let percentageViewFinish = (100 * (scrollTopFinish + window.innerHeight) / document.documentElement.scrollHeight).toFixed(0);
-//			percentageView = "percentage view: " + percentageViewStart + " - " + percentageViewFinish;
 			if (hasReachedEndOfPage()) {
 				isReachedEndOfPage = true;
 				sendEvent( {
