@@ -3,7 +3,7 @@
  */
 function myScript(userId, siteId) {
 	const COOKIE_EXPIRATION_LENGTH = 86400;
-	const domain = "https://www.sphynx.dev/";
+	const domain = "https://sphynx.dev/";
 	
 	let date = new Date();
 	let path;
@@ -67,6 +67,7 @@ function myScript(userId, siteId) {
 		var xhr = new XMLHttpRequest();
 		var url = domain + urlExtension;
 		xhr.open("POST", url, true);
+		xhr.withCredentials = true;
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.send(JSON.stringify(json));
 	}

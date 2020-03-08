@@ -11,6 +11,7 @@ import com.nathaliebize.sphynx.service.DataService;
 /**
  * Rest controller that handles the events and sessions data sent to the server.
  */
+
 @RestController
 public class DataController {
     

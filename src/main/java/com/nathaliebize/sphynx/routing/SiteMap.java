@@ -19,7 +19,7 @@ public enum SiteMap {
     REDIRECT_SITES("redirect:/sites/"),
     REDIRECT_SITES_CREATE("redirect:/sites/create"),
     REDIRECT_USER_LOGIN("redirect:/user/login"),
-    SCRIPT("/js/sphynx"),
+    SCRIPT("/js/sphynx.js"),
     SESSIONS("/sessions"),
     SESSIONS_DELETE_REQUEST_CONFIRMATION("/sessions/delete-request-confirmation"),
     SESSIONS_INDEX("/sessions/sessions-list"),

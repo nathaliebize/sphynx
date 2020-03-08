@@ -15,7 +15,6 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 import com.nathaliebize.sphynx.routing.SiteMap;
 import com.nathaliebize.sphynx.service.SphynxUserDetailsService;
 
@@ -60,16 +59,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.headers().httpStrictTransportSecurity().disable();
         http.authorizeRequests()
             .antMatchers(HttpMethod.GET, 
                     "/", "/index", "/info", "/terms",
                     "/favicon.ico", "/css/*", "/js/*", "/img/*",
-                    "/general-script",
                     "/error-logout", "/error",  
-                    "/user/login", "/user/register", "/user/verify", 
+                    "/user/login", "/user/register", "/user/verify", "/user/verify?**",
                     "/user/reset-password-request", "/user/reset-password").permitAll()
-            .antMatchers(HttpMethod.POST, "/save-event", "/save-session").permitAll()
-            .antMatchers(HttpMethod.POST, "/user/register", "/user/reset-password-request").permitAll()
+            .antMatchers(HttpMethod.POST,
+                    "/save-event?**", "/save-session?**", 
+                    "/user/register", "/user/reset-password-request").permitAll()
             .antMatchers(HttpMethod.GET, "/user/*", "sites/*").authenticated()
             .antMatchers(HttpMethod.DELETE, "/sites/*", "/sessions/*").authenticated()
             .and()

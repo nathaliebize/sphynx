@@ -224,7 +224,7 @@ public class SiteService {
                 + String.valueOf(siteId)
                 + "');\n"
                 + "};\n"
-                + "script.src = 'https://www.sphynx.dev/generalScript.js';\n"
+                + "script.src = 'https://www.sphynx.dev/general-script';\n"
                 + "document.getElementsByTagName('head')[0].appendChild(script);\n"
                 + "}());\n"
                 + "</script>");

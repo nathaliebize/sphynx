@@ -3,6 +3,7 @@ package com.nathaliebize.sphynx.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import com.nathaliebize.sphynx.routing.SiteMap;
 
 /**
@@ -35,14 +36,5 @@ public class HomeController {
     @GetMapping("/info")
     public String showInfoPage(Model model) {
         return SiteMap.INFO.getPath();
-    }
-    
-    /**
-     * Handles the script GET request.
-     * @return js script.
-     */
-    @GetMapping("/general-script")
-    public String getGeneralScript() {
-        return SiteMap.SCRIPT.getPath();
     }
 }
