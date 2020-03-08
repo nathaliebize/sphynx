@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nathaliebize.sphynx.model.User;
+import com.nathaliebize.sphynx.model.User.RegistrationStatus;
 import com.nathaliebize.sphynx.model.view.ForgotPasswordUser;
 import com.nathaliebize.sphynx.model.view.RegisterUser;
 import com.nathaliebize.sphynx.model.view.ResetPasswordUser;
@@ -82,6 +83,23 @@ public class UserController {
             return SiteMap.USER_REGISTER.getPath();
         }
     }
+    
+    /**
+     * Handle response to verify email link.
+     * Verify registration status of usuer and update it.
+     * @param email
+     * @param key
+     * @return registration confirmation page
+     */
+    @GetMapping("/verify")
+    public String verifyRegistration(Model model, @RequestParam String email, @RequestParam String key) {
+        User userToRegister = userService.verifyUser(email, key, RegistrationStatus.UNVERIFIED.toString());
+        if (userToRegister == null) {
+            return SiteMap.ERROR.getPath();
+        }
+        return SiteMap.USER_REGISTER_CONFIMATION.getPath();
+    }
+    
     
     /**
      * Handles forgot-password get request. Asks user to enter email address.

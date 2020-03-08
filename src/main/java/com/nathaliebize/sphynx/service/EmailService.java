@@ -44,7 +44,7 @@ public class EmailService {
      * Sends an email to confirm registration
      */
     public void sendConfirmationRegistrationEmail() {
-        String link = this.host + SiteMap.USER_VERIFY.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
+        String link = this.host + SiteMap.USER_RESET_PASSWORD.getPath() + "?email=" + this.user.getEmail() + "&key=" + this.user.getRegistrationKey();
         String object = "Please confirm your registration.";
         String body = "<p>Confirm your registration to Shpynx.dev!</p>"
                 + "<h3>To complete your accompte registration, please click on the following link.</h3>"

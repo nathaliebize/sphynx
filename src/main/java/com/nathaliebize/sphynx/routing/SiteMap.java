@@ -34,6 +34,7 @@ public enum SiteMap {
     USER_RESET_PASSWORD_REQUEST("/user/reset-password-request"),
     USER_LOGIN("/user/login"),
     USER_REGISTER("/user/register"),
+    USER_REGISTER_CONFIMATION("/user/register-confirmation"),
     USER_RESET_PASSWORD("/user/reset-password"),
     USER_VERIFY("/user/verify"),
     USER_RESET_PASSWORD_CONFIRMATION("/user/reset-password-confirmation");
