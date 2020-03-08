@@ -1,7 +1,11 @@
 package com.nathaliebize.sphynx.model;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +22,7 @@ import javax.validation.constraints.NotNull;
 public class Event {
     @Id
     @GeneratedValue(generator = "events_generator")
+    @Column(name = "id")
     @SequenceGenerator(
             name = "events_generator",
             sequenceName = "events_sequence",
@@ -26,27 +31,32 @@ public class Event {
     private Long id;
     
     @NotNull
+    @Column(name = "session_id")
     private String sessionId;
     
     @NotNull
+    @Column(name = "site_id")
     private Long siteId;
     
     @NotNull
+    @Column(name = "user_id")
     private Long userId;
     
     @NotNull
+    @Column(name = "type")
     private EventType type;
     
-    private int groupType;
-    
     @NotNull
-    private Date timestamp;
+    @Column(name = "date")
+    private Date date;
     
+    @Column(name = "target")
     private String target;
     
     @NotNull
+    @Column(name = "path")
     private String path;
-
+    
     public String getSessionId() {
         return sessionId;
     }
@@ -79,20 +89,12 @@ public class Event {
         this.type = type;
     }
 
-    public int getGroupType() {
-        return groupType;
+    public Date getDate() {
+        return this.date;
     }
 
-    public void setGroupType(int groupType) {
-        this.groupType = groupType;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getTarget() {
@@ -112,24 +114,37 @@ public class Event {
     }
     
     /**
-     * Calculates the duration between a given start and the timestamp of this event.
-     * @param start time (precedent event timestamp)
-     * @return (HH:)MM:SS
+     * Calculates the duration between a given start and the date of this event.
+     * @param Date: start time (precedent event date)
+     * @return String: HhMM or MM min or SS sec.
      */
-    public String getDuration(Date startTime) {
-        long elapsedTime = this.timestamp.getTime() - startTime.getTime();
-        
-        int hours = Math.toIntExact(elapsedTime / (60 * 60 * 1000) % 24);
-        int minutes = Math.toIntExact(elapsedTime / (60 * 1000) % 60);
-        int seconds = Math.toIntExact(elapsedTime / 1000 % 60);
-        int roundedMinutes = minutes + (seconds > 30 ? 1 : 0);
-        
+    public String getDuration(Date startDate) {
+        LocalDateTime end = this.date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        LocalDateTime start = startDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        if ((start.isAfter(end))) {
+            return "###";
+        }
+        long days = start.until(end, ChronoUnit.DAYS);
+        if (days >= 1) {
+            return "24h+";
+        }
+        LocalDateTime tempDateTime = LocalDateTime.from(start);
+        long hours = start.until(end, ChronoUnit.HOURS);
+        tempDateTime = tempDateTime.plusHours(hours);
+        long minutes = tempDateTime.until(end, ChronoUnit.MINUTES);
+        tempDateTime = tempDateTime.plusMinutes(minutes);
+        long seconds = tempDateTime.until(end, ChronoUnit.SECONDS);
+        minutes += (seconds > 30 ? 1 : 0);
         if (hours > 0) {
-            return String.valueOf(hours) + "h" + String.valueOf(roundedMinutes);
+            return String.valueOf(hours) + "h" + String.valueOf((minutes > 9 ? "" : "0") + minutes);
         } else if (minutes > 0) {
-            return String.valueOf(roundedMinutes) + " min";
+            return String.valueOf(minutes + " min");
         } else if (seconds > 0) {
-            return String.valueOf(seconds) + " sec";
+            return String.valueOf(seconds + " sec");
         } else {
             return "";
         }         

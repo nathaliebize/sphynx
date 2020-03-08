@@ -1,7 +1,6 @@
 package com.nathaliebize.sphynx.service;
 
 import java.net.URL;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

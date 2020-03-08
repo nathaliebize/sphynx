@@ -7,7 +7,9 @@ import com.nathaliebize.sphynx.security.constraint.PasswordField;
  * The new password needs to be valid.
  */
 @PasswordField(password = "password", passwordMatch = "confirmedPassword", min = 6, max = 124, notEmpty = true, messagePasswordMatch = "The password fields must match.", messageLength = "Password must be between 6 and 128 characters")
-public class ResetPasswordUser {    
+public class ResetPasswordUser {  
+    private String email;
+    
     private String registrationKey;
     
     private String password;
@@ -16,8 +18,17 @@ public class ResetPasswordUser {
     
     public ResetPasswordUser() {}
     
-    public ResetPasswordUser(String registrationKey) {
+    public ResetPasswordUser(String email, String registrationKey) {
+        this.email = email;
         this.registrationKey = registrationKey;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setRegistrationKey(String registrationKey) {

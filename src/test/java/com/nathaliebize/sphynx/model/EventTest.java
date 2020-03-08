@@ -18,42 +18,42 @@ public class EventTest {
     
     @Test
     public void testGetDuration_25h() {
-        String duration = event.getDuration(new Date(1583233328798L));
+        String duration = event.getDuration(new Date(1583053328798L));
         
         assertEquals("24h+", duration);
     }
     
     @Test
     public void testGetDuration_errorChronologicalOrder() {
-        String duration = event.getDuration(new Date(1583142728798L));
+        String duration = event.getDuration(new Date(1583233328798L));
         
         assertEquals("###", duration);
     }
     
     @Test
     public void testGetDuration_2hours() {
-        String duration = event.getDuration(new Date(1583150528798L));
+        String duration = event.getDuration(new Date(1583136128798L));
         
         assertEquals("2h00", duration);
     }
     
     @Test
     public void testGetDuration_1hour12() {
-        String duration = event.getDuration(new Date(1583147648798L));
+        String duration = event.getDuration(new Date(1583139008798L));
         
         assertEquals("1h12", duration);
     }
     
     @Test
     public void testGetDuration_10minutes() {
-        String duration = event.getDuration(new Date(1583143928798L));
+        String duration = event.getDuration(new Date(1583142728798L));
         
         assertEquals("10 min", duration);
     }
     
     @Test
-    public void testGetDuration_seconds() {
-        String duration = event.getDuration(new Date(1583143347798L));
+    public void testGetDuration_19seconds() {
+        String duration = event.getDuration(new Date(1583143309798L));
         
         assertEquals("19 sec", duration);
     }
